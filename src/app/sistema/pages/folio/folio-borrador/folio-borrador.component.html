@@ -1,0 +1,256 @@
+<div class="card">
+  <div class="row card-header mt-2">
+    <button type="button" class="btn icon-btn btn-secondary"><span class="ion ion-ios-arrow-back"></span></button>
+  </div> 
+  <div class="card-header mr-1">
+    <img src="/assets/img/logo42_.png"/>
+    <img src="/assets/img/letra120x34_.png"/><br>
+  </div>
+  <div class="row card-header" id="formFolio" style="line-height: 13px; font-size: 13px; font-weight: 400;">
+    <div class="flex-grow-1 justify-content-start" style="padding-left: 15px;">
+      <table>
+        <tr>
+          <td style="font-weight: bold; width: 95px;">
+            Contrato:
+          </td>
+          <td style="font-weight: bold;">
+            <strong>Construcción Edificio La Serena</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>Código:</td>
+          <td>
+            C001
+          </td>                  
+        </tr>
+        <tr>
+          <td>Mandante:</td>                    
+          <td>
+            Ilustre Municipalidad de La Serena
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>                      
+            RUT:&nbsp;77.415.565-6
+          </td>
+        </tr>
+        <tr>
+          <td>Contratista:</td>
+          <td>
+            Constructora La Serena Ltda.
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>
+            RUT:&nbsp;78.659.697-6                      
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="justify-content-end" style="padding-right: 15px; padding-left: 15px;">
+      <table>
+        <tr>
+          <td style="font-size: 13px; font-weight: bold; width: 95px">
+            <strong>Libro:</strong>
+          </td>
+          <td style="font-weight: bold;">
+            <strong>Prevención de Riesgos</strong>
+          </td>                    
+        </tr>
+        <tr>
+          <td>Código:</td>
+          <td>LM001</td>
+        </tr>
+        <tr>
+          <td>Clase Libro:</td>
+          <td>
+            Maestro
+          </td>
+        </tr>
+        <tr>
+          <td>Tipo Firma:</td>
+          <td>
+            Digital Avanzada
+          </td>
+        </tr>
+        <tr>
+          <td>Fecha Apertura:</td>
+          <td>
+            12-04-2020 14:05
+          </td>                   
+        </tr>
+        <tr>
+          <td>Fecha Cierre:</td>
+          <td>
+            <!-- {{libro.fechaCierre | date: "dd-MM-yyyy HH:mm"}} -->
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div class="card-body">
+    <form>
+      <div class="row">
+        <div class="form-group col-md-8">
+          <label class="form-label">Creado por</label>
+          <input type="text" class="form-control" placeholder="Fernando Vilches Soleman | RUT: 13.224.233-K | Cargo: Supervior" disabled>
+        </div>  
+        <div class="form-group col-md-2">
+          <label class="form-label">Creación</label>
+          <input type="text" class="form-control" placeholder="12/12/2020" disabled>
+        </div>
+        <div class="form-group col-md-2">
+          <label class="form-label">Actualización</label>
+          <input type="text" class="form-control" placeholder="12/12/2020" disabled>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Receptor</label>
+        <select class="custom-select">
+          <option>Marcelo Espejo Ireland | RUT: 14.224.233-K | Cargo: Inspector Técnico</option>
+          <option>Francisco Ruiz Perez | RUT: 16.224.233-K | Cargo: Inspector Técnico (S)</option>          
+        </select>
+      </div>
+      <div class="d-flex">
+        <div class="flex-grow-1">
+          <div class="form-group">
+            <label class="form-label">Despuesta de</label>
+            <input type="text" class="form-control" placeholder="Libro Maestro, Folio Nº20" disabled>
+          </div>
+        </div>        
+        <div class="ml-2" style="padding-top: 12px;">
+          <button type="button" class="btn icon-btn btn-secondary"><span class="ion-md-eye"></span></button>          
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="flex-grow-1">
+          <div class="form-group">
+            <label class="form-label">Folio Referencia</label>
+            <app-chips-folio-borrador></app-chips-folio-borrador>
+          </div>
+        </div>        
+        <div class="ml-2" style="padding-top: 12px;">
+          <button type="button" class="btn icon-btn btn-secondary"><span class="ion-ios-search"></span></button>         
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="form-group flex-grow-1">
+          <label class="form-label">Tipo Folio</label>
+          <select class="custom-select">
+            <option>Select state</option>
+            <option>California</option>
+            <option>Hawaii</option>
+            <option>Florida</option>
+            <option>Texas</option>
+            <option>Massachusetts</option>
+            <option>Alabama</option>
+          </select>
+        </div>
+        <div class="form-inline mb-1 ml-4">
+          <label class="switcher">
+            <input type="checkbox" class="switcher-input">
+            <span class="switcher-indicator">
+              <span class="switcher-yes"></span>
+              <span class="switcher-no"></span>
+            </span>
+            <span class="switcher-label">Solicitar fecha respuesta</span>
+          </label>
+          <div class="form-group ml-2">
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                ngbDatepicker
+                [(ngModel)]="model"
+                [displayMonths]="displayMonths"
+                [navigation]="navigation"
+                [disabled]="disabled"
+                [placement]="isRTL ? 'bottom-right' : 'bottom-left'"
+                #d="ngbDatepicker">
+                <div class="input-group-append">
+                  <button class="input-group-text" [disabled]="disabled" (click)="d.toggle()" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>      
+      <div class="form-group">
+        <label class="form-label">Asunto</label>
+        <input type="text" class="form-control" placeholder="">
+      </div>
+      <div class="form-group" *ngIf="!isIE10">
+        <label class="form-label mb-2">Anotación</label>
+        <quill-editor [(ngModel)]="editorContent" placeholder="Type something">
+          <div quill-editor-toolbar>
+            <span class="ql-formats">
+              <select class="ql-font"></select>
+              <select class="ql-size"></select>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-bold"></button>
+              <button class="ql-italic"></button>
+              <button class="ql-underline"></button>
+              <button class="ql-strike"></button>
+            </span>
+            <span class="ql-formats">
+              <select class="ql-color"></select>
+              <select class="ql-background"></select>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-script" value="sub"></button>
+              <button class="ql-script" value="super"></button>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-header" value="1"></button>
+              <button class="ql-header" value="2"></button>
+              <button class="ql-blockquote"></button>
+              <button class="ql-code-block"></button>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-list" value="ordered"></button>
+              <button class="ql-list" value="bullet"></button>
+              <button class="ql-indent" value="-1"></button>
+              <button class="ql-indent" value="+1"></button>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-direction" value="rtl"></button>
+              <select class="ql-align"></select>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-link"></button>
+              <button class="ql-image"></button>
+              <button class="ql-video"></button>
+            </span>
+            <span class="ql-formats">
+              <button class="ql-clean"></button>
+            </span>
+          </div>
+        </quill-editor>
+        <!-- <pre class="mt-4 mb-0">{{editorContent}}</pre>  -->       
+      </div>
+      <div class="form-group">
+        <label class="form-label mb-2">Adjuntos</label>
+        <div class="dropzone" [dropzone]="dropzoneConfig">
+          <div class="dz-message needsclick">
+            <div style="font-size: medium;">
+              Arrastre los achivos aquí o haga click
+            </div>            
+            <span class="note needsclick">(La capacidad total máxima por folio es de <strong>50</strong> Mb)</span>
+          </div>
+          <div class="fallback">
+            <input name="file" type="file" multiple>
+          </div>
+        </div>
+      </div>
+      <div class="cui-example cui-example-inline-spacing mt-2">        
+        <button type="button" class="btn btn-secondary">Eliminar</button>
+        <div class="pull-right">          
+          <button type="button" class="btn btn-primary">Previsualizar</button>
+          <button type="button" class="btn btn-primary">Guardar</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

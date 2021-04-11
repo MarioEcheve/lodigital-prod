@@ -1,0 +1,68 @@
+<div class="card">
+  <div class="card-header">
+    Listado de Libros   
+  </div>
+  <div class="card-body">
+   
+    <div>
+      <h3>
+        Fluid Row Heights
+        <small>
+          <a
+            href="https://github.com/swimlane/ngx-datatable/blob/master/src/app/basic/basic-auto.component.ts"
+            target="_blank"
+          >
+            Source
+          </a>
+        </small>
+      </h3>
+    
+      <div>
+        <div class="row">
+          <div class="col-sm-6 col-md-5 col-lg-3 mb-3 ml-auto">
+            <input class="form-control" type='text' placeholder='Filter by name...' (keyup)='updateFilter($event)'>
+          </div>
+        </div>
+    
+        <div class="material">
+          <ngx-datatable #table style="min-width: 500px"
+            [rows]="rows"
+            [columnMode]="'force'"
+            [loadingIndicator]="loadingIndicator"           
+            [headerHeight]="43"
+            [footerHeight]="'auto'"
+            [rowHeight]="'auto'"
+            [reorderable]="true"
+            [limit]="10"
+           >
+            <!-- <ngx-datatable-column
+              [width]="40"
+              [sortable]="false"
+              [canAutoResize]="false"
+              [draggable]="false"
+              [resizeable]="false"
+              [headerCheckboxable]="true"
+              [checkboxable]="true">
+            </ngx-datatable-column> -->
+            <ngx-datatable-column name="Name"></ngx-datatable-column>
+            <ngx-datatable-column name="Gender"></ngx-datatable-column>
+            <ngx-datatable-column name="Company"></ngx-datatable-column>            
+            <ngx-datatable-column
+              [width]="200"
+              [sortable]="false"
+              [canAutoResize]="false"
+              [draggable]="false"
+              [resizeable]="false"
+              [headerCheckboxable]="true"
+              >
+              <ng-template let-row="row" let-value="value" ngx-datatable-cell-template>
+               <button (click)="prueba(row)"> hOLA </button>
+               <button> hOLA </button>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

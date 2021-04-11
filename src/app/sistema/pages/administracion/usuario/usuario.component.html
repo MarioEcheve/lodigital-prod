@@ -1,0 +1,99 @@
+<div class="row mb-3">  
+  <h5 class="font-weight-bold col-6">
+    Gestión de Usuarios
+  </h5>
+  <div class="col-6" align="right">  
+    <button type="button" class="btn btn-primary">Nuevo Usuario</button>
+  </div> 
+</div>
+<!-- Aparece cuando haces click en nuevo usuario -->
+<div class="card mb-3">
+  <div class="card-header">
+    Nuevo Usuario
+  </div>
+  <div class="card-body">
+    <div class="form-group">
+      <label class="form-label">RUT</label>
+      <input type="text" class="form-control" placeholder="">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nombres</label>
+      <input type="text" class="form-control" placeholder="">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Apellido Paterno</label>
+      <input type="text" class="form-control" placeholder="">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Apellido Materno</label>
+      <input type="text" class="form-control" placeholder="">
+    </div>
+    <div class="form-group">
+      <label class="form-label">E-mail</label>
+      <input type="text" class="form-control" placeholder="">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Repita E-mail</label>
+      <input type="text" class="form-control" placeholder="">
+    </div>    
+    <div class="form-group">
+      <label class="form-label">Perfil Usuario</label>
+      <select class="custom-select">
+        <option>Superusuario</option>
+        <option>Usuario</option>          
+      </select>
+    </div>
+    <div align="right">
+      <button type="button" class="btn btn-secondary">Cancelar</button>  
+      <button type="button" class="btn btn-primary">Crear Usuario</button>
+    </div>
+  </div>
+</div>
+<div class="card">
+  <div class="card-body">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>RUT</th>
+          <th>Nombre</th>
+          <th>Perfil</th>
+          <th>Creación</th>
+          <th>Activación</th>
+          <th>Desactivación</th>
+          <th>Estado</th>
+          <th style="width: 70px;"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>                         
+          <th>13.224.233-K</th>
+          <td>Fernando Vilches Soleman</td>
+          <td>
+            <a class="badge badge-primary" style="color: white;">Superusuario</a>
+          </td>
+          <td>12/12/2020</td>
+          <td>12/12/2020</td>
+          <td></td>
+          <td>Activo</td>
+          <td class="text-right">
+            <span type="button" class="ion-md-create text-muted" style="font-size: 14px;"></span>                                  
+          </td>
+        </tr>
+        <tr>                     
+          <th>11.246.263-6</th>
+          <td>Marcelo Espejo Ireland</td>
+          <td>
+            <a class="badge badge-secondary" style="color: white;">Usuario</a>
+          </td>
+          <td>12/12/2020</td>
+          <td>12/12/2020</td>
+          <td></td>
+          <td>Activo</td>          
+          <td class="text-right">
+            <span type="button" class="ion-md-create text-muted" style="font-size: 14px;"></span>
+          </td>
+        </tr>          
+      </tbody>
+    </table>
+  </div>
+</div>

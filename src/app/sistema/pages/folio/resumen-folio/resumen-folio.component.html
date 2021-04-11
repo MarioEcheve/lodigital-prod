@@ -1,0 +1,160 @@
+<!-- Add `.messages-card` to `.card` -->
+<div class="card messages-card" [ngClass]="{'messages-sidebox-open': sideboxOpen}">
+  <div class="row" style="padding-left: 32px; padding-top: 15px; padding-bottom: 7px; padding-right: 32px;" >
+    <div class="flex-grow-1 justify-content-start" style="padding-bottom: 7px;">
+      <table>
+        <tr>
+          <td style="font-weight: bold; width: 80px;">
+            Contrato:
+          </td>
+          <td style="font-weight: bold;">
+            <strong>Construcción Edificio La Serena</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>Código:</td>
+          <td>
+            C001
+          </td>                  
+        </tr>
+        <tr>
+          <td>Mandante:</td>                    
+          <td>
+            Ilustre Municipalidad de La Serena | RUT:&nbsp;77.415.565-6
+          </td>
+        </tr>  
+        <tr>
+          <td>Contratista:</td>
+          <td>
+            Constructora La Serena Ltda. | RUT:&nbsp;78.659.697-6
+          </td>
+        </tr>  
+      </table>
+    </div>
+    <div class="justify-content-end" style="padding-bottom: 7px;">
+      <table>
+        <tr>
+          <td style="font-weight: bold; width: 80px;">
+            Mi Perfil:
+          </td>
+          <td style="font-weight: bold;">
+            <strong>Administrador</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>Cargo:</td>
+          <td>
+            Inspector Técnico
+          </td>                  
+        </tr>      
+      </table>  
+    </div>
+  </div>
+  
+  <hr class="border-light m-0">
+
+  <div class="row no-gutters">
+
+    <!-- Messages sidebox -->
+    <div [perfectScrollbar]="{ suppressScrollX: true, wheelPropagation: true }" class="messages-sidebox messages-scroll col">
+
+      <div class="card-body py-2">
+        <div class="media align-items-center">
+          <div class="media-body">
+            <button type="button" class="btn btn-primary btn-block">Redactar</button>
+          </div>
+          <a (click)="sideboxOpen = !sideboxOpen" href="javascript:void(0)" class="d-lg-none d-block text-muted text-large font-weight-light pl-4">&times;</a>
+        </div>
+      </div>
+      <hr class="border-light m-0">
+
+      <div class="card-body pt-3">
+        <!-- <input type="text" class="form-control form-control-sm mb-4" placeholder="Search..."> -->
+
+        <!-- Mail boxes -->
+        <a *ngFor="let boxId of objectKeys(mailBoxes)" href="javascript:void(0)" class="d-flex justify-content-between align-items-center py-2" [ngClass]="{'font-weight-bold text-body': currentMailBox === boxId, 'text-muted': currentMailBox !== boxId}">
+          <div><i [ngClass]="mailBoxes[boxId].icon"></i> &nbsp; {{mailBoxes[boxId].title}}</div>
+          <div class="badge badge-pill badge-primary" *ngIf="mailBoxes[boxId].count" style="font-size: 10px;">{{mailBoxes[boxId].count}}</div>          
+        </a>
+        <!-- / Mail boxes -->
+
+        <hr class="border-light my-4">
+
+        <!-- Labels -->
+
+        <!-- <h6 class="text-tiny font-weight-bold">LABELS</h6>
+        <a *ngFor="let labelId of objectKeys(labels)" href="javascript:void(0)" class="d-block text-muted py-1">
+          <span class="badge badge-dot" [ngClass]="'badge-' + labels[labelId].color"></span> &nbsp; {{labels[labelId].title}}
+        </a> -->
+
+        <!-- / Labels -->
+      </div>
+
+    </div>
+    <!-- / Messages sidebox -->
+
+    <!-- Messages list -->
+    <div class="col">
+
+      <!-- Controls -->
+      <div class="media flex-wrap align-items-center" style="min-Height: 50px;">
+        <button type="button" class="btn btn-default borderless md-btn-flat icon-btn messages-sidebox-toggler d-lg-none d-block text-muted text-large mr-2" (click)="sideboxOpen = !sideboxOpen"><i class="ion ion-md-more"></i></button>
+          <div class="form-group media-body d-flex flex-wrap flex-basis-100 flex-basis-sm-auto ml-3 mr-3" style="margin-bottom: 0rem;">
+            <!-- <label class="form-label" style="margin-bottom: 2px;">Libro Actual:</label> -->
+            <select class="col-12" style="border-radius: 3px; border-color: rgb(240, 240, 240); background: rgba(248, 248, 248, 0.753); height: 28px;">
+              <option>Libro Principal | Tipo: Maestro | Estado: Abierto</option>
+              <option>Libro Prevención de Riesgos | Tipo: Auxiliar | Estado: Abierto</option>          
+            </select>
+          </div>
+      
+        <!-- <div class="media-body d-flex flex-wrap flex-basis-100 flex-basis-sm-auto">
+          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn messages-sidebox-toggler d-lg-none d-block text-muted text-large mr-2" (click)="sideboxOpen = !sideboxOpen"><i class="ion ion-md-more"></i></button>
+          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted" ngbTooltip="Refresh" container="body"><i class="ion ion-md-refresh"></i></button>
+          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted" ngbTooltip="Mark as unread" container="body"><i class="ion ion-md-mail-unread"></i></button>
+          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted" ngbTooltip="Mark as important" container="body"><i class="ion ion-md-alert"></i></button>
+          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted" ngbTooltip="Move to spam" container="body"><i class="ion ion-md-folder-open"></i></button>
+          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted" ngbTooltip="Move to trash" container="body"><i class="ion ion-md-trash"></i></button>
+        </div> -->
+
+        <!-- <div class="text-muted mr-3 ml-auto">1-25 of 91</div> -->
+        <button type="button" class="btn btn-sm btn-primary mr-2"><span class="far fa-paper-plane"></span>&nbsp;&nbsp;Avanzada</button>
+
+        <!-- <div class="d-flex flex-wrap">
+          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted"><i class="ion ion-ios-arrow-back"></i></button>
+          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted"><i class="ion ion-ios-arrow-forward"></i></button>
+        </div> -->
+
+
+      </div>
+      <hr class="border-light m-0">
+      <!-- / Controls -->
+
+      <ul class="list-group messages-list">
+
+        <li *ngFor="let message of messagesData" class="list-group-item px-4">
+          <div class="message-checkbox mr-1">
+            <label class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" [checked]="selected.includes(message)" (change)="toggleSelect($event, message)">
+              <span class="custom-control-label"></span>
+              
+            </label>
+          </div>
+          <a href="javascript:void(0)" class="ion d-block text-big mr-3" [ngClass]="{'text-lighter ion-md-star-outline': !message.marked, 'text-warning ion-md-star': message.marked}"></a>
+          <a href="javascript:void(0)" class="message-sender flex-shrink-1 d-block text-body">
+            <span class="badge badge-dot mr-1" *ngIf="message.label" [ngClass]="'badge-' + labels[message.label].color"></span>
+            {{message.sender}}
+          </a> 
+          <a href="javascript:void(0)" class="message-subject flex-shrink-1 d-block text-body" [ngClass]="{'font-weight-bold': message.unread}">
+            {{message.subject}}
+            <i class="ion ion-md-attach" *ngIf="message.attachments"></i>
+          </a>
+          <div class="message-date text-muted">{{message.date}}</div>
+        </li>
+
+      </ul>
+
+    </div>
+    <!-- / Messages list -->
+
+  </div><!-- / .row -->
+</div><!-- / .card -->
