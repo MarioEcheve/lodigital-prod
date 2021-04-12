@@ -8,8 +8,7 @@
     "build": "node ./node_modules/@angular/cli/bin/ng build --aot --prod",
     "test": "node ./node_modules/@angular/cli/bin/ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "ngcc"
+    "e2e": "ng e2e"
   },
   "dependencies": {
     "@agm/core": "~1.0.0-beta.2",
