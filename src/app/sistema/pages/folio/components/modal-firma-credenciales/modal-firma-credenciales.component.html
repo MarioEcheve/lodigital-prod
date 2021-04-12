@@ -1,0 +1,28 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    <span class="font-weight-light">Firma con Credenciales</span><br>
+    <a class="text-muted" style="font-size: 11px;">Utilice su clave de acceso al sistema para firmar el folio.</a>    
+  </h5>
+  <button type="button" class="close" (click)="cancelar2()">&times;</button>
+</div>
+<div  style="line-height: 12px;">
+  <div class="row modal-body">
+    <div class="col-3" valign="middle">
+      <img style="width: 100px;" src="/assets/img/firma2.png"/>
+    </div>
+    <div class="col-9">
+      <div class="form-group">
+        <label class="form-label">Usuario</label>
+        <input type="password" class="form-control" placeholder="Fernando Alejandro Vilches Soleman | RUT: 13.224.233-k" disabled>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Clave Acceso</label>
+        <input type="password" class="form-control">
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="cancelar2()">Cancelar</button>
+    <button type="button" class="btn btn-primary">Aceptar</button>
+  </div>
+</div>

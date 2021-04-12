@@ -1,3 +1,6 @@
+import { Comuna } from "./comuna";
+import { Region } from "./region";
+
 export class Empresa {
     idEmpresa : number;
     rut: string;
@@ -7,7 +10,7 @@ export class Empresa {
     giroPrincipal: string;
     nombreContactoComercial: string;
     cargoFuncionContactoComercial: string;
-    emialContactoComercial: string;
+    emailContactoComercial: string;
     telefonoPrincipalContactoComercial: string;
     telefonoSecundarioContactoComercial: string;
     nombreContactoTecnico: string;
@@ -17,6 +20,8 @@ export class Empresa {
     telefonoSecundarioContactoTecnico: string;
     fechaCreacion : Date;
     fechaModificacion : Date;
+    region : Region;
+    comuna : Comuna;
 
 
     

@@ -1,32 +1,30 @@
-<!-- Add `.messages-card` to `.card` -->
-<div class="card messages-card" [ngClass]="{'messages-sidebox-open': sideboxOpen}">
-  <div class="row" style="padding-left: 32px; padding-top: 15px; padding-bottom: 7px; padding-right: 32px;" >
+<div class="row mb-3" style="align-items: center; margin-left: 0px;">
+  <button type="button" class="btn icon-btn btn-secondary btn-sm" (click)="detalleLibro()"><span class="ion-ios-arrow-back"></span></button>   
+  <span class="ml-2" style="font-size: 16px; align-items: center;">Mis Libros /</span>
+  <strong style="font-size: 16px;">&nbsp;Listado Folios</strong> 
+</div>
+<div class="card messages-card" [ngClass]="{'messages-sidebox-open': sideboxOpen}" style="height: 95%;">
+  <div class="row" style="font-size: 12px; padding-left: 25px; padding-top: 15px; padding-bottom: 7px; padding-right: 25px;" >
     <div class="flex-grow-1 justify-content-start" style="padding-bottom: 7px;">
       <table>
         <tr>
-          <td style="font-weight: bold; width: 80px;">
+          <td style="font-weight: bold; width: 70px;">
             Contrato:
           </td>
           <td style="font-weight: bold;">
-            <strong>Construcción Edificio La Serena</strong>
+            <strong>{{usuarioLibro?.libro.contrato.nombre}} | Cód.:&nbsp;{{usuarioLibro?.libro.contrato.codigo}}</strong>
           </td>
-        </tr>
-        <tr>
-          <td>Código:</td>
-          <td>
-            C001
-          </td>                  
-        </tr>
+        </tr>      
         <tr>
           <td>Mandante:</td>                    
           <td>
-            Ilustre Municipalidad de La Serena | RUT:&nbsp;77.415.565-6
+            {{empresaMandante?.razonSocial}} | RUT:&nbsp;{{empresaMandante?.rut}}
           </td>
         </tr>  
         <tr>
           <td>Contratista:</td>
           <td>
-            Constructora La Serena Ltda. | RUT:&nbsp;78.659.697-6
+            {{empresaContratista?.razonSocial}} | RUT:&nbsp;{{empresaContratista?.rut}}
           </td>
         </tr>  
       </table>
@@ -34,127 +32,100 @@
     <div class="justify-content-end" style="padding-bottom: 7px;">
       <table>
         <tr>
-          <td style="font-weight: bold; width: 80px;">
+          <td style="font-weight: bold; width: 70px;">
             Mi Perfil:
           </td>
           <td style="font-weight: bold;">
-            <strong>Administrador</strong>
+            <strong>{{usuarioLibro?.perfilUsuarioLibro.descripcion}}</strong>
           </td>
         </tr>
         <tr>
           <td>Cargo:</td>
           <td>
-            Inspector Técnico
+            {{usuarioLibro?.cargo}}
           </td>                  
-        </tr>      
+        </tr>    
       </table>  
     </div>
   </div>
-  
-  <hr class="border-light m-0">
-
-  <div class="row no-gutters">
-
-    <!-- Messages sidebox -->
-    <div [perfectScrollbar]="{ suppressScrollX: true, wheelPropagation: true }" class="messages-sidebox messages-scroll col">
-
-      <div class="card-body py-2">
+  <hr class="m-0">
+  <div class="row no-gutters" style="height: 100%;">   
+    <div [perfectScrollbar]="{ suppressScrollX: true, wheelPropagation: true }" class="messages-sidebox messages-scroll col" style="height: 100%;">
+      <div class="card-body py-3" style="padding-left: 15px; padding-right: 15px;">
         <div class="media align-items-center">
           <div class="media-body">
-            <button type="button" class="btn btn-primary btn-block">Redactar</button>
+            <button type="button" class="btn btn-sm btn-primary btn-block" style="height: 30px;" (click)="crearFolio()">Redactar</button>
           </div>
           <a (click)="sideboxOpen = !sideboxOpen" href="javascript:void(0)" class="d-lg-none d-block text-muted text-large font-weight-light pl-4">&times;</a>
         </div>
       </div>
-      <hr class="border-light m-0">
-
-      <div class="card-body pt-3">
-        <!-- <input type="text" class="form-control form-control-sm mb-4" placeholder="Search..."> -->
-
-        <!-- Mail boxes -->
+      <!-- <hr class="border-light m-0"> -->
+      <div class="card-body pt-0" style="padding-left: 15px; padding-right: 15px;">        
         <a *ngFor="let boxId of objectKeys(mailBoxes)" href="javascript:void(0)" class="d-flex justify-content-between align-items-center py-2" [ngClass]="{'font-weight-bold text-body': currentMailBox === boxId, 'text-muted': currentMailBox !== boxId}">
           <div><i [ngClass]="mailBoxes[boxId].icon"></i> &nbsp; {{mailBoxes[boxId].title}}</div>
-          <div class="badge badge-pill badge-primary" *ngIf="mailBoxes[boxId].count" style="font-size: 10px;">{{mailBoxes[boxId].count}}</div>          
-        </a>
-        <!-- / Mail boxes -->
-
-        <hr class="border-light my-4">
-
-        <!-- Labels -->
-
-        <!-- <h6 class="text-tiny font-weight-bold">LABELS</h6>
-        <a *ngFor="let labelId of objectKeys(labels)" href="javascript:void(0)" class="d-block text-muted py-1">
-          <span class="badge badge-dot" [ngClass]="'badge-' + labels[labelId].color"></span> &nbsp; {{labels[labelId].title}}
-        </a> -->
-
-        <!-- / Labels -->
+          <div class="badge badge-primary" *ngIf="mailBoxes[boxId].count">{{mailBoxes[boxId].count}}</div>
+        </a>   
       </div>
-
-    </div>
-    <!-- / Messages sidebox -->
-
-    <!-- Messages list -->
-    <div class="col">
-
-      <!-- Controls -->
-      <div class="media flex-wrap align-items-center" style="min-Height: 50px;">
-        <button type="button" class="btn btn-default borderless md-btn-flat icon-btn messages-sidebox-toggler d-lg-none d-block text-muted text-large mr-2" (click)="sideboxOpen = !sideboxOpen"><i class="ion ion-md-more"></i></button>
-          <div class="form-group media-body d-flex flex-wrap flex-basis-100 flex-basis-sm-auto ml-3 mr-3" style="margin-bottom: 0rem;">
-            <!-- <label class="form-label" style="margin-bottom: 2px;">Libro Actual:</label> -->
-            <select class="col-12" style="border-radius: 3px; border-color: rgb(240, 240, 240); background: rgba(248, 248, 248, 0.753); height: 28px;">
-              <option>Libro Principal | Tipo: Maestro | Estado: Abierto</option>
-              <option>Libro Prevención de Riesgos | Tipo: Auxiliar | Estado: Abierto</option>          
+    </div>    
+    <div class="col" >
+      <div class="media flex-wrap align-items-center ml-2 mr-2 mt-3 mb-2">
+        <div class="media-body d-flex flex-wrap flex-basis-100 flex-basis-sm-auto">
+          <div class="flex-grow-1 mr-2">
+            <button type="button" class="btn btn-default borderless md-btn-flat icon-btn messages-sidebox-toggler d-lg-none d-block text-muted text-large mr-2" (click)="sideboxOpen = !sideboxOpen"><i class="ion ion-md-more"></i></button>                                  
+            <select  [formControl]="controlLibroSeleccionado" (change)="cambiarLibro()" style="border-radius: 3px; border-color: rgb(226, 226, 226); background: rgb(255, 255, 255); height: 32px; max-width: 400px;">
+              <option *ngFor="let usuarioLibro of listaLibroUsuario"  [value]="usuarioLibro.libro.idLibro"> {{usuarioLibro.libro.nombre}} | Cod.:{{usuarioLibro.libro.codigo}} | Clase: {{usuarioLibro.libro.tipoLibro.descripcion}} | Estado: {{usuarioLibro.libro.estadoLibro.descripcion}}</option>
             </select>
-          </div>
-      
-        <!-- <div class="media-body d-flex flex-wrap flex-basis-100 flex-basis-sm-auto">
-          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn messages-sidebox-toggler d-lg-none d-block text-muted text-large mr-2" (click)="sideboxOpen = !sideboxOpen"><i class="ion ion-md-more"></i></button>
-          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted" ngbTooltip="Refresh" container="body"><i class="ion ion-md-refresh"></i></button>
-          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted" ngbTooltip="Mark as unread" container="body"><i class="ion ion-md-mail-unread"></i></button>
-          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted" ngbTooltip="Mark as important" container="body"><i class="ion ion-md-alert"></i></button>
-          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted" ngbTooltip="Move to spam" container="body"><i class="ion ion-md-folder-open"></i></button>
-          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted" ngbTooltip="Move to trash" container="body"><i class="ion ion-md-trash"></i></button>
-        </div> -->
-
-        <!-- <div class="text-muted mr-3 ml-auto">1-25 of 91</div> -->
-        <button type="button" class="btn btn-sm btn-primary mr-2"><span class="far fa-paper-plane"></span>&nbsp;&nbsp;Avanzada</button>
-
-        <!-- <div class="d-flex flex-wrap">
-          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted"><i class="ion ion-ios-arrow-back"></i></button>
-          <button type="button" class="btn btn-default borderless md-btn-flat icon-btn text-muted"><i class="ion ion-ios-arrow-forward"></i></button>
-        </div> -->
-
-
+          </div>    
+          <button type="button" class="btn btn-sm btn-secondary mr-1" style="height: 30px;"><span class="ion-ios-search"></span>&nbsp;&nbsp;Avanzada</button>
+          <button type="button" class="btn btn-sm btn-secondary mr-1" style="height: 30px;">Filtro</button>
+          <button type="button" class="btn btn-sm btn-default icon-btn borderless mr-2" style="height: 30px;width: 30px;"><span class="ion-md-settings" style="font-size: 18px;color: #3c97fe;"></span></button>
+        </div>    
       </div>
-      <hr class="border-light m-0">
-      <!-- / Controls -->
-
-      <ul class="list-group messages-list">
-
-        <li *ngFor="let message of messagesData" class="list-group-item px-4">
-          <div class="message-checkbox mr-1">
-            <label class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" [checked]="selected.includes(message)" (change)="toggleSelect($event, message)">
-              <span class="custom-control-label"></span>
-              
-            </label>
-          </div>
-          <a href="javascript:void(0)" class="ion d-block text-big mr-3" [ngClass]="{'text-lighter ion-md-star-outline': !message.marked, 'text-warning ion-md-star': message.marked}"></a>
-          <a href="javascript:void(0)" class="message-sender flex-shrink-1 d-block text-body">
-            <span class="badge badge-dot mr-1" *ngIf="message.label" [ngClass]="'badge-' + labels[message.label].color"></span>
-            {{message.sender}}
-          </a> 
-          <a href="javascript:void(0)" class="message-subject flex-shrink-1 d-block text-body" [ngClass]="{'font-weight-bold': message.unread}">
-            {{message.subject}}
-            <i class="ion ion-md-attach" *ngIf="message.attachments"></i>
-          </a>
-          <div class="message-date text-muted">{{message.date}}</div>
-        </li>
-
-      </ul>
-
+      <div class="table-responsive" style="padding-left: 10px;padding-right: 10px;">      
+        <table class="table table-hover" style="width:100%;font-size: 11px;" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+          <thead>
+            <tr>
+              <th style="min-width: 40px;width: 40px;"># Folio</th>
+              <th style="width: 180px; min-width:140px;">Emisor</th>                           
+              <th>Tipo Folio - Asunto</th>
+              <th style="width: 95px;min-width: 60px;">Fecha Requerida</th>
+              <th style="width: 105px;min-width: 105px;">Fecha</th>
+            </tr>
+          </thead>
+          <tbody>                   
+            <tr *ngFor="let folio of listaFolios" style="user-select: none;">                
+              <td style="border-left: 3px solid;border-left-color:#ff9900" *ngIf="folio?.entidadCreacion">                
+                <span style="min-width: 45px; width: 45px;" *ngIf="folio.correlativo">{{folio?.correlativo}}</span>                  
+                <span style="min-width: 45px; width: 45px;" *ngIf="!folio.correlativo">S/N</span>
+              </td>             
+              <td style="border-left: 3px solid;border-left-color:#007bff" *ngIf="!folio?.entidadCreacion">                
+                <span style="min-width: 45px; width: 45px;" *ngIf="folio.correlativo">{{folio?.correlativo}}</span>                  
+                <span style="min-width: 45px; width: 45px;" *ngIf="!folio.correlativo">S/N</span>
+              </td>
+              <td class="ellipsis" style="font-weight: bold;">{{folio.usuarioCreador}}</td>                             
+              <td class="ellipsis"><strong>{{folio.configuracionTipoFolioTipoLibro.tipoFolio.nombre}}</strong> - {{folio.asunto}}</td>
+              <th style="align-items: center;">
+                <a class="badge badge-success" style="color: white;">{{folio.fechaRequerida | date : 'dd-MM-yyyy'}}</a>
+              </th>
+              <th style="text-align: center;">  
+                <span *ngIf="!folio.correlativo">{{folio.fechaCreacion | date : 'dd/MM/yyyy HH:mm'}}</span>
+                <span *ngIf="folio.correlativo">{{folio.fechaFirma | date : 'dd-MM-yyyy HH:mm'}}</span>                
+                <span type="button" *ngIf="!folio.correlativo" class="ion-ios-arrow-forward text-muted ml-3" style="font-size: 14px;" (click)="folioBorrador(folio)" ></span> 
+                <span type="button" *ngIf="folio.correlativo" class="ion-ios-arrow-forward text-muted ml-3" style="font-size: 14px;" (click)="folioFirmado(folio)" ></span>
+              </th>
+            </tr>
+          </tbody>
+        </table>      
+      </div>
     </div>
-    <!-- / Messages list -->
+  </div>
+</div>
 
-  </div><!-- / .row -->
-</div><!-- / .card -->
+
+
+
+
+
+
+
+

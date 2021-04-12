@@ -15,50 +15,64 @@
   <div class="sidenav-divider mt-0" *ngIf="orientation !== 'horizontal'"></div>
 
   <!-- Links -->
-  <div class="sidenav-inner" [ngClass]="{ 'py-1': orientation !== 'horizontal' }">
+  <div class="sidenav-inner" [ngClass]="{ 'py-1': orientation !== 'horizontal' }" style="padding-top: 0px !important;">
+    <sidenav-router-link icon="lnr d-block lnr-screen" route="/dashboards/dashboard-1" [active]="isActive('/dashboards/dashboard-1')">Escritorio</sidenav-router-link>               
+    <sidenav-menu icon="lnr d-block lnr-user" text="Perfil Usuario" [active]="isMenuActive('/sistema/informacion-persona')" [open]="isMenuOpen('/sistema/informacion-persona')">
+      <sidenav-router-link route="/sistema/informacion-persona" [active]="isActive('/sistema/informacion-persona')">Información Personal</sidenav-router-link>
+      <!--<sidenav-router-link route="/sistema/preferencias" [active]="isActive('/sistema/preferencias')">Preferencias</sidenav-router-link>-->
+       <sidenav-router-link route="/sistema/cambio-de-clave" [active]="isActive('/sistema/cambio-de-clave')">Cambio de Contraseña</sidenav-router-link>
+    </sidenav-menu>
+
+    <sidenav-menu *ngIf="empresaUsuarioRol.rol.nombre === 'Super Usuario'" icon="lnr d-block lnr-cog" text="Administración" [active]="isMenuActive('/sistema/empresa')" [open]="isMenuOpen('/sistema/empresa')">
+      <sidenav-router-link route="/sistema/empresa" [active]="isActive('/sistema/empresa')">Información Entidad</sidenav-router-link>
+      <sidenav-router-link route="/sistema/listado-contrato" [active]="isActive('/sistema/listado-contrato')">Contratos Asociados</sidenav-router-link>
+      <sidenav-router-link route="/sistema/usuarios" [active]="isActive('/sistema/usuarios')">Gestión de Usuarios</sidenav-router-link>
+<!--  <sidenav-router-link route="/login/login-personalizado" [active]="isActive('/login/login-personalizado')">Login</sidenav-router-link>
+      <sidenav-router-link route="/login/login1" [active]="isActive('/login/login1')">Login1</sidenav-router-link>
+      <sidenav-router-link route="/login/login2" [active]="isActive('/login/login2')">Login2</sidenav-router-link> -->
+     <!--  <sidenav-router-link route="/sistema/nuevo-usuario" [active]="isActive('/sistema/nuevo-usuario')">Nuevo Usuario</sidenav-router-link> -->
+    </sidenav-menu>
 
     <sidenav-menu icon="ion ion-md-speedometer" text="Folio" [active]="isMenuActive('/sistema/folio-borrador')" [open]="isMenuOpen('/sistema/folio-borrador')">
       <sidenav-router-link route="/sistema/folio-borrador" [active]="isActive('/sistema/folio-borrador')">Folio Borrador</sidenav-router-link>
       <sidenav-router-link route="/sistema/folio-firmado" [active]="isActive('/sistema/folio-firmado')">Folio Firmado</sidenav-router-link>
       <sidenav-router-link route="/sistema/resumen-de-folio" [active]="isActive('/sistema/resumen-de-folio')">Resumen de Folio</sidenav-router-link>
-    </sidenav-menu>
-
-    <sidenav-menu icon="ion ion-md-speedometer" text="Contrato" [active]="isMenuActive('/sistema/detalle-contrato')" [open]="isMenuOpen('/sistema/detalle-contrato')">
-      <sidenav-router-link route="/sistema/detalle-contrato" [active]="isActive('/sistema/detalle-contrato')">Detalle Contrato</sidenav-router-link>
-      <sidenav-router-link route="/sistema/listado-contrato" [active]="isActive('/sistema/listado-contrato')">Listado de  Contrato</sidenav-router-link>
+      <sidenav-router-link route="/sistema/folio-previsualizar" [active]="isActive('/sistema/folio-previsualizar')">Previsualizar Folio</sidenav-router-link>
 
     </sidenav-menu>
 
-    <sidenav-menu icon="ion ion-md-speedometer" text="Libro" [active]="isMenuActive('/sistema/detalle-libro')" [open]="isMenuOpen('/sistema/detalle-libro')">
-      <sidenav-router-link route="/sistema/detalle-libro" [active]="isActive('/sistema/detalle-libro')">Detalle Libros</sidenav-router-link>
-      <sidenav-router-link route="/sistema/listado-libros" [active]="isActive('/sistema/listado-libros')">Listado de Libros</sidenav-router-link>
+    <sidenav-menu icon="lnr d-block lnr-license" text="Mis Contratos" [active]="isMenuActive('/sistema/detalle-contrato')" [open]="isMenuOpen('/sistema/detalle-contrato')">
+      <sidenav-router-link route="/sistema/contratos-abiertos" [active]="isActive('/sistema/contratos-abiertos')" (click)="cambioMenu()">Contratos Abiertos</sidenav-router-link>
     </sidenav-menu>
 
-    <sidenav-menu *ngIf="empresaActual.rol.nombre === 'Super Usuario'" icon="ion ion-md-speedometer" text="Administracion" [active]="isMenuActive('/sistema/empresa')" [open]="isMenuOpen('/sistema/empresa')">
-      <sidenav-router-link route="/sistema/empresa" [active]="isActive('/sistema/empresa')">Datos Entidad</sidenav-router-link>
-      <sidenav-router-link route="/sistema/contratos" [active]="isActive('/sistema/contratos')">Contratos Asociados</sidenav-router-link>
-      <sidenav-router-link route="/sistema/usuarios" [active]="isActive('/sistema/usuarios')">Gestión de Usuarios</sidenav-router-link>
-      <sidenav-router-link route="/sistema/nuevo-contrato" [active]="isActive('/sistema/nuevo-contrato')">Nuevo Contrato</sidenav-router-link>
-
+    <!-- <sidenav-menu icon="ion d-block ion-md-journal" text="Mis Libros" [active]="isMenuActive('/sistema/detalle-libro')" [open]="isMenuOpen('/sistema/detalle-libro')"> -->
+    <sidenav-menu icon="lnr d-block lnr-book" text="Mis Libros" [active]="isMenuActive('/sistema/detalle-libro')" [open]="isMenuOpen('/sistema/detalle-libro')">
+      <!-- <sidenav-router-link route="/sistema/detalle-libro" [active]="isActive('/sistema/detalle-libro')">Detalle Libros</sidenav-router-link>  -->
+      <sidenav-router-link route="/sistema/listado-libros" [active]="isActive('/sistema/listado-libros')">Libros Abiertos</sidenav-router-link>
+      <sidenav-router-link route="/sistema/listado-libros" [active]="isActive('/sistema/listado-libros')">Libros en Creación</sidenav-router-link> 
+      <sidenav-router-link route="/sistema/listado-libros" [active]="isActive('/sistema/listado-libros')">Libros Cerrados</sidenav-router-link>       
     </sidenav-menu>
+    <sidenav-divider class="mb-1"></sidenav-divider>
+  
 
-    <sidenav-menu icon="ion ion-md-speedometer" text="Perfil Usuario" [active]="isMenuActive('/sistema/informacion-persona')" [open]="isMenuOpen('/sistema/informacion-persona')">
-      <sidenav-router-link route="/sistema/informacion-persona" [active]="isActive('/sistema/informacion-persona')">Información Personal</sidenav-router-link>
-      <sidenav-router-link route="/sistema/preferencias" [active]="isActive('/sistema/preferencias')">Preferencias</sidenav-router-link>
-      <sidenav-router-link route="/sistema/cambio-de-clave" [active]="isActive('/sistema/cambio-de-clave')">Cambio de Clave</sidenav-router-link>
+    <sidenav-router-link icon="lnr d-block lnr-download" route="/sistema/descargas-instaladores" [active]="isActive('/sistema/descargas-instaladores')">Instaladores</sidenav-router-link>
+    <sidenav-router-link icon="d-block pe-7s-headphones" route="/sistema/asistencia-tecnica" [active]="isActive('/sistema/asistencia-tecnica')">Asistencia Técnica</sidenav-router-link>    
+    <sidenav-menu icon="lnr d-block lnr-graduation-hat" text="Tutoriales & Videos">
+      <sidenav-router-link>Manuales Referencia</sidenav-router-link>      
+      <sidenav-router-link>Video Tutoriales</sidenav-router-link>
     </sidenav-menu>
 
     <!-- Dashboards -->
-    <sidenav-menu icon="ion ion-md-speedometer" text="Dashboards" [active]="isMenuActive('/dashboards')" [open]="isMenuOpen('/dashboards')">
+   <!--  <sidenav-menu icon="ion ion-md-speedometer" text="Dashboards" [active]="isMenuActive('/dashboards')" [open]="isMenuOpen('/dashboards')">
       <sidenav-router-link route="/dashboards/dashboard-1" [active]="isActive('/dashboards/dashboard-1')">Dashboard 1</sidenav-router-link>
       <sidenav-router-link route="/dashboards/dashboard-2" [active]="isActive('/dashboards/dashboard-2')">Dashboard 2</sidenav-router-link>
       <sidenav-router-link route="/dashboards/dashboard-3" [active]="isActive('/dashboards/dashboard-3')">Dashboard 3</sidenav-router-link>
       <sidenav-router-link route="/dashboards/dashboard-4" [active]="isActive('/dashboards/dashboard-4')">Dashboard 4</sidenav-router-link>
       <sidenav-router-link route="/dashboards/dashboard-5" [active]="isActive('/dashboards/dashboard-5')">Dashboard 5</sidenav-router-link>
-    </sidenav-menu>
+    </sidenav-menu> -->
 
     <!-- Layouts -->
-     <sidenav-menu icon="ion ion-ios-albums" text="Layouts" [active]="isMenuActive('/layouts')" [open]="isMenuOpen('/layouts')">
+     <!-- <sidenav-menu icon="ion ion-ios-albums" text="Layouts" [active]="isMenuActive('/layouts')" [open]="isMenuOpen('/layouts')">
       <sidenav-router-link route="/layouts/options" [active]="isActive('/layouts/options')">Layout options</sidenav-router-link>
       <sidenav-router-link route="/layouts/helpers" [active]="isActive('/layouts/helpers')">Layout helpers</sidenav-router-link>
       <sidenav-router-link route="/layouts/layout-1" [active]="isActive('/layouts/layout-1')">Layout 1</sidenav-router-link>
@@ -76,7 +90,7 @@
     <sidenav-header class="small font-weight-semibold">ELEMENTS</sidenav-header>
 
     <sidenav-router-link icon="ion ion-md-quote" route="/typography" [active]="isActive('/typography')">Typography</sidenav-router-link>
-
+ -->
     <!-- User inteface -->
     <sidenav-menu icon="ion ion-md-cube" text="User inteface" [active]="isMenuActive('/ui')" [open]="isMenuOpen('/ui')">
       <sidenav-router-link route="/ui/buttons" [active]="isActive('/ui/buttons')">Buttons</sidenav-router-link>
@@ -125,20 +139,20 @@
     </sidenav-menu>
 
     <!-- Tables -->
-    <sidenav-menu icon="ion ion-md-grid" text="Tables" [active]="isMenuActive('/tables')" [open]="isMenuOpen('/tables')">
+   <!--  <sidenav-menu icon="ion ion-md-grid" text="Tables" [active]="isMenuActive('/tables')" [open]="isMenuOpen('/tables')">
       <sidenav-router-link route="/tables/bootstrap" [active]="isActive('/tables/bootstrap')">Bootstrap</sidenav-router-link>
       <sidenav-router-link route="/tables/ngx-datatable" [active]="isActive('/tables/ngx-datatable')">Ngx Datatable</sidenav-router-link>
       <sidenav-router-link route="/tables/ng2-smart-table" [active]="isActive('/tables/ng2-smart-table')">Ng2 Smart Table</sidenav-router-link>
-    </sidenav-menu>
+    </sidenav-menu> -->
 
     <!-- Charts -->
-     <sidenav-menu icon="ion ion-md-pie" text="Charts" [active]="isMenuActive('/charts')" [open]="isMenuOpen('/charts')">
+     <!-- <sidenav-menu icon="ion ion-md-pie" text="Charts" [active]="isMenuActive('/charts')" [open]="isMenuOpen('/charts')">
       <sidenav-router-link route="/charts/angular-google-maps" [active]="isActive('/charts/angular-google-maps')">Angular Google Maps</sidenav-router-link>
       <sidenav-router-link route="/charts/ngx-charts" [active]="isActive('/charts/ngx-charts')">Ngx Charts</sidenav-router-link>
       <sidenav-router-link route="/charts/ng-chartist" [active]="isActive('/charts/ng-chartist')">Ng Chartist</sidenav-router-link>
       <sidenav-router-link route="/charts/ng2-charts" [active]="isActive('/charts/ng2-charts')">Ng2 Charts</sidenav-router-link>
       <sidenav-router-link route="/charts/ngx-trend" [active]="isActive('/charts/ngx-trend')">Ngx Trend</sidenav-router-link>
-    </sidenav-menu>
+    </sidenav-menu> -->
 
     <!-- Icons -->
     <sidenav-menu icon="ion ion-ios-heart" text="Icons" [active]="isMenuActive('/icons')" [open]="isMenuOpen('/icons')">
@@ -150,7 +164,7 @@
     </sidenav-menu>
 
     <!-- Miscellaneous -->
-    <sidenav-menu icon="ion ion-ios-flask" text="Miscellaneous" [active]="isMenuActive('/miscellaneous')" [open]="isMenuOpen('/miscellaneous')">
+    <!-- <sidenav-menu icon="ion ion-ios-flask" text="Miscellaneous" [active]="isMenuActive('/miscellaneous')" [open]="isMenuOpen('/miscellaneous')">
       <sidenav-router-link route="/miscellaneous/brand-colors" [active]="isActive('/miscellaneous/brand-colors')">Brand colors</sidenav-router-link>
       <sidenav-router-link route="/miscellaneous/ngb-rating" [active]="isActive('/miscellaneous/ngb-rating')">Ngb Rating</sidenav-router-link>
       <sidenav-router-link route="/miscellaneous/masonry" [active]="isActive('/miscellaneous/masonry')">Masonry</sidenav-router-link>
@@ -160,7 +174,7 @@
       <sidenav-router-link route="/miscellaneous/ng-block-ui" [active]="isActive('/miscellaneous/ng-block-ui')">Ng Block UI</sidenav-router-link>
       <sidenav-router-link route="/miscellaneous/ngx-perfect-scrollbar" [active]="isActive('/miscellaneous/ngx-perfect-scrollbar')">Ngx Perfect Scrollbar</sidenav-router-link>
       <sidenav-router-link route="/miscellaneous/ngx-clipboard" [active]="isActive('/miscellaneous/ngx-clipboard')">Ngx Clipboard</sidenav-router-link>
-    </sidenav-menu>
+    </sidenav-menu> -->
 
     <sidenav-divider class="mb-1"></sidenav-divider>
     <sidenav-header class="small font-weight-semibold">EXTRAS</sidenav-header>

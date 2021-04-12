@@ -1,22 +1,36 @@
 <h5 class="font-weight-bold ">
-  Cambio de Contraseña
+  <span class="text-muted font-weight-light">Perfil Usuario /</span> Cambio de Contraseña
 </h5>
-<div class="card" style="padding-left: 5px; padding-top: 2px; padding-right: 5px;">
+<div [formGroup]="formCambioClave" class="card" style="padding-left: 5px; padding-top: 2px; padding-right: 5px;">
   <div class="card-body">
     <div class="form-group">
-      <label class="form-label">Ingrese contrasela actual</label>
-      <input type="password" class="form-control" placeholder="">
+      <label class="form-label">Ingrese contraseña actual</label>
+      <input type="password" class="form-control" placeholder="" formControlName="passActual" required>
+      <small class="form-text text-muted">Ingreses la contraseña actual respetando las letras mayúsculas y minúsculas y caracteres especiales.</small>
     </div>
     <div class="form-group">
       <label class="form-label">Ingrese nueva contraseña</label>
-      <input type="password" class="form-control" placeholder="">
+      <input type="password" class="form-control" placeholder="" formControlName="password" required>
+      <small class="form-text text-muted">La contraseña debe contener entre 8 y 12 caracteres. Se recomienda incorporar letras mayúsculas y minúsculas, ademas de caracteres especiales.</small>
     </div>
     <div class="form-group">
       <label class="form-label">Repita nueva contraseña</label>
-      <input type="password" class="form-control" placeholder="">
+      <input type="password" class="form-control" placeholder="" formControlName="confirmPassword" required>
+      <label
+            class="text-danger"
+            *ngIf="formCambioClave.controls['confirmPassword'].hasError('NoPassswordMatch')">
+            Las contraseña no coinciden
+      </label>
     </div>    
   </div>
   <div class="card-body" align="right">    
-    <button type="button" class="btn btn-primary">Cambiar Clave</button>
+    <button type="button" class="btn btn-primary" [disabled]="formCambioClave.invalid" (click)="cambiarClave()">Cambiar Clave</button>
   </div>  
 </div>
+<block-ui [template]="pageBlockTemplate" class="block-ui-white"></block-ui>
+<ng-template #pageBlockTemplate>
+  <div class="block-ui-template">
+    <div class="sk-folding-cube sk-primary"><div class="sk-cube1 sk-cube"></div><div class="sk-cube2 sk-cube"></div><div class="sk-cube4 sk-cube"></div><div class="sk-cube3 sk-cube"></div></div>
+    <h5 class="text-center mb-0">Espere Por favor ....</h5>
+  </div>
+</ng-template>

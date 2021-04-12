@@ -31,13 +31,12 @@ import { LayoutFooterComponent } from './layout-footer/layout-footer.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SidenavModule } from '../../vendor/libs/sidenav/sidenav.module';
 
-
 // *******************************************************************************
 // Services
 
 import { LayoutService } from './layout.service';
-import { FormsModule } from '@angular/forms';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TerminoCondicionesComponent } from '../login/activar-usuario/termino-condiciones/termino-condiciones.component';
 
 // *******************************************************************************
 //
@@ -48,7 +47,8 @@ import { FormsModule } from '@angular/forms';
     RouterModule,
     NgbModule,
     SidenavModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule
   ],
   declarations: [
     Layout1Component,
@@ -60,13 +60,16 @@ import { FormsModule } from '@angular/forms';
     LayoutWithoutSidenavComponent,
     LayoutHorizontalSidenavComponent,
     LayoutBlankComponent,
-
     LayoutNavbarComponent,
     LayoutSidenavComponent,
-    LayoutFooterComponent
+    LayoutFooterComponent,
+    
   ],
   providers: [
     LayoutService
+  ],
+  entryComponents : [
+    TerminoCondicionesComponent
   ]
 })
 export class LayoutModule { }

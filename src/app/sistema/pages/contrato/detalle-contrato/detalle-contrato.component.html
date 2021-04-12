@@ -1,7 +1,9 @@
-<h5 class="font-weight-bold ">
-  Datos de Contrato
-</h5>
-<div class="card" style="padding-left: 5px; padding-top: 2px; padding-right: 5px;">
+<div class="row mb-2">  
+  <h5 class="font-weight-bold col-12">
+    <span class="text-muted font-weight-light">Administración / Contratos Asociados /</span> Construcción Edificio La Serena
+  </h5>  
+</div>
+<div  [formGroup]="formContrato" class="card" style="padding-left: 5px; padding-top: 2px; padding-right: 5px;">
   <ngb-tabset class="nav-tabs-top mb-4">
     <ngb-tab title="Información Contrato">
       <ng-template ngbTabContent>
@@ -14,69 +16,68 @@
             <ng-template ngbPanelContent>
               <div class="form-group">
                 <label class="form-label">Código</label>
-                <input type="text" class="form-control" placeholder="C001" disabled>
+                <input type="text" class="form-control" placeholder="C001" disabled formControlName="codigo">
               </div>
               <div class="form-group">
-                <label class="form-label">Nombre Cotrato</label>
-                <input type="text" class="form-control" placeholder="Construcción Edificio La Serena" disabled>
+                <label class="form-label">Nombre Contrato</label>
+                <input type="text" class="form-control" placeholder="Construcción Edificio La Serena" disabled formControlName="nombre">
               </div>
               <div class="form-group">
                 <label class="form-label">Descripción</label>
-                <textarea class="form-control" placeholder="Textarea"></textarea>
+                <textarea class="form-control" formControlName="descripcion"></textarea>
               </div>
               <div class="form-group">
                 <label class="form-label">Dirección</label>
-                <input type="text" class="form-control" placeholder="Av. Balmaceda 265" disabled>
+                <input type="text" class="form-control" placeholder="Av. Balmaceda 265" disabled formControlName="direccion">
               </div>
               <div class="form-group">
                 <label class="form-label">Región</label>
-                <select class="custom-select">
-                  <option>4 Región de Coquimbo</option>
-                  <option>Francisco Ruiz Perez | RUT: 16.224.233-K | Cargo: Inspector Técnico (S)</option>          
+                <select class="custom-select" formControlName="region"  (change)="cambiarRegion($event.target.value)">
+                  <option *ngFor="let region of listaRegiones" [value]="region.nombre">{{region.nombre}}</option>       
                 </select>
               </div>
               <div class="form-group">
                 <label class="form-label">Comuna</label>
-                <select class="custom-select">
-                  <option>La Serena</option>
-                  <option>Coquimbo</option>          
+                    <select class="custom-select" formControlName="comuna" (change)="cambiarComuna($event.target.value)">
+                    <option *ngFor="let comuna of listaComunas" [value]="comuna.nombre">{{comuna.nombre}}</option>       
                 </select>
               </div>
               <div class="form-group">
                 <label class="form-label">Tipo Contrato</label>
-                <select class="custom-select">
-                  <option>Obras Civiles</option>
-                  <option>Diseño</option>          
+                    <select class="custom-select" formControlName="tipoContrato" (change)="cambiarTipoContratoAction($event.target.value)">
+                    <option *ngFor="let tipo of listaTipoContrato" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
                 </select>
               </div>
+              <div class="form-group" *ngIf="mostrarOtroTipoContrato">
+                <label class="form-label">Otro Tipo <small class="text-muted">*</small></label>
+                <input type="text" class="form-control" placeholder="" formControlName="otroTipo">
+              </div> 
               <div class="form-group">
                 <label class="form-label">Modalidad Contrato</label>
-                <select class="custom-select">
-                  <option>Suma Alzada</option>
-                  <option>Serie de Precios Unitarios</option>          
+                    <select class="custom-select" formControlName="tipoModalidad" (change)="cambiarTipoModalidadAction($event.target.value)">
+                    <option *ngFor="let tipo of listaTipoModalidad" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
                 </select>
+              </div>
+              <div class="form-group" *ngIf="mostrarOtroModalidad">
+                <label class="form-label">Otra Modalidad <small class="text-muted">*</small></label>
+                <input type="text" class="form-control" placeholder="" formControlName="otraModalidad"> 
               </div>
               <div class="form-group">
                 <label class="form-label">Monto</label>
                 <div class="input-group">
-                  <select class="custom-select">              
-                    <option>$</option>
-                    <option>UF</option>
-                    <option>UTM</option>
-                    <option>USD</option>
+                  <select class="custom-select" formControlName="tipoMontoContrato" (change)="cambiarTipoMontoContratoAction($event.target.value)">
+                    <option *ngFor="let tipo of listaTipoMontoContrato" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
                   </select>
-                  <input type="text" class="form-control" placeholder="23.656.355">
-                  <select class="custom-select">              
-                    <option>Neto</option>
-                    <option>C/IVA</option>
-                    <option>Reajustable</option>
+                  <input type="text" class="form-control" formControlName="monto">
+                  <select class="custom-select" formControlName="tipoValorContrato"  (change)="cambiarTipoValorContratoAction($event.target.value)">
+                    <option *ngFor="let tipo of listaTipoValorContrato" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
                   </select>
                 </div>                 
               </div>
               <div class="form-group">
                 <label class="form-label">Plazo</label>
                 <div class="input-group">            
-                  <input type="text" class="form-control" placeholder="23.656.355">
+                  <input type="text" class="form-control" formControlName="plazo">
                   <select class="custom-select">              
                     <option>días corridos</option>
                     <option>días hábiles</option>              
@@ -88,11 +89,12 @@
                 <div class="input-group">
                   <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
                     ngbDatepicker
-                    [(ngModel)]="model"
                     [displayMonths]="displayMonths"
                     [navigation]="navigation"
                     [disabled]="disabled"
                     [placement]="isRTL ? 'bottom-right' : 'bottom-left'"
+                    formControlName="fechaInicio"
+
                     #d="ngbDatepicker">
                     <div class="input-group-append">
                       <button class="input-group-text" [disabled]="disabled" (click)="d.toggle()" type="button">
@@ -106,7 +108,6 @@
                 <div class="input-group">
                   <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
                     ngbDatepicker
-                    [(ngModel)]="model"
                     [displayMonths]="displayMonths"
                     [navigation]="navigation"
                     [disabled]="disabled"
@@ -129,34 +130,32 @@
             <ng-template ngbPanelContent>
               <div class="form-group">
                 <label class="form-label">RUT</label>
-                <input type="text" class="form-control" placeholder="78.658.978-6" disabled>
+                <input type="text" class="form-control" formControlName="rutMandante"  disabled>
               </div>
               <div class="form-group">
                 <label class="form-label">Razón Social</label>
-                <input type="text" class="form-control" placeholder="Ilustre Municilidad de La Serena" disabled>
+                <input type="text" class="form-control" formControlName="razonSocialMandante" disabled>
               </div>
               <div class="form-group">
                 <label class="form-label">Nombre Fantasía</label>
-                <input type="text" class="form-control" placeholder="Ilustre Municilidad de La Serena" disabled>
+                <input type="text" class="form-control" formControlName="nombreFantasiaMandante"  disabled>
               </div>                           
               <div class="form-group">
                 <label class="form-label">Dirección</label>
-                <input type="text" class="form-control" placeholder="Av. Balmaceda 265" disabled>
+                <input type="text" class="form-control" formControlName="direccionMandante"  disabled>
               </div>
               <div class="form-group">
                 <label class="form-label">Región</label>
-                <select class="custom-select" disabled>
-                  <option>4 Región de Coquimbo</option>
-                  <option>Francisco Ruiz Perez | RUT: 16.224.233-K | Cargo: Inspector Técnico (S)</option>          
+                <select class="custom-select" formControlName="regionMandante"  (change)="cambiarRegionMandante($event.target.value)">
+                  <option *ngFor="let region of listaRegionesMandante" [value]="region.nombre">{{region.nombre}}</option>       
                 </select>
               </div>
               <div class="form-group">
                 <label class="form-label">Comuna</label>
-                <select class="custom-select" disabled>
-                  <option>La Serena</option>
-                  <option>Coquimbo</option>          
+                    <select class="custom-select" formControlName="comunaMandante" (change)="cambiarComunaMandante($event.target.value)">
+                    <option *ngFor="let comuna of listaComunasMandante" [value]="comuna.nombre">{{comuna.nombre}}</option>       
                 </select>
-              </div>           
+              </div>
             </ng-template>
           </ngb-panel>
           <ngb-panel id="accordion2-static-3">
@@ -165,43 +164,58 @@
               <div class="collapse-icon"></div>
             </ng-template>
             <ng-template ngbPanelContent>
-              <div class="form-group">
-                <label class="form-label">RUT</label>
-                <input type="text" class="form-control" placeholder="75.444.555-9" disabled>
-              </div>            
+              <div class="d-flex">
+                <div class="flex-grow-1">
+                  <div class="form-group">
+                    <label class="form-label">RUT</label>
+                    <input 
+                      type="text" 
+                      class="form-control" 
+                      placeholder="" 
+                      formControlName="rutContratista"
+                      class="form-control" 
+                      maxlength="13" 
+                      minlength="8" 
+                      autocomplete="false"  
+                      (blur)="validaUsuarioBlurfContratista()"             
+                    >
+                  </div>
+                </div>        
+                <div class="ml-2" style="padding-top: 12px;">
+<!--                   <button type="button" class="btn icon-btn btn-secondary" (click)="buscarEmpresaMandante(2)" ><span class="ion-ios-search"></span></button>         
+ -->                </div>
+              </div>       
               <div class="form-group">
                 <label class="form-label">Razón Social</label>
-                <input type="text" class="form-control" placeholder="Constructora Ivesa Ltda." disabled>
+                <input type="text" class="form-control" formControlName="razonSocialContratista">
               </div>
               <div class="form-group">
                 <label class="form-label">Nombre Fantasía</label>
-                <input type="text" class="form-control" placeholder="Constructora Ivesa Ltda." disabled>
+                <input type="text" class="form-control" formControlName="nombreFantasiaContratista">
               </div>            
               <div class="form-group">
                 <label class="form-label">Dirección</label>
-                <input type="text" class="form-control" placeholder="Av. Balmaceda 265" disabled>
+                <input type="text" class="form-control" formControlName="direccionContratista">
               </div>
               <div class="form-group">
                 <label class="form-label">Región</label>
-                <select class="custom-select" disabled>
-                  <option>4 Región de Coquimbo</option>
-                  <option>Francisco Ruiz Perez | RUT: 16.224.233-K | Cargo: Inspector Técnico (S)</option>          
+                <select class="custom-select" formControlName="regionContratista"  (change)="cambiarRegionContratista($event.target.value)">
+                  <option *ngFor="let region of listaRegionesContratista" [value]="region.nombre">{{region.nombre}}</option>       
                 </select>
               </div>
               <div class="form-group">
                 <label class="form-label">Comuna</label>
-                <select class="custom-select" disabled>
-                  <option>La Serena</option>
-                  <option>Coquimbo</option>          
+                    <select class="custom-select" formControlName="comunaContratista" (change)="cambiarComunaContratista($event.target.value)">
+                    <option *ngFor="let comuna of listaComunasContratista" [value]="comuna.nombre">{{comuna.nombre}}</option>       
                 </select>
               </div>
             </ng-template>
           </ngb-panel>
         </ngb-accordion>
         <div class="pull-right mt-3 mb-3 mr-2">
-          <button type="button" class="btn btn-secondary">Cancelar</button>
-          <button type="button" class="btn btn-primary">Guardar</button> 
-          <button type="button" class="btn btn-primary">Editar</button>      
+          <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+          <button type="button" *ngIf="editarContrato === true" (click)="guardar()" class="btn btn-primary">Guardar</button> 
+          <button type="button" *ngIf="editarContrato === false" (click)="editar()" class="btn btn-primary">Editar</button>        
         </div>
       </ng-template>
     </ngb-tab>
@@ -217,11 +231,38 @@
                 <th>Código</th>
                 <th>Nombre</th>
                 <th>Tipo Libro</th>
+                <th>Tipo Firma</th>
                 <th>Estado</th>
                 <th style="width: 70px;"></th>
               </tr>
             </thead>
             <tbody>
+              <tr *ngFor="let libro of listaLibrosContrato">
+                <th>
+                  <i class="ion ion-ios-book text-muted text-secondary" style="font-size: 14px;"></i>
+                </th>
+                <th>
+                  {{libro.codigo}}
+                </th>
+                <th>
+                  {{libro.nombre}}
+                </th>
+                <th>
+                  {{libro.tipoLibro.descripcion}}
+                </th>
+                <th>
+                  {{libro.tipoFirma.descripcion}}
+                </th>
+                <th>
+                  {{libro.estadoLibro.descripcion}}
+                </th>
+                <td class="text-right">
+                  <span type="button" class="ion-md-create mr-3 text-muted" style="font-size: 14px;" (click)="editarLibro(libro.idLibro)"></span>
+                  <span type="button" *ngIf="libro.accesoLibro" class="ion-ios-arrow-forward text-muted" style="font-size: 14px;" (click)="resumenFolio(libro.idLibro)"></span> 
+                </td>
+              </tr>
+            </tbody>
+            <!-- <tbody>
               <tr>
                 <th>
                   <i class="ion ion-ios-book text-muted text-primary" style="font-size: 14px;"></i>
@@ -248,10 +289,10 @@
                   <span type="button" class="ion-ios-arrow-forward text-muted" style="font-size: 14px;"></span> 
                 </td>
               </tr>          
-            </tbody>
+            </tbody> -->
           </table>
           <div class="pull-right mt-3 mb-3 mr-2">          
-            <button type="button" class="btn btn-primary">Nuevo Libro</button>      
+            <button type="button" class="btn btn-primary" (click)="nuevoLibro()" >Nuevo Libro</button>      
           </div>
         </div>
       </ng-template>
@@ -265,11 +306,11 @@
             </div>
             <div class="col-md-9">            
                 <label class="custom-control custom-checkbox m-0 mt-2">
-                  <input type="checkbox" class="custom-control-input">
-                  <span class="custom-control-label">Permitir al Mandante editar datos de Contrato</span>
+                  <input type="checkbox" class="custom-control-input" formControlName="mandanteEditarContrato" >
+                  <span class="custom-control-label" >Permitir al Mandante editar datos de Contrato</span>
                 </label>              
                 <label class="custom-control custom-checkbox m-0 mt-2">
-                  <input type="checkbox" class="custom-control-input">
+                  <input type="checkbox" class="custom-control-input" formControlName="contratistaEditarContrato">
                   <span class="custom-control-label">Permitir al Contratista editar datos de Contrato</span>
                 </label> 
             </div>
@@ -281,32 +322,23 @@
             </div>
             <div class="col-md-9">            
                 <label class="custom-control custom-checkbox m-0 mt-2">
-                  <input type="checkbox" class="custom-control-input">
+                  <input type="checkbox" class="custom-control-input" formControlName="mandanteCrearLibro">
                   <span class="custom-control-label">Permitir al Mandante crear Libros</span>
                 </label>              
                 <label class="custom-control custom-checkbox m-0 mt-2">
-                  <input type="checkbox" class="custom-control-input">
+                  <input type="checkbox" class="custom-control-input" formControlName="contratistaCrearLibro">
                   <span class="custom-control-label">Permitir al Contratista crear Libros</span>
                 </label> 
             </div>
           </div>
         </div>
         <div class="pull-right mt-3 mb-3 mr-2">
-          <button type="button" class="btn btn-secondary">Cancelar</button>
-          <button type="button" class="btn btn-primary">Guardar</button> 
-          <button type="button" class="btn btn-primary">Editar</button>      
+          <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+          <button type="button" (click)="guardarPermisos()" class="btn btn-primary">Guardar</button> 
+          
         </div>
       </ng-template>
     </ngb-tab>
-
-
-
-
-
-
-
-
-
 
 
     <ngb-tab title="Servicio Contratado">

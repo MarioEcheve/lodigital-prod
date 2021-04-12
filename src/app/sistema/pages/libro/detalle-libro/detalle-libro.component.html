@@ -1,18 +1,20 @@
-<h5 class="font-weight-bold ">
-  Datos del Libro
-</h5>
-<div class="card" style="padding-left: 5px; padding-top: 2px; padding-right: 5px;">
+<div class="row mb-2">  
+  <h5 class="font-weight-bold col-12">
+    <span class="text-muted font-weight-light"> nombre del contrato /</span> {{libro?.nombre}}
+  </h5>  
+</div>
+<div [formGroup]="formLibro" class="card" style="padding-left: 5px; padding-top: 2px; padding-right: 5px;">
   <ngb-tabset class="nav-tabs-top mb-4">
     <ngb-tab title="Información Libro">
       <ng-template ngbTabContent>
         <div class="card-body">
           <div class="form-group">
             <label class="form-label">Código</label>
-            <input type="text" class="form-control" placeholder="C001" disabled>
+            <input type="text" class="form-control" formControlName="codigo" >
           </div>
           <div class="form-group">
             <label class="form-label">Nombre Libro</label>
-            <input type="text" class="form-control" placeholder="Construcción Edificio La Serena" disabled>
+            <input type="text" class="form-control"  formControlName="nombre">
           </div>
           <div class="form-group">
             <label class="form-label">Estado</label>
@@ -20,7 +22,7 @@
           </div>
           <div class="form-group">
             <label class="form-label">Fecha Creación</label>
-            <input type="text" class="form-control" placeholder="12-12-2020" disabled>
+            <input type="text" class="form-control" formControlName="fechaCreacion">
           </div>
           <div class="form-group">
             <label class="form-label">Fecha Apertura</label>
@@ -32,27 +34,25 @@
           </div>
           <div class="form-group">
             <label class="form-label">Descripción</label>
-            <textarea class="form-control" placeholder="Textarea"></textarea>
+            <textarea class="form-control"   formControlName="descripcion"></textarea>
           </div>              
           <div class="form-group">
             <label class="form-label">Tipo Libro</label>
-            <select class="custom-select">
-              <option>Maestro</option>
-              <option>Auxiliar</option>          
+            <select class="custom-select" formControlName="tipoLibro"  (change)="cambiarTipoLibro($event.target.value)">
+              <option *ngFor="let tipo of listaTiposLibro" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
             </select>
           </div>
           <div class="form-group">
             <label class="form-label">Tipo Firma</label>
-            <select class="custom-select">
-              <option>Por sistema</option>
-              <option>Digital Avanzada</option>          
+            <select class="custom-select" formControlName="tipoFirma"  (change)="cambiarTipoFirma($event.target.value)">
+              <option *ngFor="let tipo of listaTipoFirma" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
             </select>
           </div>
-        </div>        
+        </div>       
         <div class="pull-right mt-3 mb-3 mr-2">
-          <button type="button" class="btn btn-secondary">Cancelar</button>
-          <button type="button" class="btn btn-primary">Guardar</button> 
-          <button type="button" class="btn btn-primary">Editar</button>      
+          <button type="button" class="btn btn-secondary" *ngIf="editarLibro" (click)="cancelar()">Cancelar</button>
+          <button type="button" class="btn btn-primary" *ngIf="editarLibro" (click)="editarLibroAction()">Guardar</button> 
+          <button type="button" class="btn btn-primary" *ngIf="!editarLibro" (click)="editar()">Editar</button>      
         </div>
       </ng-template>
     </ngb-tab>
@@ -179,7 +179,7 @@
           <hr>
           <div class="row">
             <div style="max-width: 250px; font-weight: bold;" class="col-md-3">
-              Información Encabezado Mandnate:
+              Información Encabezado Mandante:
             </div>
             <div class="col-md-9">            
               <div class="form-group" style="width: 350px;">
@@ -235,26 +235,35 @@
                 <th>Nombre</th>
                 <th>Perfil</th>
                 <th>Cargo</th>
-                <th style="width: 70px;"></th>
+                <th>Creación</th>
+                <th>Modificación</th>
+                <th>Estado</th>
+                <th style="width: 70px;">Acciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th>
+              <tr *ngFor="let usuario of listaUsuariosLibroMandante">
+                <th >
                   <i class="ion ion-md-settings text-muted text-primary" style="font-size: 14px;"></i>
                 </th>                
-                <th>13.224.233-K</th>
-                <td>Fernando Vilches Soleman</td>
+                <th>{{usuario.usuarioEmpresa.usuario.rut}}</th>
+                <td>{{usuario.usuarioEmpresa.usuario.nombre}} {{usuario.usuarioEmpresa.usuario.apellidoPaterno}} {{usuario.usuarioEmpresa.usuario.apellidoMaterno}} </td>
                 <td>
-                  <a class="badge badge-primary" style="color: white;">Administrador</a>
+                  <a class="badge badge-primary" style="color: white;">{{usuario.perfilUsuarioLibro.descripcion}}</a>
                 </td>
-                <td>Administrador de Contrato</td>
+                <td>{{usuario.cargo}}</td>
+                <td>13-12-2020 12:05</td>
+                <td>13-12-2020 18:45</td>
+                <td>
+                  <a class="badge badge-success" *ngIf="usuario.estadoUsuarioLibro.descripcion === 'Activo' " style="color: white;">{{usuario.estadoUsuarioLibro.descripcion}}</a>       
+                  <a class="badge badge-danger" *ngIf="usuario.estadoUsuarioLibro.descripcion !== 'Activo' " style="color: white;">{{usuario.estadoUsuarioLibro.descripcion}}</a>                                                             
+                </td>
                 <td class="text-right">
-                  <span type="button" class="ion-md-create text-muted" style="font-size: 14px;"></span>                                  
+                  <span type="button"  class="ion-md-create text-muted" style="font-size: 14px;"  (click)="editarMandante(usuario,true)"></span>  
                 </td>
               </tr>
               <tr>
-                <th>
+                <!-- <th>
                   
                 </th>                
                 <th>11.246.263-6</th>
@@ -265,12 +274,12 @@
                 <td>Ayudante de Administrador</td>
                 <td class="text-right">
                   <span type="button" class="ion-md-create text-muted" style="font-size: 14px;"></span>
-                </td>
+                </td> -->
               </tr>          
             </tbody>
           </table>
           <div class="pull-right mt-3 mb-3 mr-2">          
-            <button type="button" class="btn btn-primary">Nuevo Usuario</button>      
+            <button type="button" class="btn btn-primary" (click)="nuevoUsuarioMandante(true)">Nuevo Usuario</button>      
           </div>
         </div>
       </ng-template>
@@ -288,42 +297,37 @@
                 <th>Nombre</th>
                 <th>Perfil</th>
                 <th>Cargo</th>
-                <th style="width: 70px;"></th>
+                <th>Creación</th>
+                <th>Modificación</th>
+                <th>Estado</th>
+                <th style="width: 70px;">Acciones</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <th>
+              <tr *ngFor="let usuario of listaUsuariosLibroContratista">
+                <th >
                   <i class="ion ion-md-settings text-muted text-primary" style="font-size: 14px;"></i>
                 </th>                
-                <th>13.224.233-K</th>
-                <td>Fernando Vilches Soleman</td>
+                <th>{{usuario.usuarioEmpresa.usuario.rut}}</th>
+                <td>{{usuario.usuarioEmpresa.usuario.nombre}} {{usuario.usuarioEmpresa.usuario.apellidoPaterno}} {{usuario.usuarioEmpresa.usuario.apellidoMaterno}} </td>
                 <td>
-                  <a class="badge badge-primary" style="color: white;">Administrador</a>
+                  <a class="badge badge-primary" style="color: white;">{{usuario.perfilUsuarioLibro.descripcion}}</a>
                 </td>
-                <td>Administrador de Contrato</td>
-                <td class="text-right">
-                  <span type="button" class="ion-md-create text-muted" style="font-size: 14px;"></span>                                  
-                </td>
-              </tr>
-              <tr>
-                <th>
-                  
-                </th>                
-                <th>11.246.263-6</th>
-                <td>Marcelo Espejo Ireland</td>
+                <td>{{usuario.cargo}}</td>
+                <td>13-12-2020 12:05</td>
+                <td>13-12-2020 18:45</td>
                 <td>
-                  <a class="badge badge-secondary" style="color: white;">Administador (s)</a>
+                  <a class="badge badge-success" *ngIf="usuario.estadoUsuarioLibro.descripcion === 'Activo' " style="color: white;">{{usuario.estadoUsuarioLibro.descripcion}}</a>       
+                  <a class="badge badge-danger" *ngIf="usuario.estadoUsuarioLibro.descripcion !== 'Activo' " style="color: white;">{{usuario.estadoUsuarioLibro.descripcion}}</a>                                                             
                 </td>
-                <td>Ayudante de Administrador</td>
                 <td class="text-right">
-                  <span type="button" class="ion-md-create text-muted" style="font-size: 14px;"></span>
+                  <span type="button" class="ion-md-create text-muted" style="font-size: 14px;" (click)="editarMandante(usuario,false)"></span>                                  
                 </td>
-              </tr>          
+              </tr>    
             </tbody>
           </table>
           <div class="pull-right mt-3 mb-3 mr-2">          
-            <button type="button" class="btn btn-primary">Nuevo Usuario</button>      
+            <button type="button" class="btn btn-primary" (click)="nuevoUsuarioMandante(false)">Nuevo Usuario</button>      
           </div>
         </div>
       </ng-template>

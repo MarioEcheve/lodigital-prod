@@ -1,0 +1,13 @@
+<div class="modal-header" style="height: 30px;">  
+  <button type="button" class="close" (click)="cancelar()">&times;</button>
+</div>
+<div class="modal-body" style="text-align: center;">
+  <span class="ion d-block ion-ios-warning mt-1" style="font-size: 70px; color: #FFD950;"></span><br>   
+  <span style="font-size: 1.813rem;">Antención!</span><br>
+  <span class="text-muted" style="font-size: 0.9875rem;">Desea eliminar definitivamente el borrador?</span>      
+</div>
+<hr style="margin-top: 8px; margin-bottom: 8px;">  
+<div class="modal-footer">
+  <button type="button" class="btn btn-warning" (click)="eliminar()">Si, Eliminar!</button>
+  <button type="button" class="btn btn-default" (click)="cancelar()">Cancelar</button>    
+</div> 

@@ -1,60 +1,45 @@
-<div class="card">
-  <div class="card-header">
-    Listado de Libros   
+<div class="row mb-3" style="align-items: center;">    
+  <div class="col-6">
+    <span class="ml-2" style="font-size: 15px; align-items: center;">Mis Libros /</span>
+    <strong style="font-size: 15px;">&nbsp;Libros Abiertos</strong>
   </div>
+</div>
+<div class="card" style="height: 95%;">  
   <div class="card-body">
-   
-    <div>
-      <h3>
-        Fluid Row Heights
-        <small>
-          <a
-            href="https://github.com/swimlane/ngx-datatable/blob/master/src/app/basic/basic-auto.component.ts"
-            target="_blank"
-          >
-            Source
-          </a>
-        </small>
-      </h3>
-    
-      <div>
-        <div class="row">
-          <div class="col-sm-6 col-md-5 col-lg-3 mb-3 ml-auto">
-            <input class="form-control" type='text' placeholder='Filter by name...' (keyup)='updateFilter($event)'>
-          </div>
-        </div>
-    
-        <div class="material">
-          <ngx-datatable #table style="min-width: 500px"
-            [rows]="rows"
-            [loadingIndicator]="loadingIndicator"
-            [columnMode]="'force'"
-            [headerHeight]="43"
-            [footerHeight]="'auto'"
-            [rowHeight]="'auto'"
-            [reorderable]="true"
-            [limit]="10"
-           >
-            <!-- <ngx-datatable-column
-              [width]="40"
-              [sortable]="false"
-              [canAutoResize]="false"
-              [draggable]="false"
-              [resizeable]="false"
-              [headerCheckboxable]="true"
-              [checkboxable]="true">
-            </ngx-datatable-column> -->
-            <ngx-datatable-column name="Name"></ngx-datatable-column>
-            <ngx-datatable-column name="Gender"></ngx-datatable-column>
-            <ngx-datatable-column name="Company"></ngx-datatable-column>
-          </ngx-datatable>
-        </div>
-      </div>
-    </div>
-
-
-
-
-    
+    <table class="table table-hover" style="width:100%; font-size: 0.74rem;" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
+      <thead>
+        <tr>
+          <th>Código</th>          
+          <th>Libro</th>
+          <th>Contrato Asociado</th>
+          <th>Clase Libro</th>
+          <th>Tipo Firma</th>          
+          <th>Fecha Apertura</th>
+          <th>Fecha Cierre</th>
+          <th>Estado</th>
+          <th style="width: 70px;">Acciones</th>
+        </tr>
+      </thead>
+      <tbody>                
+        <tr style="user-select: none;" *ngFor="let usuarioLibro of usuarioLibros">            
+          <th>{{usuarioLibro.libro?.codigo}}</th>
+          <th>{{usuarioLibro.libro?.nombre}}</th>
+          <th>{{usuarioLibro.libro.contrato?.nombre}} | Cod.:{{usuarioLibro.libro.contrato?.codigo}}</th>   
+          <th>{{usuarioLibro.libro.tipoLibro.descripcion}}</th>
+          <th>{{usuarioLibro.libro.tipoFirma.descripcion}}</th>
+          <th>{{usuarioLibro.libro.fechaApertura | date : 'dd-MM-yyyy' }}</th>
+          <th>{{usuarioLibro.libro.fechaCierre | date : 'dd-MM-yyyy' }}</th>          
+          <th>
+            <!-- <a class="badge"  style="color: white; background-color: #fdb251;">En creación</a>
+            <a class="badge badge-error"  style="color: white;">Cerrado</a> -->
+            <a class="badge badge-success"  style="color: white;">Abierto</a>            
+          </th>
+          <th class="text-right">
+            <span type="button" class="ion-md-create mr-3 text-muted" style="font-size: 14px;" (click)="detalleLibro(usuarioLibro)" ></span>
+            <span type="button" class="ion-ios-arrow-forward text-muted" style="font-size: 14px;" (click)="folioResumen(usuarioLibro)"></span>            
+          </th>                    
+        </tr>
+      </tbody>
+    </table>
   </div>
 </div>

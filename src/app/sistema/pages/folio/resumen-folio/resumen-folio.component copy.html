@@ -1,0 +1,153 @@
+<ngx-alerts></ngx-alerts>
+<div class="row mb-4" style="align-items: center; margin-left: 0px;">
+  <button type="button" class="btn icon-btn btn-secondary btn-sm"><span class="ion-ios-arrow-back"></span></button>   
+  <span class="ml-2" style="font-size: 16px; align-items: center;">Mis Libros /</span>
+  <strong style="font-size: 16px;">&nbsp;Listado Folios</strong> 
+</div>
+<div class="card" style="height: 95%;">
+  <div class="row" style="padding-left: 25px; padding-top: 15px; padding-bottom: 7px; padding-right: 25px;" >
+    <div class="flex-grow-1 justify-content-start" style="padding-bottom: 7px;">
+      <table>
+        <tr>
+          <td style="font-weight: bold; width: 75px;">
+            Contrato:
+          </td>
+          <td style="font-weight: bold;">
+            <strong>{{usuarioLibro?.libro.contrato.nombre}} | Cód.:&nbsp;{{usuarioLibro?.libro.contrato.codigo}}</strong>
+          </td>
+        </tr>      
+        <tr>
+          <td>Mandante:</td>                    
+          <td>
+            {{empresaMandante?.razonSocial}} | RUT:&nbsp;{{empresaMandante?.rut}}
+          </td>
+        </tr>  
+        <tr>
+          <td>Contratista:</td>
+          <td>
+            {{empresaContratista?.razonSocial}} | RUT:&nbsp;{{empresaContratista?.rut}}
+          </td>
+        </tr>  
+      </table>
+    </div>
+    <div class="justify-content-end" style="padding-bottom: 7px;">
+      <table>
+        <tr>
+          <td style="font-weight: bold; width: 80px;">
+            Perfil Libro:
+          </td>
+          <td style="font-weight: bold;">
+            <strong>{{usuarioLibro?.libro.tipoLibro.descripcion}}</strong>
+          </td>
+        </tr>
+        <tr>
+          <td>Cargo:</td>
+          <td>
+            {{usuarioLibro?.cargo}}
+          </td>                  
+        </tr>      
+      </table>  
+    </div>
+  </div>
+  <hr class="border-light m-0"> 
+  <div class="col" style="height: 100%;">  
+    <div class="d-flex align-items-center" style="min-Height: 50px;">      
+      <div class="flex-grow-1 mr-3" style="margin-bottom: 0rem;">           
+        <select  class="col-12" style="border-radius: 3px; border-color: rgb(226, 226, 226); background: rgb(255, 255, 255); height: 30px;">
+          <option *ngFor="let usuarioLibro of listaLibroUsuario" > {{usuarioLibro.libro.nombre}} | Cod.:{{usuarioLibro.libro.codigo}} | Clase: {{usuarioLibro.libro.tipoLibro.descripcion}} | Estado: {{usuarioLibro.libro.estadoLibro.descripcion}}</option>
+        </select>
+      </div>
+      <button type="button" class="btn btn-sm btn-secondary mr-1" style="height: 30px;"><span class="ion-ios-search"></span>&nbsp;&nbsp;Avanzada</button>
+      <button type="button" class="btn btn-sm btn-secondary mr-1" style="height: 30px;">Filtro</button>
+      <button type="button" class="btn btn-sm btn-default icon-btn borderless mr-2" style="height: 30px;width: 30px;"><span class="ion-md-settings" style="font-size: 18px;color: #3c97fe;"></span></button>
+    </div>    
+    <div class="table-responsive">
+      <!--******* TABLA FOLIO FIRMADO ********* -->
+      <h5>TABLA FOLIOS FIRMADOS</h5>
+      <table class="table table-hover" style="width:100%;font-size: 0.74rem;" datatable [dtOptions]="dtOptions">
+        <thead>
+          <tr>
+            <th style="width: 50px;"># Folio</th>            
+            <th style="width: 60px;min-width: 50px;">Información</th>            
+            <th>De</th>
+            <th>Para</th>
+            <th>Tipo Folio - Asunto</th>            
+            <th style="width: 95px;min-width: 60px;">Fecha Requerida</th>
+            <th style="width: 100px;min-width: 100px;">Fecha Folio</th>        
+          </tr>
+        </thead>
+        <tbody>                   
+            <tr *ngFor="let folio of listaFolios" style="user-select: none;">
+              <!-- Este td con el color de borde naranjo debería aparecer cuando el folio es emitido por el contratista -->
+              <td style="border-left: 3px solid;border-left-color:#ff9900">
+              <!-- Este td comentado con el color de borde azul debería aparecer cuando el folio es emitido por el mandante -->
+              <!-- <td style="border-left: 3px solid;border-left-color:#007bff"><strong>{{folio?.correlativo}}</strong></td> --> 
+                <span style="min-width: 45px; width: 45px;">{{folio?.correlativo}}</span>
+                <!-- Aparece cuando el folio es favorito    -->             
+                <span type="button" class="ion ion-ios-star ml-2" style="font-size: 14px;color: #ff9900"></span>
+                <!-- Aparece cuando el folio no es favorito
+                <span type="button" class="ion ion-ios-star-outline ml-2 text-muted" style="font-size: 14px;"></span> -->
+              </td>   
+              <td>                
+                <span class="fas fa-paperclip text-muted mr-1" style="font-size: 14px;"></span>
+                <span class="fas fa-file-alt text-muted mr-1" style="font-size: 14px;"></span>
+                <span class="fas fa-check-square text-muted mr-1" style="font-size: 14px;"></span>
+                <span class="fas fa-comment-alt text-muted" style="font-size: 14px;"></span>
+              </td>
+              <td class="ellipsis" style="font-weight: bold;width: 210px; min-width:180px;">Fernando Alejandro Vilches Soleman</td>
+              <td class="ellipsis" style="width: 210px; min-width:180px;">Miguel Antonio Contreras Pizarro</td>
+              <td class="ellipsis" style="min-width:300px;"><strong>Consulta</strong> - {{folio.asunto}}</td>             
+              <th style="text-align: center;">
+                <a class="badge badge-success"  style="color: white;">{{folio.fechaRequerida}}</a>
+              </th>              
+              <th style="align-items: center;">
+                {{folio.fechaCreacion | date : 'dd/MM/yyyy'}}
+                <span type="button" class="fas fa-file-pdf text-muted ml-3 mr-3" style="font-size: 14px;"></span> 
+                <span type="button" class="ion-ios-arrow-forward text-muted" style="font-size: 14px;" (click)="folioBorrador(folio)"></span>
+              </th>
+           </tr>
+        </tbody>
+      </table>      
+      <!--******* TABLA FOLIO BORRADOR ********* -->
+      <h5>TABLA BORRADOR</h5>
+      <table class="table table-hover" style="width:100%;font-size: 0.74rem;" datatable [dtOptions]="dtOptions">
+        <thead>
+          <tr>
+            <th style="width: 50px;"># Folio</th>            
+            <th style="width: 60px;min-width: 50px;">Información</th>            
+            <th>Borrador creado por</th>
+            <th>Para</th>
+            <th>Tipo Folio - Asunto</th>            
+            <th style="width: 95px;min-width: 60px;">Fecha Requerida</th>
+            <th style="width: 105px;min-width: 105px;">Fecha Creación</th>                    
+          </tr>
+        </thead>
+        <tbody>                   
+            <tr *ngFor="let folio of listaFolios" style="user-select: none;">
+              <!-- Este td con el color de borde naranjo debería aparecer cuando el folio es emitido por el contratista -->
+              <td style="border-left: 3px solid;border-left-color:#ff9900">
+              <!-- Este td comentado con el color de borde azul debería aparecer cuando el folio es emitido por el mandante -->
+              <!-- <td style="border-left: 3px solid;border-left-color:#007bff"><strong>{{folio?.correlativo}}</strong></td> --> 
+                <span style="min-width: 45px; width: 45px;">S/N</span>         
+              </td>   
+              <td>                
+                <span class="fas fa-paperclip text-muted mr-1" style="font-size: 14px;"></span>
+                <span class="fas fa-file-alt text-muted mr-1" style="font-size: 14px;"></span>              
+              </td>
+              <td class="ellipsis" style="font-weight: bold;width: 210px; min-width:180px;">Fernando Alejandro Vilches Soleman</td>
+              <td class="ellipsis" style="width: 210px; min-width:180px;">Miguel Antonio Contreras Pizarro</td>
+              <td class="ellipsis" style="min-width:300px;"><strong>Consulta</strong> - {{folio.asunto}}</td>              
+              <th style="text-align: center;">
+                <a class="badge badge-success"  style="color: white;">{{folio.fechaRequerida}}</a>
+              </th>              
+              <th style="align-items: center;">
+                {{folio.fechaCreacion | date : 'dd/MM/yyyy'}}
+                <span type="button" class="fas fa-trash-alt text-muted ml-2 mr-3" style="font-size: 14px;"></span> 
+                <span type="button" class="ion-ios-arrow-forward text-muted" style="font-size: 14px;" (click)="folioBorrador(folio)"></span>
+              </th>
+           </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

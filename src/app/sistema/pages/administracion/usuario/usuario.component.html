@@ -1,57 +1,18 @@
-<div class="row mb-3">  
-  <h5 class="font-weight-bold col-6">
-    Gestión de Usuarios
-  </h5>
+<div class="row mb-3" style="align-items: center;">    
+  <div class="col-6">
+    <span class="ml-2" style="font-size: 15px; align-items: center;">Administración /</span>
+    <strong style="font-size: 15px;">&nbsp;Gestión de Usuarios</strong>
+  </div>
   <div class="col-6" align="right">  
-    <button type="button" class="btn btn-primary">Nuevo Usuario</button>
-  </div> 
+    <button type="button" *ngIf="muestraTablaUsuario;" class="btn btn-primary" (click)="nuevoUsuario()">Nuevo Usuario</button>
+  </div>
 </div>
 <!-- Aparece cuando haces click en nuevo usuario -->
-<div class="card mb-3">
-  <div class="card-header">
-    Nuevo Usuario
-  </div>
-  <div class="card-body">
-    <div class="form-group">
-      <label class="form-label">RUT</label>
-      <input type="text" class="form-control" placeholder="">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Nombres</label>
-      <input type="text" class="form-control" placeholder="">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Apellido Paterno</label>
-      <input type="text" class="form-control" placeholder="">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Apellido Materno</label>
-      <input type="text" class="form-control" placeholder="">
-    </div>
-    <div class="form-group">
-      <label class="form-label">E-mail</label>
-      <input type="text" class="form-control" placeholder="">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Repita E-mail</label>
-      <input type="text" class="form-control" placeholder="">
-    </div>    
-    <div class="form-group">
-      <label class="form-label">Perfil Usuario</label>
-      <select class="custom-select">
-        <option>Superusuario</option>
-        <option>Usuario</option>          
-      </select>
-    </div>
-    <div align="right">
-      <button type="button" class="btn btn-secondary">Cancelar</button>  
-      <button type="button" class="btn btn-primary">Crear Usuario</button>
-    </div>
-  </div>
-</div>
-<div class="card">
-  <div class="card-body">
-    <table class="table table-striped table-hover">
+<div class="card" *ngIf="muestraTablaUsuario; else crearUsuario;">
+  <div class="card-body"> 
+<!--      <app-tabla-gestion-usuario  [usuariosEmpresa]="usuariosEmpresa"></app-tabla-gestion-usuario> 
+ -->
+    <table class="table table-hover table-striped" style="width:100%; " datatable [dtOptions]="dtOptions" >
       <thead>
         <tr>
           <th>RUT</th>
@@ -61,39 +22,41 @@
           <th>Activación</th>
           <th>Desactivación</th>
           <th>Estado</th>
-          <th style="width: 70px;"></th>
+          <th style="width: 70px;">Acción</th>                
         </tr>
       </thead>
-      <tbody>
-        <tr>                         
-          <th>13.224.233-K</th>
-          <td>Fernando Vilches Soleman</td>
+      <tbody>               
+        <tr *ngFor="let usuarioEmp of usuariosEmpresa">            
+          <td>{{usuarioEmp.usuario.rut}}</td> 
+          <td>{{usuarioEmp.usuario.nombre}} {{usuarioEmp.usuario.apellidoPaterno}} {{usuarioEmp.usuario.apellidoMaterno}}</td>
           <td>
-            <a class="badge badge-primary" style="color: white;">Superusuario</a>
+            <a class="badge" *ngIf="usuarioEmp.rol.nombre === 'Super Usuario'" style="color: white; background-color: #2f78cc;">{{usuarioEmp.rol.nombre}}</a>
+            <a class="badge badge-primary" *ngIf="usuarioEmp.rol.nombre === 'Usuario'" style="color: white;">{{usuarioEmp.rol.nombre}}</a>
           </td>
-          <td>12/12/2020</td>
-          <td>12/12/2020</td>
-          <td></td>
-          <td>Activo</td>
+          <td>{{usuarioEmp.fechaCreacion | date : 'dd-MM-yyyy hh:mm'}}</td>
+          <td>{{usuarioEmp.fechaActivacion | date : 'dd-MM-yyyy hh:mm'}}</td>
+          <td>{{ usuarioEmp.fechaDesactivacion | date : 'dd-MM-yyyy hh:mm'}}</td>
+          <th *ngIf="usuarioEmp.estadoUsuario.descripcion === 'activo'">
+            <a class="badge badge-success"  style="color: white;">Activo</a>
+          </th>  
+          <th *ngIf="usuarioEmp.estadoUsuario.descripcion === 'pendiente'">
+            <a class="badge"  style="color: white; background-color: #ff9900;">Pendiente</a>
+          </th>   
+          <th *ngIf="usuarioEmp.estadoUsuario.descripcion === 'inactivo'">
+            <a class="badge badge-error"  style="color: white;">Inactivo</a>
+          </th>
           <td class="text-right">
-            <span type="button" class="ion-md-create text-muted" style="font-size: 14px;"></span>                                  
-          </td>
+            <span type="button" *ngIf="usuarioEmp.usuario.idUsuario !== empresaUsuarioRol.usuario.idUsuario" class="ion-md-create text-muted" (click)="editar(usuarioEmp)" style="font-size: 14px;"></span>
+          </td>                            
         </tr>
-        <tr>                     
-          <th>11.246.263-6</th>
-          <td>Marcelo Espejo Ireland</td>
-          <td>
-            <a class="badge badge-secondary" style="color: white;">Usuario</a>
-          </td>
-          <td>12/12/2020</td>
-          <td>12/12/2020</td>
-          <td></td>
-          <td>Activo</td>          
-          <td class="text-right">
-            <span type="button" class="ion-md-create text-muted" style="font-size: 14px;"></span>
-          </td>
-        </tr>          
       </tbody>
     </table>
+ 
+ 
+
+
   </div>
 </div>
+<ng-template #crearUsuario>
+  <app-nuevo-usuario  (volverUsuario)="proceso($event)" [empresaActual]="empresaActual" [empresaUsuarioRolEditar]="empresaUsuarioRolEditar"></app-nuevo-usuario>
+</ng-template>

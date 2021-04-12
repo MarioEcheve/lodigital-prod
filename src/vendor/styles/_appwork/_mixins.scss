@@ -224,6 +224,7 @@
     background: $background;
     box-shadow: $btn-box-shadow;
     color: $color;
+    border-radius: 4px;
 
     @include hover {
       background: map-get($btn-colors, bg-hover);
@@ -1505,19 +1506,22 @@
   #{$parent} {
     /* FVS background-color: map-get($colors, bg) !important; */
     background-color: #ffffff !important;
-    color: map-get($colors, color);
+    color: map-get($colors, color);       
 
     .sidenav-link,
     .sidenav-horizontal-prev,
     .sidenav-horizontal-next {
-      color: map-get($colors, color);
+      /* FVS color: map-get($colors, color); */
+      color: #4d4d4d;
 
       @include hover-focus {
-        color: map-get($colors, active-color);
+        /* FVS color: map-get($colors, active-color); */
+        color: #165ebd;
       }
 
       &.active {
-        color: map-get($colors, active-color);
+        /* FVS color: map-get($colors, active-color); */
+        color: #165ebd;        
       }
     }
 
@@ -1529,11 +1533,15 @@
 
     .sidenav-item.open:not(.sidenav-item-closing) > .sidenav-toggle,
     .sidenav-item.active > .sidenav-link {
-      color: map-get($colors, active-color);
+      /* FVS color: map-get($colors, active-color); */
+      color: #165ebd;   
+
     }
 
     .sidenav-item.active > .sidenav-link:not(.sidenav-toggle) {
       background-color: $menu-bg;
+      border-left: 3px solid;
+      border-left-color:#165ebd;
     }
 
     &.sidenav-horizontal .sidenav-menu > .sidenav-item.active > .sidenav-link:not(.sidenav-toggle) {

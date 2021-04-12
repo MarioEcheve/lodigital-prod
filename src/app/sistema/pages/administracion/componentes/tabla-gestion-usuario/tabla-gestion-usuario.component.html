@@ -1,0 +1,50 @@
+<table class="table table-striped table-hover">
+  <thead>
+    <tr>
+      <th>RUT</th>
+      <th>Nombre</th>
+      <th>Perfil</th>
+      <th>Creación</th>
+      <th>Activación</th>
+      <th>Desactivación</th>
+      <th>Estado</th>
+      <th style="width: 70px;"></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tbody>
+      <tr *ngFor="let usuarioEmp of usuariosEmpresa">
+        <th>
+          {{usuarioEmp.usuario.rut}}
+        </th> 
+        <th>
+          {{usuarioEmp.usuario.nombre}} {{usuarioEmp.usuario.apellidoPaterno}} {{usuarioEmp.usuario.apellidoMaterno}}
+        </th>   
+        <td>
+          <a class="badge badge-primary" *ngIf="usuarioEmp.rol.nombre === 'Super Usuario'" style="color: white;">{{usuarioEmp.rol.nombre}}</a>
+          <a class="badge badge-primary" *ngIf="usuarioEmp.rol.nombre === 'Usuario'" style="color: white;">{{usuarioEmp.rol.nombre}}</a>
+        </td>
+        <th>
+          {{usuarioEmp.fechaCreacion | date : 'dd-MM-yyyy'}}
+        </th>  
+        <th>
+          {{usuarioEmp.fechaActivacion | date : 'dd-MM-yyyy'}}
+        </th>  
+        <th>
+          {{ usuarioEmp.fechaDesactivacion | date : 'dd-MM-yyyy'}}
+        </th>    
+        <th *ngIf="usuarioEmp.estadoUsuario.descripcion === 'activo'">
+          <a class="badge badge-success"  style="color: white;">Activo</a>
+        </th>  
+        <th *ngIf="usuarioEmp.estadoUsuario.descripcion === 'pendiente'">
+          <a class="badge badge-warning"  style="color: white;">Pendiente</a>
+        </th>   
+        <th *ngIf="usuarioEmp.estadoUsuario.descripcion === 'inactivo'">
+          <a class="badge badge-error"  style="color: white;">Inactivo</a>
+        </th>  
+       <!--  <td class="text-right" *ngIf="usuarioEmp.usuario.idUsuario !== empresaUsuarioRol.usuario.idUsuario">
+          <span type="button" class="ion-md-create text-muted" (click)="editar(usuarioEmp)" style="font-size: 14px;"></span>
+        </td>    -->            
+      </tr>
+  </tbody>
+</table>

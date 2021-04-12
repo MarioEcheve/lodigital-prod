@@ -1,0 +1,27 @@
+<div class="modal-header">
+  <h5 class="modal-title">
+    <span class="font-weight-light">Firma Electrónica  Avanzada</span><br>
+    <a class="text-muted" style="font-size: 11px;">Seleccione el método para continuar el proceso de firma.</a>    
+  </h5>
+  <button type="button" class="close" (click)="cancelar2()">&times;</button>
+</div>
+<div  style="line-height: 12px;">
+  <div class="row modal-body">
+    <div class="col-3">
+      <img style="height: 100px;" src="/assets/img/firma.png"/>
+    </div>
+    <div class="col-9">
+      <div class="form-group">
+        <label class="form-label">Método de Firma</label>
+        <select class="custom-select" required>
+          <option>Firma con Token USB (Certificado Digital)</option>        
+          <option>Firma MINSEGPRES (Entidades Públicas)</option>
+        </select>
+      </div>      
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="cancelar2()">Cancelar</button>
+    <button type="button" class="btn btn-primary">Aceptar</button>
+  </div>
+</div>

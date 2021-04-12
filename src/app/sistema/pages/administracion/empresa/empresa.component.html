@@ -1,107 +1,114 @@
 <h5 class="font-weight-bold ">
-  Imformación Entidad
+  <span class="text-muted font-weight-light">Administración /</span> Información Entidad  
 </h5>
-<div class="card" style="padding-left: 5px; padding-top: 2px; padding-right: 5px;">
-  <div [formGroup]="empresaFormGroup">
-    <ngb-accordion [closeOthers]="true" activeIds="accordion2-static-1" class="ngb-accordion-with-icon" >  
-        <ngb-panel id="accordion2-static-1">
-          <ng-template ngbPanelTitle>
-            <span class="text-body"><i class="fas fa-folder-open mr-2 text-muted" style="font-size: 14px;"></i>Datos Generales Empresa</span>
-            <div class="collapse-icon"></div>
-          </ng-template>
-          <ng-template ngbPanelContent>
-            <div class="form-group">
-              <label class="form-label">RUT</label>
-              <input type="text" class="form-control" formControlName="rutEmpresa"  [placeholder]="empresaActual.empresa.rut" disabled>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Razón Social</label>
-              <input type="text" class="form-control" formControlName="razonSocial" [placeholder]="empresaActual.empresa.razonSocial" disabled>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Nombre Fantasía</label>
-              <input type="text" class="form-control" formControlName="nombreFantasia" [placeholder]="empresaActual.empresa.nombreFantasia" >
-            </div>                           
-            <div class="form-group">
-              <label class="form-label">Dirección</label>
-              <input type="text" class="form-control" formControlName="direccion" [placeholder]="empresaActual.empresa.direccion" >
-            </div>
-            <div class="form-group">
-              <label class="form-label">Región</label>
-              <select class="custom-select" formControlName="region"  (change)="cambiarRegion($event.target.value)">
-                <option *ngFor="let region of listaRegiones" [value]="region.nombre">{{region.nombre}}</option>       
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Comuna</label>
-              <select class="custom-select" formControlName="comuna">
-                <option *ngFor="let comuna of listaComunas" [value]="comuna.nombre">{{comuna.nombre}}</option>       
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Giro Principal</label>
-              <input type="text" formControlName="giroPrincipal" class="form-control" >
-            </div>     
-          </ng-template>
-        </ngb-panel>
-        <ngb-panel id="accordion2-static-2">      
-          <ng-template ngbPanelTitle>
-            <span class="text-body"><i class="ion-ios-call mr-2 text-muted" style="font-size: 14px;"></i>Contacto Comercial</span>
-            <div class="collapse-icon"></div>
-          </ng-template>      
-          <ng-template ngbPanelContent>               
-            <div class="form-group">
-              <label class="form-label">Nombre Contacto</label>
-              <input type="text" class="form-control" formControlName="nombreContactoComercial" [placeholder]="empresaActual.empresa.nombreContactoComercial"  >
-            </div>
-            <div class="form-group">
-              <label class="form-label">Cargo o Función</label>
-              <input type="text" class="form-control" formControlName="cargoFuncionContactoComercial" [placeholder]="empresaActual.empresa.cargoFuncionContactoComercial" >
-            </div>                           
-            <div class="form-group">
-              <label class="form-label">E-mail</label>
-              <input type="text" class="form-control" formControlName="emailContactoComercial" [placeholder]="empresaActual.empresa.emailContactoComercial" >
-            </div>
-            <div class="form-group">
-              <label class="form-label">Teléfono Pincipal</label>
-              <input type="text" class="form-control"  formControlName="telefonoPrincipalContactoComercial" [placeholder]="empresaActual.empresa.telefonoPrincipalContactoComercial" >
-            </div>
-            <div class="form-group">
-              <label class="form-label">Teléfono Secundario</label>
-              <input type="text" class="form-control"  formControlName="telefonoSecundarioContactoComercial" [placeholder]="empresaActual.empresa.telefonoSecundarioContactoComercial" >
-            </div>       
-          </ng-template>
-        </ngb-panel>
-        <ngb-panel id="accordion2-static-3">
-          <ng-template ngbPanelTitle>
-            <span class="text-body"><i class="ion-ios-call mr-2 text-muted" style="font-size: 14px;"></i>Contacto Técnico</span>              
-            <div class="collapse-icon"></div>
-          </ng-template>
-          <ng-template ngbPanelContent>               
-            <div class="form-group">
-              <label class="form-label">Nombre Contacto</label>
-              <input type="text" class="form-control"  formControlName="nombreContactoTecnico" [placeholder]="empresaActual.empresa.nombreContactoTecnico" >
-            </div>
-            <div class="form-group">
-              <label class="form-label">Cargo o Función</label>
-              <input type="text" class="form-control" formControlName="cargoFuncionContactoTecnico" [placeholder]="empresaActual.empresa.cargoFuncionContactoTecnico">
-            </div>                           
-            <div class="form-group">
-              <label class="form-label">E-mail</label>
-              <input type="text" class="form-control" formControlName="emailContactoTecnico" [placeholder]="empresaActual.empresa.emailContactoTecnico" >
-            </div>
-            <div class="form-group">
-              <label class="form-label">Teléfono Pincipal</label>
-              <input type="text" class="form-control" formControlName="telefonoPrincipalContactoTecnico" [placeholder]="empresaActual.empresa.telefonoPrincipalContactoTecnico" >
-            </div>
-            <div class="form-group">
-              <label class="form-label">Teléfono Secundario</label>
-              <input type="text" class="form-control" [placeholder]="empresaActual.empresa.telefonoSecundarioContactoTecnico" >
-            </div>       
-          </ng-template>
-        </ngb-panel>    
-    </ngb-accordion>
-  </div>
+<div class="card" [formGroup]="empresaFormGroup" style="padding-left: 5px; padding-top: 2px; padding-right: 5px;">
+  <ngb-tabset class="nav-tabs-top mb-4">
+    <ngb-tab title="Datos Generales">
+      <ng-template ngbTabContent>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label">RUT</label>
+            <input type="text" class="form-control" formControlName="rut"  [placeholder]="empresaActual.rut" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Razón Social</label>
+            <input type="text" class="form-control" formControlName="razonSocial" [placeholder]="empresaActual.razonSocial" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre Fantasía</label>
+            <input type="text" class="form-control" formControlName="nombreFantasia" [placeholder]="empresaActual.nombreFantasia" >
+          </div>                           
+          <div class="form-group">
+            <label class="form-label">Dirección</label>
+            <input type="text" class="form-control" formControlName="direccion" [placeholder]="empresaActual.direccion" >
+          </div>
+          <div class="form-group">
+            <label class="form-label">Región</label>
+            <select class="custom-select" formControlName="region"  (change)="cambiarRegion($event.target.value)">
+              <option *ngFor="let region of listaRegiones" [value]="region.nombre">{{region.nombre}}</option>       
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Comuna</label>
+            <select class="custom-select" formControlName="comuna" (change)="cambiarComuna($event.target.value)">
+              <option *ngFor="let comuna of listaComunas" [value]="comuna.nombre">{{comuna.nombre}}</option>       
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Giro Principal</label>
+            <input type="text" formControlName="giroPrincipal" class="form-control" >
+          </div>
+        </div>        
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Contacto Comercial">
+      <ng-template ngbTabContent>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label">Nombre Contacto</label>
+            <input type="text" class="form-control" formControlName="nombreContactoComercial" [placeholder]="empresaActual.nombreContactoComercial"  >
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cargo o Función</label>
+            <input type="text" class="form-control" formControlName="cargoFuncionContactoComercial" [placeholder]="empresaActual.cargoFuncionContactoComercial" >
+          </div>                           
+          <div class="form-group">
+            <label class="form-label">E-mail</label>
+            <input type="text" class="form-control" formControlName="emailContactoComercial" [placeholder]="empresaActual.emailContactoComercial" >
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono Pincipal</label>
+            <input type="text" class="form-control"  formControlName="telefonoPrincipalContactoComercial" [placeholder]="empresaActual.telefonoPrincipalContactoComercial" >
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono Secundario</label>
+            <input type="text" class="form-control"  formControlName="telefonoSecundarioContactoComercial" [placeholder]="empresaActual.telefonoSecundarioContactoComercial" >
+          </div>
+        </div>        
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Contacto Técnico">
+      <ng-template ngbTabContent>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label">Nombre Contacto</label>
+            <input type="text" class="form-control"  formControlName="nombreContactoTecnico" [placeholder]="empresaActual.nombreContactoTecnico" >
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cargo o Función</label>
+            <input type="text" class="form-control" formControlName="cargoFuncionContactoTecnico" [placeholder]="empresaActual.cargoFuncionContactoTecnico">
+          </div>                           
+          <div class="form-group">
+            <label class="form-label">E-mail</label>
+            <input type="text" class="form-control" formControlName="emailContactoTecnico" [placeholder]="empresaActual.emailContactoTecnico" >
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono Pincipal</label>
+            <input type="text" class="form-control" formControlName="telefonoPrincipalContactoTecnico" [placeholder]="empresaActual.telefonoPrincipalContactoTecnico" >
+          </div>
+          <div class="form-group">
+            <label class="form-label">Teléfono Secundario</label>
+            <input type="text" class="form-control" formControlName="telefonoSecundarioContactoTecnico"  >
+          </div>          
+        </div>       
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Logotipo Corporativo">
+      <ng-template ngbTabContent>
+        <div class="card-body">
+          Aqui Insertar el Logo de la Empresa
+        </div>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab title="Datos de Facturación">
+      <ng-template ngbTabContent>
+        <div class="card-body">
+          Aqui Insertar el Logo de la Empresa
+        </div>
+      </ng-template>
+    </ngb-tab>
+
+  </ngb-tabset>
   <div class="card-body" align="right">
     <button type="button" *ngIf="!editar" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
     <button type="button" *ngIf="editar ; else guardar" (click)="cambioEditar(false)" class="btn btn-primary">Editar</button>

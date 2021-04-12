@@ -1,0 +1,2 @@
+AutoScript.cargarAppAfirma();
+AutoScript.setServlets(Constants.URL_BASE_SERVICES + "/afirma-signature-storage/StorageService", Constants.URL_BASE_SERVICES + "/afirma-signature-retriever/RetrieveService");

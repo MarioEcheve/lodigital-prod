@@ -1,0 +1,46 @@
+<div class="modal-header">
+  <h5 class="modal-title" *ngIf="!usuarioLibro">
+    Creación<span class="font-weight-light"> Usuario Libro</span><br>
+    <a class="text-muted" style="font-size: 11px;">Todos los datos del formulario son obligatorios.</a>    
+  </h5>
+  <h5 class="modal-title" *ngIf="usuarioLibro">
+    Edición<span class="font-weight-light"> Usuario Libro</span>    
+  </h5>
+  <button type="button" class="close" (click)="cancelar()">&times;</button>
+</div>
+<div [formGroup]="form" style="line-height: 12px;">
+  <div class="modal-body">
+    <div class="form-group">      
+      <label class="form-label">Usuario</label>
+      <ng-select [items]="usuariosEmpresa"
+        bindLabel="nombreCompleto"
+        bindValue="nombreCompleto"
+        formControlName="nombre"
+        placeholder="Selecciona un usuario del listado"
+        [disabled]="usuarioLibro"
+        required>
+      </ng-select>
+    </div> 
+    <div class="form-group">
+      <label class="form-label">Perfil Libro</label>
+      <select class="custom-select" formControlName="perfilUsuarioLibro" required>
+        <option *ngFor="let perfil of listaPerfilUsuarioLibro" [value]="perfil.descripcion" >{{perfil.descripcion}}</option>       
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Cargo o Función</label>
+      <input type="text" class="form-control" formControlName="cargo" required>
+    </div>
+    <div class="form-group" *ngIf="usuarioLibro">
+      <label class="form-label">Estado</label>
+      <select class="custom-select" formControlName="estadoUsuarioLibro" required>
+        <option *ngFor="let estado of listaEstadoUsuarioLibro" [value]="estado.descripcion" >{{estado.descripcion}}</option>       
+      </select>     
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-default" (click)="cancelar()">Cancelar</button>
+    <button type="button"  [disabled]="form.invalid" *ngIf="!usuarioLibro" class="btn btn-primary" (click)="guardar()">Crear Usuario</button>     
+    <button type="button" [disabled]="form.invalid" *ngIf="usuarioLibro" class="btn btn-primary" (click)="editar(false)">Guardar Cambios</button>    
+  </div>
+</div>

@@ -8,9 +8,11 @@ export class Usuario {
     apellidoMaterno: string;
     profesionOficio: string;
     emailPrincipal: string;
+    emailSecundario: string;
     telefonoPrincipal: string;
+    telefonoSecundario: string;
     username:string;
-    password: string;
+    password?: string;
     enabled: boolean;
     roles : Roles[];
 }

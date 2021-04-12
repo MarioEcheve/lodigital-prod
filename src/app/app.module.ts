@@ -33,16 +33,21 @@ import { AppService } from './app.service';
 import { LayoutModule } from './layout/layout.module';
 import { ThemeSettingsModule } from '../vendor/libs/theme-settings/theme-settings.module';
 import { HttpClientModule } from '@angular/common/http';
+import { TokenComponent } from './login/activar-usuario/token/token.component';
+import { ActivarUsuarioComponent } from './login/activar-usuario/activar-usuario/activar-usuario.component';
+import { RestablecerClaveComponent } from './login/restablecer-clave/restablecer-clave.component';
+import { TerminoCondicionesComponent } from './login/activar-usuario/termino-condiciones/termino-condiciones.component';
 
 // *******************************************************************************
 //
 
 @NgModule({
-  declarations: [
-    AppComponent
+  declarations: [    
+    AppComponent,
+    ActivarUsuarioComponent, TokenComponent,RestablecerClaveComponent,TerminoCondicionesComponent
   ],
 
-  imports: [
+  imports: [    
     BrowserModule,
     FormsModule,
     ReactiveFormsModule,
@@ -91,6 +96,9 @@ import { HttpClientModule } from '@angular/common/http';
 
   bootstrap: [
     AppComponent
+  ],
+  entryComponents : [
+    TerminoCondicionesComponent
   ]
 })
 export class AppModule {}

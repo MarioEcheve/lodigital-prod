@@ -1,3 +1,556 @@
-<p>
-  contrato works!
-</p>
+<div class="row mb-2">  
+  <h5 class="font-weight-bold col-12">
+    <span class="text-muted font-weight-light">Contratos Asociados /</span> Nuevo Contrato
+  </h5>   
+</div>
+<wizard  class="ng2-archwizard-boxed-steps" [navBarLocation]="'top'" [navBarLayout]="'custom'">
+  <wizard-step [formGroup]="formContrato"  navigationSymbol="&#62163;" navigationSymbolFontFamily="Ionicons">
+    <ng-template wizardStepTitle><div class="text-muted small" style="align-items: flex-start;">PRIMER PASO</div>Datos Generales</ng-template>
+    <div class="card mb-3" >
+      <div class="card-body">
+        <div class="form-group">
+          <label class="form-label">Código <small class="text-muted">*</small></label>
+          <input type="text" class="form-control" placeholder="" maxlength="25" formControlName="codigo" required>
+          <small class="text-muted">Finalizada la creación del contrato este dato no podrá ser modificado.</small>          
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre Contrato <small class="text-muted">*</small></label>
+          <input type="text" class="form-control" formControlName="nombre" placeholder="" maxlength="100" required>
+          <small class="text-muted">Finalizada la creación del contrato este dato no podrá ser modificado.</small>            
+        </div>
+        <div class="form-group">
+          <label class="form-label">Resolución Contrato</label>
+          <input type="text" class="form-control" placeholder="" maxlength="50" formControlName="resolucionContrato">          
+        </div>
+        <div class="form-group">
+          <label class="form-label">Descripción</label>
+          <textarea class="form-control" placeholder="" formControlName="descripcion" maxlength="300"></textarea>          
+        </div>
+        <div class="form-group">
+          <label class="form-label">Dirección <small class="text-muted">*</small></label>
+          <input type="text" class="form-control" placeholder="" formControlName="direccion" maxlength="100">          
+        </div>
+        <div class="form-group">
+          <label class="form-label">Región <small class="text-muted">*</small></label>
+          <select class="custom-select" formControlName="region"  (change)="cambiarRegion($event.target.value)">
+            <option *ngFor="let region of listaRegiones" [value]="region.nombre">{{region.nombre}}</option>       
+          </select>          
+        </div>
+        <div class="form-group">
+          <label class="form-label">Comuna <small class="text-muted">*</small></label>
+              <select class="custom-select" formControlName="comuna" (change)="cambiarComuna($event.target.value)">
+              <option *ngFor="let comuna of listaComunas" [value]="comuna.nombre">{{comuna.nombre}}</option>       
+          </select>          
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tipo Contrato <small class="text-muted">*</small></label>
+              <select class="custom-select" formControlName="tipoContrato" (change)="cambiarTipoContratoAction($event.target.value)">
+              <option *ngFor="let tipo of listaTipoContrato" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
+          </select>          
+        </div>
+        <div class="form-group" *ngIf="mostrarOtroTipoContrato">
+          <label class="form-label">Otro Tipo <small class="text-muted">*</small></label>
+          <input type="text" class="form-control" placeholder="" maxlength="50" formControlName="otroTipo">          
+        </div> 
+        <div class="form-group">
+          <label class="form-label">Modalidad Contrato <small class="text-muted">*</small></label>
+          <select class="custom-select" formControlName="tipoModalidad" (change)="cambiarTipoModalidadAction($event.target.value)">
+              <option *ngFor="let tipo of listaTipoModalidad" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
+          </select>          
+        </div>
+        <div class="form-group" *ngIf="mostrarOtroModalidad">
+          <label class="form-label">Otra Modalidad <small class="text-muted">*</small></label>
+          <input type="text" class="form-control" placeholder="" maxlength="50" formControlName="otraModalidad">           
+        </div>
+        <div class="form-group">
+          <label class="form-label">Monto</label>
+          <div class="input-group">
+            <select class="custom-select" formControlName="tipoMontoContrato" (change)="cambiarTipoMontoContratoAction($event.target.value)">
+              <option *ngFor="let tipo of listaTipoMontoContrato" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
+            </select>
+            <input type="number" class="form-control" placeholder="" formControlName="monto">
+            <select class="custom-select" formControlName="tipoValorContrato"  (change)="cambiarTipoValorContratoAction($event.target.value)">
+              <option *ngFor="let tipo of listaTipoValorContrato" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
+            </select>
+          </div>                 
+        </div>
+        <div class="form-group">
+          <label class="form-label">Plazo</label>
+          <div class="input-group">            
+            <input type="number" class="form-control" placeholder="" maxlength="5" formControlName="plazo">
+            <select class="custom-select">              
+              <option>días corridos</option>
+              <option>días hábiles</option>              
+            </select>
+          </div>                 
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fecha Inicio <small class="text-muted">(Opcional)</small></label>
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+              ngbDatepicker
+              [displayMonths]="displayMonths"
+              [navigation]="navigation"
+              [disabled]="disabled"
+              [placement]="isRTL ? 'bottom-right' : 'bottom-left'"
+              #d1="ngbDatepicker"
+              formControlName="fechaInicio"
+              >
+              <div class="input-group-append">
+                <button class="input-group-text" [disabled]="disabled" (click)="d1.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Fecha Término <small class="text-muted">(Opcional)</small></label>
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp1"
+              ngbDatepicker
+              [displayMonths]="displayMonths"
+              [navigation]="navigation"
+              [disabled]="disabled"
+              [placement]="isRTL ? 'bottom-right' : 'bottom-left'"
+              #d="ngbDatepicker"
+              formControlName="fechaTermino"
+              >
+              <div class="input-group-append">
+                <button class="input-group-text" [disabled]="disabled" (click)="d.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+              </div>
+          </div>
+        </div>      
+      </div>
+    </div>
+    <div class="text-right">
+      <button type="button" class="btn btn-default" (click)="cancelar()">Cancelar</button>      
+      <button type="button" class="btn btn-primary" [disabled]="formContrato.invalid" nextStep>Siguiente</button>
+    </div>
+  </wizard-step>
+  <wizard-step  [formGroup]="formEmpresaMandante" navigationSymbol="&#62163;" navigationSymbolFontFamily="Ionicons">
+    <ng-template wizardStepTitle><div class="text-muted small" style="align-items: flex-start;">SEGUNDO PASO</div>Ingresar Mandante</ng-template>
+    <div class="card mb-3"  >
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="flex-grow-1">
+            <div class="form-group">
+              <label class="form-label">RUT Mandante</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                maxlength="13" 
+                minlength="8" 
+                autocomplete="false"  
+                formControlName="rutMandante"  
+                (blur)="validaUsuarioBlurf()">
+            </div>
+          </div>        
+          <div class="ml-2" style="padding-top: 12px;">
+            <button type="button" (click)="buscarEmpresaMandante(1)" class="btn icon-btn btn-secondary"><span class="ion-ios-search"></span></button>         
+          </div>
+        </div>        
+        <div class="form-group">
+          <label class="form-label">Razón Social</label>
+          <input type="text" class="form-control" formControlName="razonSocialMandante" >
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre Fantasía</label>
+          <input type="text" class="form-control" formControlName="nombreFantasiaMandante"  >
+        </div>                           
+        <div class="form-group">
+          <label class="form-label">Dirección</label>
+          <input type="text" class="form-control" formControlName="direccionMandante" >
+        </div>
+        <div class="form-group">
+          <label class="form-label">Región</label>
+          <select class="custom-select" formControlName="regionMandante"  (change)="cambiarRegionMandante($event.target.value)">
+            <option *ngFor="let region of listaRegionesMandante" [value]="region.nombre">{{region.nombre}}</option>       
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Comuna</label>
+              <select class="custom-select" formControlName="comunaMandante" (change)="cambiarComunaMandante($event.target.value)">
+              <option *ngFor="let comuna of listaComunasMandante" [value]="comuna.nombre">{{comuna.nombre}}</option>       
+          </select>
+        </div>        
+      </div>
+    </div>
+    <div class="text-right">
+      <button type="button" class="btn btn-default" (click)="cancelar()">Cancelar</button>
+      <button type="button" class="btn btn-default" previousStep>Anterior</button>
+      <button type="button" class="btn btn-primary" nextStep [disabled]="formEmpresaMandante.invalid">Siguiente</button>
+    </div>
+  </wizard-step>
+  <wizard-step [formGroup]="formEmpresaContratista" navigationSymbol="&#62170;" navigationSymbolFontFamily="Ionicons">
+    <ng-template wizardStepTitle><div class="text-muted small" style="align-items: flex-start;">TERCER PASO</div>Ingresar Contratista</ng-template>
+    <div class="card mb-3" [formGroup]="formEmpresaContratista">
+      <div class="card-body">
+        <div class="d-flex">
+          <div class="flex-grow-1">
+            <div class="form-group">
+              <label class="form-label">RUT Contratista</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="" 
+                formControlName="rutContratista"
+                class="form-control" 
+                maxlength="13" 
+                minlength="8" 
+                autocomplete="false"  
+                (blur)="validaUsuarioBlurfContratista()"             
+              >
+            </div>
+          </div>        
+          <div class="ml-2" style="padding-top: 12px;">
+            <button type="button" class="btn icon-btn btn-secondary" (click)="buscarEmpresaMandante(2)" ><span class="ion-ios-search"></span></button>         
+          </div>
+        </div>       
+        <div class="form-group">
+          <label class="form-label">Razón Social</label>
+          <input type="text" class="form-control" formControlName="razonSocialContratista">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre Fantasía</label>
+          <input type="text" class="form-control" formControlName="nombreFantasiaContratista">
+        </div>            
+        <div class="form-group">
+          <label class="form-label">Dirección</label>
+          <input type="text" class="form-control" formControlName="direccionContratista">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Región</label>
+          <select class="custom-select" formControlName="regionContratista"  (change)="cambiarRegionContratista($event.target.value)">
+            <option *ngFor="let region of listaRegionesContratista" [value]="region.nombre">{{region.nombre}}</option>       
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Comuna</label>
+              <select class="custom-select" formControlName="comunaContratista" (change)="cambiarComunaContratista($event.target.value)">
+              <option *ngFor="let comuna of listaComunasContratista" [value]="comuna.nombre">{{comuna.nombre}}</option>       
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="text-right">
+      <button type="button" class="btn btn-default" (click)="cancelar()">Cancelar</button>
+      <button type="button" class="btn btn-default" previousStep>Anterior</button>
+      <button type="button" class="btn btn-primary" nextStep [disabled]="formEmpresaContratista.invalid">Siguiente</button>
+    </div>
+  </wizard-step>
+  <wizard-step [formGroup]="formConfiguracionContrato" navigationSymbol="&#62263;" navigationSymbolFontFamily="Ionicons">
+    <ng-template wizardStepTitle><div class="text-muted small" style="align-items: flex-start;">CUARTO PASO</div>Configuración Permisos</ng-template>
+    <div class="card mb-3" [formGroup]="formConfiguracionContrato">
+      <div class="card-body">
+        <div class="row">
+          <div style="max-width: 200px; font-weight: bold;" class="col-md-3">
+            Modificación datos generales:
+          </div>
+          <div class="col-md-9">            
+              <label class="custom-control custom-checkbox m-0 mt-2">
+                <input type="checkbox" class="custom-control-input" formControlName="mandanteEditarContrato">
+                <span class="custom-control-label">Permitir al Mandante editar datos de Contrato</span>
+              </label>              
+              <label class="custom-control custom-checkbox m-0 mt-2">
+                <input type="checkbox" class="custom-control-input" formControlName="contratistaEditarContrato">
+                <span class="custom-control-label">Permitir al Contratista editar datos de Contrato</span>
+              </label> 
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div style="max-width: 200px; font-weight: bold;" class="col-md-3">
+            Creación de Libros:
+          </div>
+          <div class="col-md-9">            
+              <label class="custom-control custom-checkbox m-0 mt-2">
+                <input type="checkbox" class="custom-control-input" formControlName="mandanteCrearLibro">
+                <span class="custom-control-label">Permitir al Mandante crear Libros</span>
+              </label>              
+              <label class="custom-control custom-checkbox m-0 mt-2">
+                <input type="checkbox" class="custom-control-input" formControlName="contratistaCrearLibro">
+                <span class="custom-control-label">Permitir al Contratista crear Libros</span>
+              </label> 
+          </div>
+        </div>       
+      </div>
+    </div>
+    <div class="text-right">
+      <button type="button" class="btn btn-default" (click)="cancelar()">Cancelar</button>
+      <button type="button" class="btn btn-default" previousStep>Anterior</button>      
+      <button type="button" class="btn btn-primary" [disabled]="formContrato.invalid" (click)="guardarContrato()">Finalizar</button>
+    </div>
+  </wizard-step>
+</wizard>
+
+
+<!-- <div [formGroup]="formContrato" class="card" style="padding-left: 5px; padding-top: 2px; padding-right: 5px;" >    
+  <ngb-accordion [closeOthers]="true" activeIds="accordion2-static-1" class="ngb-accordion-with-icon" >
+    <ngb-panel id="accordion2-static-1">
+      <ng-template ngbPanelTitle>
+        <span class="text-body"><i class="fas fa-folder-open mr-2 text-muted" style="font-size: 14px;"></i>Datos Generales</span>
+        <div class="collapse-icon"></div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div class="form-group">
+          <label class="form-label">Código <small class="text-muted">*</small></label>
+          <input type="text" class="form-control" placeholder="máx. 25 caracteres" maxlength="25" formControlName="codigo" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre Cotrato <small class="text-muted">*</small></label>
+          <input type="text" class="form-control" formControlName="nombre" placeholder="máx. 100 caracteres" maxlength="100" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Descripción <small class="text-muted">(Opcional)</small></label>
+          <textarea class="form-control" placeholder="" formControlName="descripcion"></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Dirección <small class="text-muted">*</small></label>
+          <input type="text" class="form-control" placeholder="" formControlName="direccion">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Región</label>
+          <select class="custom-select" formControlName="region"  (change)="cambiarRegion($event.target.value)">
+            <option *ngFor="let region of listaRegiones" [value]="region.nombre">{{region.nombre}}</option>       
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Comuna</label>
+              <select class="custom-select" formControlName="comuna" (change)="cambiarComuna($event.target.value)">
+              <option *ngFor="let comuna of listaComunas" [value]="comuna.nombre">{{comuna.nombre}}</option>       
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tipo Contrato</label>
+              <select class="custom-select" formControlName="tipoContrato" (change)="cambiarTipoContratoAction($event.target.value)">
+              <option *ngFor="let tipo of listaTipoContrato" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
+          </select>
+        </div>
+        <div class="form-group" *ngIf="mostrarOtroTipoContrato">
+          <label class="form-label">Otro Tipo <small class="text-muted">*</small></label>
+          <input type="text" class="form-control" placeholder="" formControlName="otroTipo">
+        </div> 
+        <div class="form-group">
+          <label class="form-label">Modalidad Contrato</label>
+              <select class="custom-select" formControlName="tipoModalidad" (change)="cambiarTipoModalidadAction($event.target.value)">
+              <option *ngFor="let tipo of listaTipoModalidad" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
+            </select>
+        </div>
+        <div class="form-group" *ngIf="mostrarOtroModalidad">
+          <label class="form-label">Otra Modalidad <small class="text-muted">*</small></label>
+          <input type="text" class="form-control" placeholder="" formControlName="otraModalidad"> 
+        </div>
+        <div class="form-group">
+          <label class="form-label">Monto <small class="text-muted">(Opcional)</small></label>
+          <div class="input-group">
+            <select class="custom-select" formControlName="tipoMontoContrato" (change)="cambiarTipoMontoContratoAction($event.target.value)">
+              <option *ngFor="let tipo of listaTipoMontoContrato" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
+            </select>
+            <input type="text" class="form-control" placeholder="" formControlName="monto">
+            <select class="custom-select" formControlName="tipoValorContrato"  (change)="cambiarTipoValorContratoAction($event.target.value)">
+              <option *ngFor="let tipo of listaTipoValorContrato" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
+            </select>
+          </div>                 
+        </div>
+        <div class="form-group">
+          <label class="form-label">Plazo <small class="text-muted">(Opcional)</small></label>
+          <div class="input-group">            
+            <input type="text" class="form-control" placeholder="" formControlName="plazo">
+            <select class="custom-select">              
+              <option>días corridos</option>
+              <option>días hábiles</option>              
+            </select>
+          </div>                 
+        </div>                           
+        <div class="form-group">
+          <div>
+            <label class="form-label">Fecha Inicio <small class="text-muted">(Opcional)</small></label>
+            <div class="input-group">
+              <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                ngbDatepicker
+                [displayMonths]="displayMonths"
+                [navigation]="navigation"
+                [disabled]="disabled"
+                [placement]="isRTL ? 'bottom-right' : 'bottom-left'"
+                #d1="ngbDatepicker"
+                formControlName="fechaInicio"
+                >
+                <div class="input-group-append">
+                  <button class="input-group-text" [disabled]="disabled" (click)="d1.toggle()" type="button">
+                    <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                  </button>
+              </div>
+            </div>
+          </div>
+          <div class="fechaTermino">
+            <label class="form-label">Fecha Término <small class="text-muted">(Opcional)</small></label>
+          <div class="input-group">
+            <input class="form-control" placeholder="yyyy-mm-dd" name="dp1"
+              ngbDatepicker
+              [displayMonths]="displayMonths"
+              [navigation]="navigation"
+              [disabled]="disabled"
+              [placement]="isRTL ? 'bottom-right' : 'bottom-left'"
+              #d="ngbDatepicker"
+              formControlName="fechaTermino"
+              >
+              <div class="input-group-append">
+                <button class="input-group-text" [disabled]="disabled" (click)="d.toggle()" type="button">
+                  <span class="ion ion-md-calendar" style="cursor: pointer;"></span>
+                </button>
+              </div>
+          </div>
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel id="accordion2-static-2">      
+      <ng-template ngbPanelTitle>
+        <span class="text-body"><i class="fas fa-building mr-2 text-muted" style="font-size: 14px;"></i>Mandante</span>
+        <div class="collapse-icon"></div>
+      </ng-template>      
+      <ng-template ngbPanelContent>
+        <div class="d-flex">
+          <div class="flex-grow-1">
+            <div class="form-group">
+              <label class="form-label">RUT</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                maxlength="13" 
+                minlength="8" 
+                autocomplete="false"  
+                formControlName="rutMandante"  
+                (blur)="validaUsuarioBlurf()">
+            </div>
+          </div>        
+          <div class="ml-2" style="padding-top: 12px;">
+            <button type="button" (click)="buscarEmpresaMandante(1)" class="btn icon-btn btn-secondary"><span class="ion-ios-search"></span></button>         
+          </div>
+        </div>        
+        <div class="form-group">
+          <label class="form-label">Razón Social</label>
+          <input type="text" class="form-control" formControlName="razonSocialMandante" >
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre Fantasía</label>
+          <input type="text" class="form-control" formControlName="nombreFantasiaMandante"  >
+        </div>                           
+        <div class="form-group">
+          <label class="form-label">Dirección</label>
+          <input type="text" class="form-control" formControlName="direccionMandante" >
+        </div>
+        <div class="form-group">
+          <label class="form-label">Región</label>
+          <select class="custom-select" formControlName="regionMandante"  (change)="cambiarRegionMandante($event.target.value)">
+            <option *ngFor="let region of listaRegionesMandante" [value]="region.nombre">{{region.nombre}}</option>       
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Comuna</label>
+              <select class="custom-select" formControlName="comunaMandante" (change)="cambiarComunaMandante($event.target.value)">
+              <option *ngFor="let comuna of listaComunasMandante" [value]="comuna.nombre">{{comuna.nombre}}</option>       
+          </select>
+        </div>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel id="accordion2-static-3">
+      <ng-template ngbPanelTitle>
+        <span class="text-body"><i class="fas fa-snowplow mr-2 text-muted" style="font-size: 14px;"></i>Contratista</span>              
+        <div class="collapse-icon"></div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div class="d-flex">
+          <div class="flex-grow-1">
+            <div class="form-group">
+              <label class="form-label">RUT</label>
+              <input 
+                type="text" 
+                class="form-control" 
+                placeholder="" 
+                formControlName="rutContratista"
+                class="form-control" 
+                maxlength="13" 
+                minlength="8" 
+                autocomplete="false"  
+                (blur)="validaUsuarioBlurfContratista()"             
+              >
+            </div>
+          </div>        
+          <div class="ml-2" style="padding-top: 12px;">
+            <button type="button" class="btn icon-btn btn-secondary" (click)="buscarEmpresaMandante(2)" ><span class="ion-ios-search"></span></button>         
+          </div>
+        </div>       
+        <div class="form-group">
+          <label class="form-label">Razón Social</label>
+          <input type="text" class="form-control" formControlName="razonSocialContratista">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nombre Fantasía</label>
+          <input type="text" class="form-control" formControlName="nombreFantasiaContratista">
+        </div>            
+        <div class="form-group">
+          <label class="form-label">Dirección</label>
+          <input type="text" class="form-control" formControlName="direccionContratista">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Región</label>
+          <select class="custom-select" formControlName="regionContratista"  (change)="cambiarRegionContratista($event.target.value)">
+            <option *ngFor="let region of listaRegionesContratista" [value]="region.nombre">{{region.nombre}}</option>       
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Comuna</label>
+              <select class="custom-select" formControlName="comunaContratista" (change)="cambiarComunaContratista($event.target.value)">
+              <option *ngFor="let comuna of listaComunasContratista" [value]="comuna.nombre">{{comuna.nombre}}</option>       
+          </select>
+        </div>
+      </ng-template>
+    </ngb-panel>
+    <ngb-panel id="accordion2-static-4">
+      <ng-template ngbPanelTitle>
+        <span class="text-body"><i class="ion ion-md-settings mr-2 text-muted" style="font-size: 14px;"></i>Configuración Permisos</span>              
+        <div class="collapse-icon"></div>
+      </ng-template>
+      <ng-template ngbPanelContent>
+        <div class="row">
+          <div style="max-width: 200px; font-weight: bold;" class="col-md-3">
+            Modificación datos generales:
+          </div>
+          <div class="col-md-9">            
+              <label class="custom-control custom-checkbox m-0 mt-2">
+                <input type="checkbox" class="custom-control-input" formControlName="mandanteEditarContrato">
+                <span class="custom-control-label">Permitir al Mandante editar datos de Contrato</span>
+              </label>              
+              <label class="custom-control custom-checkbox m-0 mt-2">
+                <input type="checkbox" class="custom-control-input" formControlName="contratistaEditarContrato">
+                <span class="custom-control-label">Permitir al Contratista editar datos de Contrato</span>
+              </label> 
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div style="max-width: 200px; font-weight: bold;" class="col-md-3">
+            Creación de Libros:
+          </div>
+          <div class="col-md-9">            
+              <label class="custom-control custom-checkbox m-0 mt-2">
+                <input type="checkbox" class="custom-control-input" formControlName="mandanteCrearLibro">
+                <span class="custom-control-label">Permitir al Mandante crear Libros</span>
+              </label>              
+              <label class="custom-control custom-checkbox m-0 mt-2">
+                <input type="checkbox" class="custom-control-input" formControlName="contratistaCrearLibro">
+                <span class="custom-control-label">Permitir al Contratista crear Libros</span>
+              </label> 
+          </div>
+        </div>
+      </ng-template>
+    </ngb-panel>
+  </ngb-accordion>
+  <div class="card-body" align="right">
+    <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>
+    <button type="button" class="btn btn-primary" [disabled]="formContrato.invalid" (click)="guardarContrato()">Crear Contrato</button>
+  </div>  
+</div> -->

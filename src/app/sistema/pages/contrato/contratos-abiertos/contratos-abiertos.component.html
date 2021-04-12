@@ -1,0 +1,36 @@
+<div class="row mb-4" style="align-items: center; margin-left: 0px;">   
+  <span style="font-size: 16px; align-items: center;">Mis Contratos /</span>
+  <strong style="font-size: 16px;">&nbsp;Contratos Activos</strong> 
+</div>
+<div class="card" style="height: 95%;">  
+  <div class="card-body table-responsive">
+    <table class="table table-hover" style="width:100%; font-size: 0.74rem;" datatable [dtOptions]="dtOptions">
+      <thead>
+        <tr>
+          <th>Código</th>
+          <th>Contrato</th>
+          <th>Mandante</th>
+          <th>Contratista</th>
+          <th>Tipo Contrato</th>
+          <th>Estado</th>
+          <th style="max-width: 35px;">Acción</th>        
+        </tr>
+      </thead>
+      <tbody>       
+          <tr style="user-select: none;">            
+            <td>C51125</td>           
+            <td>Construcción Edificio La Serena</td>
+            <td>Ilustre Municipalidad de La Serena</td>
+            <td>Construcctora La Serena Ltda.</td>
+            <td>Construcción</td>
+            <th>           
+              <a class="badge badge-success"  style="color: white;">Activo</a>            
+            </th>
+            <th class="text-right">            
+              <span type="button" class="ion-ios-arrow-forward text-muted" style="font-size: 14px;"></span>            
+            </th>                    
+         </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,6 @@
+<div class="example-container" *ngIf="route.children.length === 0">
+
+</div>
+<div>
+  <router-outlet *ngIf="route.children.length !== 0"></router-outlet>
+</div>

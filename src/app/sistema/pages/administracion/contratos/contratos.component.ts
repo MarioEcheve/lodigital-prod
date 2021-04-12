@@ -33,7 +33,7 @@ export class ContratosComponent implements OnInit {
 
       setTimeout(() => { this.loadingIndicator = false; }, 1500);
     });
-   }
+  }
 
   ngOnInit() {
   }
@@ -54,7 +54,7 @@ export class ContratosComponent implements OnInit {
     const val = event.target.value.toLowerCase();
 
     // filter our data
-    const temp = this.temp.filter(function(d) {
+    const temp = this.temp.filter(function (d) {
       return d.name.toLowerCase().indexOf(val) !== -1 || !val;
     });
 
@@ -67,9 +67,8 @@ export class ContratosComponent implements OnInit {
     this.selected.splice(0, this.selected.length);
     this.selected.push(...selected);
   }
-  prueba(row){
+  prueba(row) {
     alert(row)
-
   }
 }
 

@@ -1,48 +1,51 @@
+<ngx-alerts></ngx-alerts>
 <h5 class="font-weight-bold ">
-  Información Personal
+  <span class="text-muted font-weight-light">Perfil Usuario /</span> Información Personal
 </h5>
-<div class="card" style="padding-left: 5px; padding-top: 2px; padding-right: 5px;">
+<div class="card" style="padding-left: 5px; padding-top: 2px; padding-right: 5px;" [formGroup]="formInformacion">
   <div class="card-body">
     <div class="form-group">
       <label class="form-label">RUT</label>
-      <input type="text" class="form-control" placeholder="13.224.233-K" disabled>
+      <input type="text" class="form-control" formControlName="rut" >      
     </div>
     <div class="form-group">
       <label class="form-label">Nombres</label>
-      <input type="text" class="form-control" placeholder="Fernando Alejandro" disabled>
+      <input type="text" class="form-control" formControlName="nombre">
     </div>
     <div class="form-group">
       <label class="form-label">Apellido Paterno</label>
-      <input type="text" class="form-control" placeholder="Vilches" disabled>
+      <input type="text" class="form-control"  formControlName="apellidoPaterno" >
     </div>
     <div class="form-group">
       <label class="form-label">Apellido Materno</label>
-      <input type="text" class="form-control" placeholder="Soleman" disabled>
+      <input type="text" class="form-control" formControlName="apellidoMaterno" >
     </div>
     <div class="form-group">
       <label class="form-label">E-mail Principal</label>
-      <input type="email" class="form-control" placeholder="fvilchessoleman@gmail.com" disabled>
+      <input type="email" class="form-control" formControlName="emailPrincipal"  >
     </div>
     <div class="form-group">
       <label class="form-label">E-mail Secundario</label>
-      <input type="email" class="form-control" placeholder="fvilchess@gmail.com" disabled>
+      <input type="email" class="form-control" formControlName="emailSecundario" >
     </div>
     <div class="form-group">
       <label class="form-label">Teléfono Principal</label>
-      <input type="text" class="form-control" placeholder="966453188" disabled>
+      <input type="text" class="form-control" formControlName="telefonoPrincipal">
     </div>
     <div class="form-group">
       <label class="form-label">Teléfono Secundario</label>
-      <input type="text" class="form-control" placeholder="978324541" disabled>
+      <input type="text" class="form-control" formControlName="telefonoSecundario">
     </div>
     <div class="form-group">
       <label class="form-label">Oficio o Profesión</label>
-      <input type="text" class="form-control" placeholder="" disabled>
+      <input type="text" class="form-control" formControlName="profesionOficio" >
     </div>
   </div>  
   <div class="card-body" align="right">
-    <button type="button" class="btn btn-secondary">Cancelar</button>
-    <button type="button" class="btn btn-primary">Guardar</button>
-    <button type="button" class="btn btn-primary">Editar</button>
+    <button type="button" class="btn btn-secondary"  *ngIf="!editarInformacion" (click)="cancelar()">Cancelar</button>
+    <button type="button" class="btn btn-primary"  (click)="editar()" *ngIf="editarInformacion;else editarInfo;">Editar</button>
+    <ng-template #editarInfo>
+      <button type="button" class="btn btn-primary" (click)="guardar()">Guardar</button>
+    </ng-template>
   </div>  
 </div>

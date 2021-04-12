@@ -1,0 +1,46 @@
+import { Comuna } from "./comuna";
+import { EstadoContrato } from "./estadoContrato";
+import { EstadoServicioContrato } from "./estadoServicioContrato";
+import { Region } from "./region";
+import { TipoContrato } from "./TipoContrato";
+import { TipoModalidad } from "./tipoModalidad";
+import { TipoMontoContrato } from "./tipoMontoContrato";
+import { TipoValorContrato } from "./tipoValorContrato";
+
+export class Contrato {
+    id: number;
+    idEmpresaMandante : number;
+    idEmpresaContratista : number;
+    nombreEmpresaMandante : string;
+    nombreEmpresaContratista : string;
+    codigo: string;
+    nombre: string;
+    descripcion: string;
+    direccion:string;
+    monto: string;
+    plazo : string;
+    observaciones: string;
+    observacionesServico: string;
+    otraModalidad: string;
+    otroTipo: string;
+    fechaInicio: Date;
+    fechaTermino: Date;
+    fechaInicioService: Date;
+    fechaTerminoServicio: Date;
+    fechaTerminoAcceso: Date;
+    nombreContacto: string;
+    emailContacto: string; 
+    tipoContrato : TipoContrato;
+    tipoModalidad : TipoModalidad;
+    estadoContrato : EstadoContrato;
+    estadoServicioContrato : EstadoServicioContrato;
+    region : Region;
+    comuna :Comuna;
+    mandanteEditarContrato : Boolean;
+    contratistaEditarContrato : Boolean;
+    mandanteCrearLibro : Boolean;
+    contratistaCrearLibro : Boolean;
+    tipoMontoContrato : TipoMontoContrato;
+    tipoValorContrato : TipoValorContrato;
+    resolucionContrato : string;
+}

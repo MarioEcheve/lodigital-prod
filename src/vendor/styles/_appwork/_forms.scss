@@ -86,7 +86,8 @@ select.form-control-lg[size="0"]:not([multiple]) {
     margin-bottom: 0;
   }
   font-weight: $label-font-weight;
-  font-size: $label-font-size;
+  // fvs font-size: $label-font-size;
+  font-size: 0.75rem;
   padding-bottom: 0;
 }
 

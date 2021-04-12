@@ -15,4 +15,14 @@ export class EmpresaService {
   public obtenerUsuarioByRut(rut : String){
     return this.http.get<Usuario>(`${this.url}/usuarioByRut/${rut}`);
   }
+
+  public actualizarEmpresa(empresa : Empresa){
+    return this.http.put<Empresa>(`${this.url}`,empresa);
+  }
+  public obtenerEmpresaByRut(rut : String){
+    return this.http.get<Empresa>(`${this.url}/empresaByRut/${rut}`);
+  }
+  async obtenerEmpresaById(idEmpresa : number){
+    return await this.http.get<Empresa>(`${this.url}/empresaById/${idEmpresa}`).toPromise();
+  }
 }

@@ -8,6 +8,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { Layout2Component } from './layout/layout-2/layout-2.component';
 import { Layout2FlexComponent } from './layout/layout-2-flex/layout-2-flex.component';
 import { LayoutBlankComponent } from './layout/layout-blank/layout-blank.component';
+import { ActivarUsuarioComponent } from './login/activar-usuario/activar-usuario/activar-usuario.component';
+import { TokenComponent } from './login/activar-usuario/token/token.component';
+import { RestablecerClaveComponent } from './login/restablecer-clave/restablecer-clave.component';
 
 
 // *******************************************************************************
@@ -41,6 +44,12 @@ const routes: Routes = [
   // implementacion administracion
   { path: 'sistema', component: Layout2Component ,loadChildren: './sistema/sistema.module#SistemaModule' }, 
   { path: 'login' ,loadChildren: './login/login.module#LoginModule' },   
+  { path : 'restablecer-clave/:token/:idUsuario' , component : RestablecerClaveComponent},
+  {
+    path: 'activar-usuario', component: ActivarUsuarioComponent, children: [
+      { path: ':token/:idEmpresa/:idUsuario', component: TokenComponent }
+    ]
+  },
 
 ];
 /* tslint:enable */

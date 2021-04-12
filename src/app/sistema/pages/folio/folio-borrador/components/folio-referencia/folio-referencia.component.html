@@ -1,0 +1,43 @@
+<div class="modal-content" style="height: 670px;">
+  <div class="modal-header" style="padding-left: 15px; padding-right: 30px;">
+    <h5 class="modal-title" style="width: 100%;">
+      <strong>Folio Referencia</strong>      
+      <select class="mt-1 mb-2" style="font-size: 12px; width: 100%; border-radius: 3px; border-color: rgb(226, 226, 226); background: rgb(255, 255, 255); height: 30px;">
+        <option> Libro Maestro | Cod.:222</option>
+        <option> Libro Prevención de Riesgos | Cod.:246</option>
+      </select>       
+    </h5>    
+  </div>
+  <div class="modal-body" style="overflow-y: scroll;user-select: none; padding: 15px 15px 15px 15px;">    
+    <table class="table table-hover" style="width:100%;font-size: 11px; padding-bottom: 10px;" datatable [dtOptions]="dtOptions">
+      <thead>
+        <tr>
+          <th style="width: 20px;">Nº</th>
+          <th style="width: 140px; min-width:140px;">Emisor</th>          
+          <th>Tipo Folio-Asunto</th>
+          <th style="width: 35px; min-width:35px;">Fecha</th>
+          <th style="width: 35px; min-width:35px;">Acción</th>        
+        </tr>
+      </thead>
+      <tbody>         
+          <tr *ngFor="let group of data" style="user-select: none;">            
+            <td style="border-left: 3px solid;border-left-color:#ff9900">{{group.folio}}</td>            
+            <td class="ellipsis" style="font-weight: bold;">{{group.emisor}}</td>
+            <td class="ellipsis"><strong>{{group.Tipofolio}}</strong> - fsdfsdfs fsdfsdfsdf</td>           
+            <td>12/12/2021</td>
+            <th style="text-align: center;">
+              <span type="button" class="ion-md-eye text-muted ml-2 mr-3" style="font-size: 14px;"></span> 
+              <span type="button" class="ion-ios-arrow-forward text-muted" style="font-size: 14px;"></span>                
+            </th>                    
+         </tr>
+      </tbody>
+    </table>  
+  </div>
+  <div class="modal-footer mt-2">        
+    <button type="button" class="btn btn-primary" (click)="cancelar()">Cerrar</button>    
+  </div>
+</div>
+
+
+
+

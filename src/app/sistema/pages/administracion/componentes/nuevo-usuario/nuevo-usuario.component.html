@@ -1,0 +1,60 @@
+<div class="card mb-3">
+  <div class="card-header">
+    Nuevo Usuario
+  </div>
+  <div class="card-body" [formGroup]="usuarioForm">
+    <div class="form-group">
+      <label class="form-label">RUT</label>
+      <input 
+        type="text" 
+        class="form-control" 
+        placeholder="" 
+        formControlName="rut" 
+        (keyup.enter)="buscarUsuario()" 
+        required
+        maxlength="13" 
+        minlength="8" 
+        autocomplete="false" 
+        (blur)="validaUsuarioBlurf()"   
+      >
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nombres</label>
+      <input type="text" class="form-control" placeholder="" formControlName="nombre" >
+    </div>
+    <div class="form-group">
+      <label class="form-label">Apellido Paterno</label>
+      <input type="text" class="form-control" placeholder="" formControlName="apellidoPaterno" >
+    </div>
+    <div class="form-group">
+      <label class="form-label">Apellido Materno</label>
+      <input type="text" class="form-control" placeholder="" formControlName="apellidoMaterno" >
+    </div>
+    <div class="form-group">
+      <label class="form-label">E-mail</label>
+      <input type="text" class="form-control" placeholder="" formControlName="emailPrincipal" >
+    </div>
+    <div class="form-group">
+      <label class="form-label">Repita E-mail</label>
+      <input type="text" class="form-control" placeholder="" formControlName="confirmEmailPrincipal">
+      <label
+            class="text-danger"
+            *ngIf="usuarioForm.controls['confirmEmailPrincipal'].hasError('NoPassswordMatch')">
+            Los correos no coinciden
+          </label>
+    </div>    
+    <div class="form-group">
+      <label class="form-label">Perfil Usuario</label>
+      <select class="custom-select"  formControlName="roles" (change)="cambiarRol($event.target.value)">
+        <option *ngFor="let rol of roles" [value]="rol.nombre">{{rol.nombre}}</option>       
+      </select>
+    </div>
+    <div align="right">
+      <button type="button" class="btn btn-secondary" (click)="cancelar()">Cancelar</button>  
+      <button type="button" (click)="crearUsuario()" *ngIf="empresaUsuarioRolEditar === null; else editar;" [disabled]="usuarioForm.invalid" class="btn btn-primary">Crear Usuario</button>
+      <ng-template #editar>
+        <button type="button"  (click)="editarUsuario()" class="btn btn-primary">Editar Usuario</button>
+      </ng-template>
+    </div>
+  </div>
+</div>

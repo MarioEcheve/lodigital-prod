@@ -2,6 +2,8 @@ import { Component, ViewChildren, QueryList, AfterViewInit, OnDestroy } from '@a
 import { AppService } from '../../app.service';
 import { LayoutService } from '../../layout/layout.service';
 import { BaseChartDirective } from 'ng2-charts';
+import { EncryptService } from '../../sistema/services/encrypt.service';
+import { Empresa } from '../../sistema/model/empresa';
 
 @Component({
   selector: 'dashboard-1', // tslint:disable-line
@@ -10,10 +12,15 @@ import { BaseChartDirective } from 'ng2-charts';
 })
 export class Dashboard1Component implements AfterViewInit, OnDestroy {
   isRTL: boolean;
-
-  constructor(private appService: AppService, private layoutService: LayoutService) {
-    this.appService.pageTitle = 'Dashboard 1 - Dashboards';
+  empresas : any;
+  empresaActual : Empresa = new Empresa();
+  empresaUsuarioRol : any;
+  constructor(private appService: AppService, private layoutService: LayoutService, private encryptService : EncryptService) {
+    this.appService.pageTitle = 'LODigital - Escritorio';
     this.isRTL = appService.isRTL;
+    this.empresas = JSON.parse(this.encryptService.decrypt(localStorage.getItem('empresas')));
+    this.empresaActual = JSON.parse(this.encryptService.decrypt(localStorage.getItem('empresaActual')));
+    this.empresaUsuarioRol =  JSON.parse(this.encryptService.decrypt(localStorage.getItem('empresaUsuarioRol')));
   }
 
   // Chart 1

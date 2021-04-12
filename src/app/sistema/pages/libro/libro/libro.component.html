@@ -1,3 +1,53 @@
-<p>
-  libro works!
-</p>
+<h5 class="font-weight-bold ">
+  Datos del Libro
+</h5>
+<div [formGroup]="formLibro" class="card" style="padding-left: 5px; padding-top: 2px; padding-right: 5px;">
+  <ngb-tabset class="nav-tabs-top mb-4">
+    <ngb-tab title="Información Libro">
+      <ng-template ngbTabContent>
+        <div class="card-body">
+          <div class="form-group">
+            <label class="form-label">Código</label>
+            <input type="text" class="form-control" placeholder="C001" formControlName="codigo">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Nombre Libro</label>
+            <input type="text" class="form-control" placeholder="Construcción Edificio La Serena"  formControlName="nombre">
+          </div>
+         <!--  <div class="form-group">
+            <label class="form-label">Fecha Creación</label>
+            <input type="text" class="form-control" placeholder="12-12-2020" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fecha Apertura</label>
+            <input type="text" class="form-control" placeholder="12-12-2020" disabled>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fecha Cierre</label>
+            <input type="text" class="form-control" placeholder="" disabled>
+          </div> -->
+          <div class="form-group">
+            <label class="form-label">Descripción</label>
+            <textarea class="form-control" placeholder="Textarea"  formControlName="descripcion"></textarea>
+          </div>              
+          <div class="form-group">
+            <label class="form-label">Tipo Libro</label>
+            <select class="custom-select" formControlName="tipoLibro"  (change)="cambiarTipoLibro($event.target.value)">
+              <option *ngFor="let tipo of listaTiposLibro" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Tipo Firma</label>
+            <select class="custom-select" formControlName="tipoFirma"  (change)="cambiarTipoFirma($event.target.value)">
+              <option *ngFor="let tipo of listaTipoFirma" [value]="tipo.descripcion">{{tipo.descripcion}}</option>       
+            </select>
+          </div>
+        </div>        
+        <div class="pull-right mt-3 mb-3 mr-2">
+          <button type="button" class="btn btn-secondary">Cancelar</button>
+          <button type="button" class="btn btn-primary"  [disabled]="!formLibro.valid" (click)="guardar()">Guardar</button> 
+        </div>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>
+</div>

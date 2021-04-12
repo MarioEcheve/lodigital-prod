@@ -1,187 +1,157 @@
-<!-- <h5 class="font-weight-bold py-3 mb-3">
-  <span class="text-muted font-weight-light"><a href="dasdasdasd">Prevención de Riesgos</a> /</span> Folio Nº2
-</h5> -->
+<ngx-alerts></ngx-alerts>
+<div class="row mb-2" style="align-items: center; margin-left: 0px;">
+  <button type="button" class="btn icon-btn btn-secondary btn-sm" (click)="resumenDeFolio()"><span class="ion-ios-arrow-back"></span></button>   
+  <span class="ml-2" style="font-size: 16px; align-items: center;">Listado Folios /</span>
+  <strong style="font-size: 16px;">&nbsp;Folio Nº{{folio?.correlativo}}</strong> 
+</div>
+<div class="row mb-3" style="padding-left: 8px;">  
+  <button type="button" class="btn btn-default ml-1" style="color:#6f7986 ;"><span class="ion-ios-undo"></span>&nbsp;&nbsp;Responder</button>
+  <button type="button" class="btn btn-default ml-1" style="color:#6f7986 ;"><span class="fas fa-thumbtack"></span>&nbsp;&nbsp;Referenciar</button>
+  <button type="button" class="btn btn-default ml-1" style="color:#6f7986 ;"><span class="ion ion-md-checkmark"></span>&nbsp;&nbsp;Confirmar Lectura</button>      
+  <button type="button" class="btn icon-btn btn-default ml-1" style="color:#6f7986 ;"><span class="fas fa-file-pdf"></span></button>     
+  <button type="button" class="btn icon-btn btn-default ml-1" style="color:#6f7986 ;"><span class="ion-md-download"></span></button>
+  <button type="button" class="btn icon-btn btn-default ml-1" style="color:#6f7986 ;"><span class="ion-md-print"></span></button>    
+  <button type="button" class="btn icon-btn btn-default ml-1" style="color:#6f7986;"><span class="ion ion-md-mail"></span></button>       
+</div>
 <div class="card">
-  <div class="row card-header mt-2">
-    <button type="button" class="btn icon-btn btn-secondary"><span class="ion ion-ios-arrow-back"></span></button> 
-    <button type="button" class="btn btn-default ml-1"><span class="ion-ios-undo"></span>&nbsp;&nbsp;Responder</button>
-    <button type="button" class="btn btn-default ml-1"><span class="ion ion-md-checkmark"></span>&nbsp;&nbsp;Confirmar Lectura</button>     
-    <button type="button" class="btn icon-btn btn-default ml-1"><span class="fas fa-file-pdf"></span></button>     
-    <button type="button" class="btn icon-btn btn-default ml-1"><span class="ion-md-download"></span></button>
-    <button type="button" class="btn icon-btn btn-default ml-1"><span class="ion-md-print"></span></button>    
-    <button type="button" class="btn icon-btn btn-default ml-1"><span class="ion ion-md-mail"></span></button>       
-  </div>
-  <div class="card-header">
-    <img src="/assets/img/logo42_.png"/>
-    <img src="/assets/img/letra120x34_.png"/><br>
-  </div>
-  <div class="row card-header" style="line-height: 13px; font-size: 13px; font-weight: 400;">
-    <div class="flex-grow-1 justify-content-start" style="padding-left: 15px;">
-      <table>
-        <tr>
-          <td style="font-weight: bold; width: 95px;">
-            Contrato:
+  <div class="card-body" style="line-height: 13px; font-size: 12px; font-weight: 400;padding-bottom:0px;">
+    <table class="mb-3" style="width: 100%; padding-top: 0px;">
+      <tr>
+          <td style="align-items: center;">
+            <img style="width: 35px; height: 35px;" src="/assets/img/logo42_.png"/>
+            <img src="/assets/img/letra110_31.png"/>
+          </td>                            
+          <td style="text-align: right;">                            
+              <strong style="color: #0c63a5; font-size: 17px;">Folio Nº {{folio?.correlativo}}</strong>
+              <div style="font-size: 12px; margin-top: 4px;">{{folio?.fechaFirma | date : 'dd-MM-yyyy HH:mm:ss'}}</div>                            
           </td>
-          <td style="font-weight: bold;">
-            <strong>Construcción Edificio La Serena</strong>
-          </td>
-        </tr>
-        <tr>
-          <td>Código:</td>
-          <td>
-            C001
-          </td>                  
-        </tr>
-        <tr>
-          <td>Mandante:</td>                    
-          <td>
-            Ilustre Municipalidad de La Serena
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>                      
-            RUT:&nbsp;77.415.565-6
-          </td>
-        </tr>
-        <tr>
-          <td>Contratista:</td>
-          <td>
-            Constructora La Serena Ltda.
-          </td>
-        </tr>
-        <tr>
-          <td></td>
-          <td>
-            RUT:&nbsp;78.659.697-6                      
-          </td>
-        </tr>
-      </table>
+      </tr>
+    </table>
+    <div class="mb-3" style="border-bottom: 2px solid #cacaca; background-color:#f0f0f0; width: 100%;color: rgb(97, 97, 97); padding-top: 5px;padding-left: 7px;padding-bottom: 5px;">Información General</div>
+    <div class="row" style="font-size: 12px; padding-left: 10px; padding-right: 10px;">
+      <div class="flex-grow-1 justify-content-start">
+        <table>
+          <tr>
+            <td style="font-weight: bold; width: 100px;">
+              Contrato
+            </td>
+            <td style="font-weight: bold;">
+              <strong>{{folio?.libro.contrato.nombre}}</strong>
+            </td>
+          </tr>
+          <tr>
+            <td>Código</td>
+            <td>
+              {{folio?.libro.contrato.codigo}}
+            </td>                  
+          </tr>          
+          <tr>
+            <td>Mandante</td>                    
+            <td>
+              {{empresaMandante?.razonSocial}} | RUT:&nbsp;{{empresaMandante?.rut}}
+            </td>
+          </tr>     
+          <tr>
+            <td>Contratista</td>
+            <td>
+              {{empresaContratista?.razonSocial}} | RUT:&nbsp;{{empresaContratista?.rut}}
+            </td>
+          </tr>      
+        </table>
+      </div>
+      <div class="justify-content-end" style="max-width: 350px;">
+        <table>
+          <tr>
+            <td style="font-weight: bold; width: 100px">
+              <strong>Libro:</strong>
+            </td>
+            <td style="font-weight: bold;">
+              <strong>{{folio?.libro.nombre}}</strong>
+            </td>                    
+          </tr>
+          <tr>
+            <td>Código</td>
+            <td>{{folio?.libro.codigo}}</td>
+          </tr>
+          <tr>
+            <td>Clase Libro</td>
+            <td>
+              {{folio?.libro.tipoLibro.descripcion}}
+            </td>
+          </tr>
+          <tr>
+            <td>Tipo Firma</td>
+            <td>
+              {{folio?.libro.tipoFirma.descripcion}}
+            </td>
+          </tr>      
+        </table>
+      </div>
     </div>
-    <div class="justify-content-end" style="padding-right: 15px; padding-left: 15px;">
-      <table>
-        <tr>
-          <td style="font-weight: bold; width: 95px">
-            <strong>Libro:</strong>
-          </td>
-          <td style="font-weight: bold;">
-            <strong>Prevención de Riesgos</strong>
-          </td>                    
-        </tr>
-        <tr>
-          <td>Código:</td>
-          <td>LM001</td>
-        </tr>
-        <tr>
-          <td>Clase Libro:</td>
-          <td>
-            Maestro
-          </td>
-        </tr>
-        <tr>
-          <td>Tipo Firma:</td>
-          <td>
-            Digital Avanzada
-          </td>
-        </tr>
-        <tr>
-          <td>Fecha Apertura:</td>
-          <td>
-            12-04-2020 14:05
-          </td>                   
-        </tr>
-        <tr>
-          <td>Fecha Cierre:</td>
-          <td>
-            <!-- {{libro.fechaCierre | date: "dd-MM-yyyy HH:mm"}} -->
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
-  <div class="card-body">
-    <table style="line-height: 15px;">                
+    <hr style="margin-top: 8px; margin-bottom: 8px;">
+    <table style="line-height: 15px;">
       <tr>
-        <td style="width: 105px;">Emisor:</td>
+        <td style="width: 100px;">De</td>
         <td>
-          Fernando Vilches Soleman | RUT: 13.224.233-K | Cargo: Supervior
+          {{usuarioEmisor?.usuarioEmpresa.usuario.nombre}} {{usuarioEmisor?.usuarioEmpresa.usuario.apellidoPaterno}} {{usuarioEmisor?.usuarioEmpresa.usuario.apellidoMaterno}} | RUT: {{usuarioEmisor?.usuarioEmpresa.usuario.rut}}
         </td>
-      </tr>
-      <!-- <tr>
-        <td></td>
-        <td>&nbsp;{{emisor?.cargoFuncion}}</td>
-      </tr> -->
+      </tr>      
       <tr>
-        <td>Receptor:</td>
+        <td>Para</td>
         <td>
-          Marcelo Espejo Ireland | RUT: 14.224.233-K | Cargo: Inspector Técnico
+          {{usuarioReceptor?.usuarioEmpresa.usuario.nombre}} {{usuarioReceptor?.usuarioEmpresa.usuario.apellidoPaterno}} {{usuarioReceptor?.usuarioEmpresa.usuario.apellidoMaterno}} | RUT: {{usuarioReceptor?.usuarioEmpresa.usuario.rut}}
         </td>
-      </tr>
-      <!-- <tr>
-        <td></td>
-        <td>&nbsp;{{receptor?.cargoFuncion}}</td>
-      </tr> -->      
+      </tr>            
       <tr>
-        <td>Respuesta de:</td>
-        <td> 
-          <li class="list-inline-item " >
-            <a style="color: #4285f4;">
-              Libro Maestro | Folio Nº2
-            </a>
-          </li>
-        </td>
-        <!-- <td *ngIf="Folio.idlibroRelacionado === null">&nbsp;n/a</td> -->
+        <td>Respuesta de</td>
+        <td>
+          <a href="#" *ngIf="folio?.idFolioRespuesta">Libro Maestro | Folio Nº2</a>    
+          <a *ngIf="!folio?.idFolioRespuesta">S/N</a>          
+        </td>        
       </tr>
       <tr>
-        <td>Referencia de:</td>
+        <td>Referencia de</td>
         <td>                     
           <li class="list-inline-item ">
-            <a style="color: #4285f4;">
-              Libro Maestro | Folio Nº2&nbsp;;
+            <a href="#">
+              Libro Maestro | Folio Nº12&nbsp;;
+            </a>
+            <a href="#">
+              Libro Maestro | Folio Nº14&nbsp;;
+            </a>
+            <a href="#">
+              Libro Maestro | Folio Nº18&nbsp;;
             </a>
           </li>                    
         </td>
       </tr>
       <tr>
-        <td>Fecha Requerida:</td>
+        <td>Fecha Requerida</td>
         <td>
-          <span class="badge badge-primary">No</span>
-          <!-- <span  *ngIf="Folio.requiereRespuesta === true" [ngStyle]="{'background-color': Folio.color}" style="color: white;" class="badge badge-primary">
-            {{ Folio.fechaRequerida | date: "dd-MM-yyyy HH:mm" }}
-          </span> -->
+          <span *ngIf="!folio?.fechaRequerida" class="badge badge-primary">No</span>
+          <span  *ngIf="folio?.fechaRequerida" [ngStyle]="{'background-color': folio.color}" style="color: white;" class="badge badge-primary">
+            {{ folio?.fechaRequerida | date: "dd-MM-yyyy" }}
+          </span>
         </td>
       </tr>
       <tr>
-        <td>Tipo de Folio:</td>
+        <td>Tipo de Folio</td>
         <td>
-          Adjunta Información
+          {{folio?.configuracionTipoFolioTipoLibro.tipoFolio.nombre}}
         </td>
       </tr>
       <tr>
-        <td>Asunto:</td>
-        <td>Se adjunta documentación de estado de pago</td>
+        <td>Asunto</td>
+        <td>{{folio?.asunto}}</td>
       </tr>
     </table>
-    <hr>
-    <div class="mb-2" style="font-size: 14px; font-weight: bold;">Anotación:</div>
-    dasdasdasdasd
-    dasdasdasdasdsd
-    asd
-    asdasd
-    sda
-    sdas
-    asd
-    asd
-    asd
-    asd
-    <hr>
-    <div style="font-size: 14px; font-weight: bold;">Adjuntos:</div>
-    <div style="font-size: 11px; padding-top: 1px;padding-bottom: 5px;">                
-      Total de archivos: 
-      <a style="font-weight: bold;" class="muted">12</a> 
-      <!-- , Peso total:<a style="font-weight: bold;">XXXXX MB</a> -->              
+    <div class="mb-3 mt-3" style="border-bottom: 2px solid #cacaca; background-color:#f0f0f0; width: 100%;color: rgb(97, 97, 97); padding-top: 5px;padding-left: 7px;padding-bottom: 5px;">Anotación</div>
+    <div [formGroup]="formAnotacion" >
+      <div [ngxSummernote]="config" style="background-color: #f0f0f0;" formControlName="anotacion"  [ngxSummernoteDisabled]="editorDisabled" ></div>
     </div>
-    <ul class="list-inline" style="padding-left: 12px;" >
+    <div class="mt-3 mb-1" style="border-bottom: 2px solid #cacaca; background-color:#f0f0f0; width: 100%;color: rgb(97, 97, 97); padding-top: 5px;padding-left: 7px;padding-bottom: 5px;">Adjuntos</div>
+    <small class="muted">Nº de Archivos:<a style="font-weight: bold;" class="muted">12</a> | Peso Total: <a style="font-weight: bold;" class="muted">23 mb</a> </small>
+    <ul class="list-inline mt-3" style="padding-left: 12px;" >
       <li style="padding-right: 27px; padding-top: 6px;" class="list-inline-item">
         <div class="row" style="background-color:#f0f0f0; min-height: 25px;padding-left: 8px; padding-right: 2px; border-radius: 3px;">
           <div style="font-weight: bold;margin-top: 6px;" class="mr-2">
@@ -202,26 +172,20 @@
           </div>
         </div>
       </li>
-      
-      
-
-
-
     </ul>
-    <hr>
-    <div class="row" style="padding-left: 10px;">
-      <div>                  
-        <img style="max-height: 80px;" src="/assets/img/logo.jpg" />        
+    <hr style="margin-top: 8px; margin-bottom: 8px;">
+    <div class="row mt-4" style="padding-left: 10px;">
+      <div class="row col-md-6">
+        <img style="max-height:85px;" src="/assets/img/qr.jpg" />
+        <div style="font-size: 14px; width: 280px; font-family:'Courier New', Courier, monospace; padding-left: 10px;">
+          Folio emitido por {{usuarioEmisor?.usuarioEmpresa.usuario.nombre}} {{usuarioEmisor?.usuarioEmpresa.usuario.apellidoPaterno}} {{usuarioEmisor?.usuarioEmpresa.usuario.apellidoMaterno}} el {{folio?.fechaFirma | date : 'dd-MM-yyyy HH:mm:ss'}} mediante sistema de firma {{folio?.libro.tipoFirma.descripcion}} con código de verificación: {{folio?.codigoVerificacion}}
+        </div>
       </div>
-      <div style="padding-left: 5px; line-height: 15px;">
-        <a style="font-weight: bold;">
-          Fernando Vilches Soleman
-        </a>
-        <br/>RUT: 13.224.233-K
-        <br/>Cargo: Administrador de Contrato
-        <br/>Fecha Firma: 12-04-2020 14:25:06 
-        <br/>Tipo Firma: Digital Avanzada
-        <br/>Código Verificación: QYUMJHGM
+      <div class="row col-md-6">
+        <!-- <img style="max-height:85px;" src="/assets/img/qr.jpg" />
+        <div style="font-size: 14px; width: 280px; font-family:'Courier New', Courier, monospace; padding-left: 10px;">
+          Confirmación de lectura emitida por {{usuarioReceptor?.usuarioEmpresa.usuario.nombre}} {{usuarioReceptor?.usuarioEmpresa.usuario.apellidoPaterno}} {{usuarioReceptor?.usuarioEmpresa.usuario.apellidoMaterno}} el {{folio?.fechaFirma | date : 'dd-MM-yyyy HH:mm:ss'}} mediante sistema de firma {{folio?.libro.tipoFirma.descripcion}} con código de verificación: BHSYHDSBYDSGB
+        </div> -->
       </div>
     </div>
     <hr>
@@ -229,16 +193,5 @@
       Creado mediante en plataforma <a href="">www.lodigital.cl</a>,
       Diseñada por LinkSystem Spa.
     </p>
-
-
-                  
-              
-              
-    
-
-
-
   </div>
-
-
 </div>

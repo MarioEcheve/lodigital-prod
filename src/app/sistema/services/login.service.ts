@@ -22,13 +22,15 @@ export class LoginService {
       headers: new HttpHeaders().set('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8').set('Authorization', 'Basic ' + btoa(environment.TOKEN_AUTH_USERNAME + ':' + environment.TOKEN_AUTH_PASSWORD))
     });  
   }
-  cerrarSesion() {
+  async cerrarSesion(goLogin? : Boolean) {
     let token = sessionStorage.getItem(environment.TOKEN_NAME);
 
-    this.http.get(`${environment.HOST}/tokens/anular/${token}`).subscribe(() => {
+    await this.http.get(`${environment.HOST}/tokens/anular/${token}`).subscribe(() => {
       sessionStorage.clear();
       localStorage.clear();
-      this.router.navigate(['login']);
+      if(!goLogin){
+        this.router.navigate(['login']);
+      }
     });
   }
   estaLogeado() {
@@ -41,14 +43,15 @@ export class LoginService {
       headers: new HttpHeaders().set('Content-Type', 'text/plain')
     });
   }
+  enviarCorreoReestablecerContraseña(body: any) {
+    return  this.http.post<number>(`${environment.HOST}/login/enviarCorreoReestablecerPassword`, body);
+  }
 
   verificarTokenReset(token: string) {  
     return this.http.get<number>(`${environment.HOST}/login/restablecer/verificar/${token}`);
   }
 
-  restablecer(token: string, clave: string) {
-    return this.http.post<number>(`${environment.HOST}/login/restablecer/${token}`, clave, {
-      headers: new HttpHeaders().set('Content-Type', 'text/plain')
-    });
+  async restablecer (body: any ) {
+    return await this.http.post<number>(`${environment.HOST}/login/restablecer`, body).toPromise();
   }
 }

@@ -1,68 +1,80 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Router } from '@angular/router';
 import { DatatableComponent } from '@swimlane/ngx-datatable';
-import { AppService } from '../../../../app.service';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
+import { Empresa } from '../../../model/empresa';
+import { UsuarioEmpresa } from '../../../model/usuario-empresa';
+import { UsuarioLibro } from '../../../model/usuarioLibro';
+import { EncryptService } from '../../../services/encrypt.service';
+import { UsuarioLibroService } from '../../../services/usuario-libro.service';
+/* import { AppService } from '../../../../app.service'; */
 
 @Component({
   selector: 'app-listado-libros',
   templateUrl: './listado-libros.component.html',
   styleUrls: [
-    '../../../../../../node_modules/@swimlane/ngx-datatable/release/index.css',
-    '../../../../../vendor/libs/ngx-datatable/ngx-datatable.scss',
-    '../../../../../../node_modules/@swimlane/ngx-datatable/release/assets/icons.css'
   ],
-  encapsulation: ViewEncapsulation.None
 })
-export class ListadoLibrosComponent implements OnInit {
+export class ListadoLibrosComponent implements AfterViewInit, OnDestroy, OnInit {
+  // implementacion datatable //
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtOptions: DataTables.Settings = {};
   @ViewChild(DatatableComponent) table: DatatableComponent;
-  loadingIndicator = true;
-  rows = [];
-  temp = [];
-  selected = [];
-  reorderable = true;
-  constructor(private appService: AppService) {
-    this.appService.pageTitle = 'Ngx Datatable - Tables';
+  dtTrigger: Subject<any> = new Subject<any>();
 
-    this.fetch((data) => {
-      // cache our list
-      this.temp = [...data];
-
-      // push our inital complete list
-      this.rows = data;
-
-      setTimeout(() => { this.loadingIndicator = false; }, 1500);
-    });
-   }
+  empresaActual: Empresa;
+  empresaUsuarioRol: UsuarioEmpresa;
+  usuarioLibros: UsuarioLibro[];
+  constructor(private encryptService: EncryptService, private usurioLibroService: UsuarioLibroService, private router: Router) {
+    this.empresaActual = JSON.parse(this.encryptService.decrypt(localStorage.getItem('empresaActual')));
+    this.empresaUsuarioRol = JSON.parse(this.encryptService.decrypt(localStorage.getItem('empresaUsuarioRol')));
+    this.buscarMisLibro();
+  }
 
   ngOnInit() {
-  }
-  fetch(cb) {
-    const req = new XMLHttpRequest();
-    req.open('GET', `assets/json/ngx-datatable-data.json`);
-
-    req.onload = () => {
-      const data = JSON.parse(req.response);
-      cb(data);
+    this.dtOptions = {
+      pagingType: 'full_numbers',
+      pageLength: 20,
+      lengthMenu: [20, 50, 100],
+      processing: true,
+      language: {
+        emptyTable: '',
+        zeroRecords: 'No hay coincidencias',
+        lengthMenu: 'Mostrar _MENU_ elementos',
+        search: 'Buscar:',
+        info: 'De _START_ a _END_ de un total de _TOTAL_ folios',
+        infoEmpty: 'De 0 a 0 de 0 folios',
+        infoFiltered: '(filtrados de _MAX_ elementos totales)',
+        paginate: {
+          first: 'Prim.',
+          last: 'Últ.',
+          next: 'Sig.',
+          previous: 'Ant.'
+        }
+      }
     };
-
-    req.send();
   }
+  ngOnDestroy(): void {
+    this.dtTrigger.unsubscribe();
+  }
+  ngAfterViewInit() {}
 
-  updateFilter(event) {
-    const val = event.target.value.toLowerCase();
-
-    // filter our data
-    const temp = this.temp.filter(function(d) {
-      return d.name.toLowerCase().indexOf(val) !== -1 || !val;
+  async buscarMisLibro() {
+    this.usuarioLibros = await this.usurioLibroService.buscarMisLibros(this.empresaUsuarioRol.usuario.idUsuario);
+    this.dtTrigger.next();
+  }
+  folioResumen(usuarioLibro) {
+    this.router.navigate(['/sistema/resumen-de-folio/', usuarioLibro.libro.idLibro]);
+  }
+  detalleLibro(usuarioLibro) {
+    this.router.navigate(['/sistema/detalle-libro/', usuarioLibro.libro.idLibro]);
+  }
+  rerender(): void {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.destroy();
+      this.dtTrigger.next();
     });
-
-    // update the rows
-    this.rows = temp;
-    // Whenever the filter changes, always go back to the first page
-    this.table.offset = 0;
   }
-  onSelect({ selected }) {
-    this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
-  }
-
 }

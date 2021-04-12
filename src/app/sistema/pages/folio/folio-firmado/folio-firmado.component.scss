@@ -1,0 +1,19 @@
+    .note-editor.note-airframe, .note-editor.note-frame{
+        border: none;
+    }
+    .note-toolbar{
+        display: none;
+    }
+    .note-resizebar{
+        display: none;
+    }
+    .note-statusbar {
+       display: none; 
+    }
+::ng-deep{
+    .note-editor.note-airframe .note-editing-area .note-editable[contenteditable=false], .note-editor.note-frame .note-editing-area .note-editable[contenteditable=false]{
+        overflow: hidden;
+        background-color: transparent;
+    }
+    
+}

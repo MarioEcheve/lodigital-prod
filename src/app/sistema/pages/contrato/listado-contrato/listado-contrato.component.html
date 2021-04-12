@@ -1,0 +1,55 @@
+<div class="row mb-3" *ngIf="mostrarTablaContrato" style="align-items: center;">    
+  <div class="col-6">
+    <span class="ml-2" style="font-size: 15px; align-items: center;">Administración /</span>
+    <strong style="font-size: 15px;">&nbsp;Contratos Asociados</strong>
+  </div>
+  <div class="col-6" align="right">  
+    <button type="button"  class="btn btn-primary" (click)="nuevoContrato()">Nuevo Contrato</button>
+  </div>
+</div>
+<div class="card" *ngIf="mostrarTablaContrato; else crearContrato">  
+  <div class="card-body">
+    <table class="table table-hover" style="width:100%; " datatable [dtOptions]="dtOptions">
+      <thead>
+        <tr>          
+          <th>Código</th>
+          <th>Contrato</th>
+          <th>Mandante</th>
+          <th>Contratista</th>
+          <th>Tipo Contrato</th>
+          <th>Estado Servicio</th>
+          <th style="max-width: 35px;">Acción</th>
+        </tr>
+      </thead>
+      <tbody>                
+        <tr *ngFor="let contrato of listaContratos" style="user-select: none;">            
+          <th>
+            {{contrato.codigo}}
+          </th>
+          <th>
+            {{contrato.nombre}}
+          </th> 
+          <th>
+            {{contrato?.nombreEmpresaMandante}}
+          </th>
+          <th>
+            {{contrato?.nombreEmpresaContratista}}
+          </th>
+          <th>
+            {{contrato.tipoContrato?.descripcion}}
+          </th>
+          <th>
+            <a class="badge"  style="color: white; background-color: #fdb251;">{{contrato.estadoServicioContrato?.descripcion}}</a>            
+          </th> 
+          <td class="text-right">
+            <span type="button" class="ion-md-create text-muted" (click)="editar(contrato)" style="font-size: 14px;"></span>
+          </td>                    
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<ng-template #crearContrato>
+  <app-contrato *ngIf="!mostrarTablaContrato && !mostrarEditarContrato" (volverUsuario)="proceso($event)"></app-contrato>
+  <app-detalle-contrato  [contrato]="contrato"  *ngIf="!mostrarTablaContrato && mostrarEditarContrato" (volverUsuarioDetalleContrato)="proceso($event)" ></app-detalle-contrato>
+</ng-template>
