@@ -26,7 +26,7 @@ import { ModalConfirmarEliminacionComponent } from '../components/modal-confirma
 import { VisualizarPdfComponent } from '../components/visualizar-pdf/visualizar-pdf.component';
 import { LibroService } from '../../../services/libro.service';
 import { UsuarioService } from '../../../services/usuario.service';
-import { GenerarCodigoVerificacionDTO } from '../../../DTO/GenerarCodigoVerificacionDTO';
+import { GenerarCodigoVerificacionDTO } from '../../../DTO/generarCodigoVerificacionDTO';
 import { DatePipe } from '@angular/common';
 const now = new Date();
 

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { GenerarCodigoVerificacionDTO } from '../DTO/GenerarCodigoVerificacionDTO';
+import { GenerarCodigoVerificacionDTO } from '../DTO/generarCodigoVerificacionDTO';
 import { Folio } from '../model/folio';
 
 @Injectable({
