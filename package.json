@@ -12,6 +12,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
+  "engines": {
+    "node": "12.15.0",
+    "npm": "6.13.4"
+  },
   "dependencies": {
     "@agm/core": "~1.0.0-beta.2",
     "@angular/animations": "~7.2.10",
