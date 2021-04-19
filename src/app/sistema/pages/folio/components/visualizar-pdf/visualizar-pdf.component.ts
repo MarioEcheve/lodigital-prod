@@ -13,7 +13,7 @@ import { Usuario } from '../../../../model/usuario';
 import { UsuarioService } from '../../../../services/usuario.service';
 import { RutUtil } from '../../../../util/rut-util';
 import { Empresa } from '../../../../model/empresa';
-import { GenerarCodigoVerificacionDTO } from '../../../../DTO/GenerarCodigoVerificacionDTO';
+import { GenerarCodigoVerificacionDTO } from '../../../../DTO/generarCodigoVerificacionDTO';
 import { DatePipe } from '@angular/common';
 import { ModalFirmaCredencialesComponent } from '../../components/modal-firma-credenciales/modal-firma-credenciales.component';
 import { ModalFirmaAvanzadaComponent } from '../../components/modal-firma-avanzada/modal-firma-avanzada.component';
