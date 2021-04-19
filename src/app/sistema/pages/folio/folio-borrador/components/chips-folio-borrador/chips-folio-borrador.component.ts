@@ -11,7 +11,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } fro
 })
 export class ChipsFolioBorradorComponent implements OnInit {
   @Input() private folioReferencias : any;
-  @Input() private folioReferenciasNombre : any;
+  @Input() public  folioReferenciasNombre : any;
   @Output() borrarFolioReferencia: EventEmitter<any> = new EventEmitter<any>();
   items = [];
   autocompleteItems = [
