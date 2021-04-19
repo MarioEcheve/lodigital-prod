@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { BehaviorSubjectMenu } from '../../../config/BehaviorSubject';
+import { Comuna } from '../../../model/comuna';
 import { Contrato } from '../../../model/Contrato';
 import { Empresa } from '../../../model/empresa';
+import { Region } from '../../../model/region';
 import { UsuarioEmpresa } from '../../../model/usuario-empresa';
+import { ComunaService } from '../../../services/comuna.service';
 import { ContratoService } from '../../../services/contrato.service';
 import { EncryptService } from '../../../services/encrypt.service';
+import { RegionService } from '../../../services/region.service';
+
 @Component({
   selector: 'app-listado-contrato',
   templateUrl: './listado-contrato.component.html',

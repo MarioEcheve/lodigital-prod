@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { GenerarCodigoVerificacionDTO } from '../DTO/generarCodigoVerificacionDTO';
+import { GenerarCodigoVerificacionDTO } from '../DTO/GenerarCodigoVerificacionDTO';
 import { Folio } from '../model/folio';
 
 @Injectable({
@@ -10,6 +11,9 @@ import { Folio } from '../model/folio';
 export class FolioService {
 
   url: string = `${environment.HOST}/folio`;
+  private listaFoliosRelacionadosAgregadosSubject = new BehaviorSubject([]);
+  private listaFolioRelacionadosAgregados : Folio[] = [];
+
   constructor(private http: HttpClient) { }
 
   public  async folioByLibro(idLibro : number){
@@ -32,5 +36,27 @@ export class FolioService {
   }
   async generarCodigoVerificacion(generarCodigoVerificacionDTO : GenerarCodigoVerificacionDTO){
     return await this.http.post<any>(`${this.url}/generarCodigoVerificacion`,generarCodigoVerificacionDTO).toPromise();
+  }
+  getListaFoliosRelacionadosAgregadosSubject(): Observable<Folio[]> {
+    return this.listaFoliosRelacionadosAgregadosSubject.asObservable();
+  }
+  AgregarFolioReferenciaAlista(folio: any){
+    let existe = this.listaFolioRelacionadosAgregados.includes(folio);
+    if(existe !== true){
+      this.listaFolioRelacionadosAgregados = [...this.listaFolioRelacionadosAgregados, folio];
+    }
+   /*  let existe = this.listaFolioRelacionadosAgregados.includes(folio);
+    if(setValue === true){
+      this.listaFolioRelacionadosAgregados = folios;
+    }else{
+      if(!existe){
+        this.listaFolioRelacionadosAgregados = [...this.listaFolioRelacionadosAgregados, folio];
+      }
+    }
+   */
+  this.refreshListaListaFoliosAgregados();
+  }
+  refreshListaListaFoliosAgregados(){
+    this.listaFoliosRelacionadosAgregadosSubject.next(this.listaFolioRelacionadosAgregados);
   }
 }

@@ -26,8 +26,10 @@ import { ModalConfirmarEliminacionComponent } from '../components/modal-confirma
 import { VisualizarPdfComponent } from '../components/visualizar-pdf/visualizar-pdf.component';
 import { LibroService } from '../../../services/libro.service';
 import { UsuarioService } from '../../../services/usuario.service';
-import { GenerarCodigoVerificacionDTO } from '../../../DTO/generarCodigoVerificacionDTO';
+import { GenerarCodigoVerificacionDTO } from '../../../DTO/GenerarCodigoVerificacionDTO';
 import { DatePipe } from '@angular/common';
+import { FolioReferenciaService } from '../../../services/folio-referencia.service';
+import { BehaviorSubject } from 'rxjs';
 const now = new Date();
 
 const equals = (one: NgbDateStruct, two: NgbDateStruct) =>
@@ -75,7 +77,9 @@ export class FolioBorradorComponent implements OnInit {
   idFolio;
   editar : Boolean = false;
   solicitaRespuesta : Boolean = false;
-
+  folioReferencias  = [];
+  folioReferenciasNombre  = [];
+  folioReferenciaDelete = [];
   model: NgbDateStruct = {
     year: now.getFullYear(),
     month: now.getMonth() + 1,
@@ -138,7 +142,6 @@ export class FolioBorradorComponent implements OnInit {
   uploader = new FileUploader({ url: 'https://evening-anchorage-3159.herokuapp.com/api/' });
   hasBaseDropZoneOver = false;
 
-
   constructor(private appService: AppService,calendar: NgbCalendar, 
               private activatedRoute : ActivatedRoute,
               private folioService : FolioService,
@@ -154,7 +157,8 @@ export class FolioBorradorComponent implements OnInit {
               private alertService: AlertService,
               private libroService : LibroService,
               private usuarioService : UsuarioService,
-              public datepipe: DatePipe) {
+              public datepipe: DatePipe,
+              private folioReferenciaService : FolioReferenciaService) {
                 
     this.empresaActual = JSON.parse(this.encryptService.decrypt(localStorage.getItem('empresaActual')));
     this.empresaUsuarioRol =  JSON.parse(this.encryptService.decrypt(localStorage.getItem('empresaUsuarioRol')));
@@ -240,6 +244,9 @@ export class FolioBorradorComponent implements OnInit {
         this.formContrato.controls['fechaRequerida'].setValidators([Validators.required]);
       }
     });
+    this.folioService.getListaFoliosRelacionadosAgregadosSubject().subscribe(x=>{
+      console.log(x)
+    });
   }
 
 
@@ -286,15 +293,18 @@ export class FolioBorradorComponent implements OnInit {
       this.folio.entidadCreacion = false;
     }
 
-    
-    let response = await this.folioService.crearFolio(this.folio); 
-    if(response){
+    this.folio = await this.folioService.crearFolio(this.folio); 
+    if(this.folio){
       if(folio){
         this.showToast(true,'Folio Creado Correctamente');
-        this.router.navigate(['/sistema/folio-borrador/', response.idFolio]);
+        this.router.navigate(['/sistema/folio-borrador/', this.folio.idFolio]);
         localStorage.setItem("datosCrearFolio", null);
+        this.ingresaFolioReferencia();
+        this.eliminarFolioReferencia();
       }else{
         this.showToast(true,'Folio Actualizado Correctamente');
+        this.ingresaFolioReferencia();
+        this.eliminarFolioReferencia();
       }
     }
   }
@@ -312,6 +322,7 @@ export class FolioBorradorComponent implements OnInit {
       await this.buscaEmpresaMandante(this.folio.libro);
       await this.buscaEmpresaContratista(this.folio.libro);
       await this.buscarListaUsuarioLibro(this.folio);
+      await this.buscaFolioReferencias();
       this.buscaTipoFolio(this.folio);
       this.formContrato.controls['receptor'].setValue(this.folio.idReceptor);
       this.formContrato.controls['tipoFolio'].setValue(this.folio.configuracionTipoFolioTipoLibro.tipoFolio.nombre);
@@ -338,6 +349,7 @@ export class FolioBorradorComponent implements OnInit {
       await this.buscaEmpresaMandante(folio.libro);
       await this.buscaEmpresaContratista(folio.libro);
       await this.buscarListaUsuarioLibro(folio);
+      await this.buscaFolioReferencias();
       this.folio = folio;
       this.buscaTipoFolio(this.folio);
     }
@@ -385,7 +397,31 @@ export class FolioBorradorComponent implements OnInit {
   }
   modalFolioReferencia(){
     const dialog = this.dialog.open(FolioReferenciaComponent, { windowClass: 'modal-xl animate' });   
+    dialog.componentInstance.usuario = this.empresaUsuarioRol.usuario;
+    dialog.componentInstance.folio = this.folio;
+    dialog.componentInstance.modal = dialog;
+    dialog.result.then((result : Folio) => {
+      if(result !== undefined){
+       this.setFolioReferencia(result);
+      }
+    });
+
   }
+  setFolioReferencia(result){
+    
+    /* if(this.folioReferencias.length > 0){
+      this.folioReferencias.forEach(element=>{
+        if(element.idFolio !== result.idFolio){
+          this.folioReferencias = [...this.folioReferencias, result];
+          this.folioReferenciasNombre = [...this.folioReferenciasNombre, result.asunto];
+        }
+      });
+    }else{
+      this.folioReferencias = [...this.folioReferencias, result];
+      this.folioReferenciasNombre = [...this.folioReferenciasNombre, result.asunto];
+    } */
+  }
+
   eliminarFolio(){
     const dialog = this.dialog.open(ModalConfirmarEliminacionComponent);
     dialog.result.catch(value=>{
@@ -405,7 +441,6 @@ export class FolioBorradorComponent implements OnInit {
       fechaRequeridaConstruida = this.datepipe.transform(fechaRequerida, "dd-MM-yyyy")
       this.folio.fechaRequerida = new Date(fechaRequerida);
     }
-    console.log(this.folio.fechaRequerida)
     this.folio.anotacion = this.formContrato.controls['anotacion'].value;
     let html = await this.htmlFolioFirmado(fechaRequeridaConstruida);
     this.folio.codigoVerificacion = await this.generarCodigoVerificacion(this.folio);
@@ -417,6 +452,8 @@ export class FolioBorradorComponent implements OnInit {
     dialog.componentInstance.usuario = this.empresaUsuarioRol.usuario;
     dialog.componentInstance.empresaMandante = this.empresaMandante;
     dialog.componentInstance.empresaContratista = this.empresaContratista;
+    dialog.componentInstance.soloVisualizar = false;
+    dialog.componentInstance.modal = dialog;
   }
     
   downloadPDF(pdf) {
@@ -621,5 +658,56 @@ return html;
     generarCodigoVerificacion.nombreContrato = folio.libro.contrato.nombre.toUpperCase().trim();
     const respuesta = await this.folioService.generarCodigoVerificacion(generarCodigoVerificacion);
     return respuesta;
+  }
+
+  borrarFolioReferencia($event){
+    let folio = this.folioReferencias.find(x=> x.asunto === $event);
+    this.folioReferenciaDelete.push(folio);
+    this.folioReferencias.splice(folio , 1);
+    this.folioReferenciasNombre.splice(folio.asunto , 1);
+  }
+
+  async ingresaFolioReferencia(){
+    if(this.folioReferencias.length > 0 ){
+      this.folioReferencias.forEach((element)=>{
+        element.idFolioOrigen = this.folio.idFolio;
+        element.idFolioReferencia = element.idFolio;
+        element.idLibroFolioOrigen = this.folio.libro.idLibro;
+        element.asunto = this.folio.asunto;
+        if(element.id === undefined){
+          this.folioReferenciaService.guardarFolioReferencia(element);
+        }
+      });
+    }
+  }
+  async eliminarFolioReferencia(){
+    if(this.folioReferenciaDelete.length > 0 ){
+      for await (let elementos of this.folioReferenciaDelete) {
+        if(elementos.id !== undefined){
+          this.folioReferenciaService.eliminarFolioReferencia(elementos.id); 
+        }
+      }
+      this.folioReferenciaDelete = [];
+      
+      /* this.folioReferenciaDelete.forEach((element)=>{
+        let folio = this.folioService.folioById(element.idFolioOrigen).then();
+        this.folioReferenciaService.eliminarFolioReferencia(element.);
+      }); */
+    }
+    this.buscaFolioReferencias();
+  }
+  async buscaFolioReferencias(){
+    if(this.idFolio !== undefined){
+      this.folioReferencias = await this.folioReferenciaService.getFolioReferenciaByFolio(this.idFolio);
+    }
+   /*  this.folioReferencias.forEach((element)=>{
+      let folio = this.folioService.folioById(element.idFolioOrigen).then();
+      console.log(folio);
+      this.folioReferenciasNombre = [...this.folioReferenciasNombre, element.asunto];
+    }); */
+    for await (let elementos of this.folioReferencias) {
+      let folio = await this.folioService.folioById(elementos.idFolioOrigen);
+      this.folioReferenciasNombre = [...this.folioReferenciasNombre, folio.asunto];
+    }
   }
 }

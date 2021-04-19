@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 
 @Component({
   selector: 'app-chips-folio-borrador',
@@ -10,7 +10,10 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
   encapsulation: ViewEncapsulation.None
 })
 export class ChipsFolioBorradorComponent implements OnInit {
-  items = ['Spider-Man', 'Superman', 'Iron Man'];
+  @Input() private folioReferencias : any;
+  @Input() private folioReferenciasNombre : any;
+  @Output() borrarFolioReferencia: EventEmitter<any> = new EventEmitter<any>();
+  items = [];
   autocompleteItems = [
     'Spider-Man', 'Superman', 'Iron Man', 'Wolverine', 'Captain America', 'Ant-Man',
     'Wonder Woman', 'Hulk', 'Flash', 'Green Arrow', 'Silver Surfer', 'Thor', 'Batman',
@@ -20,6 +23,9 @@ export class ChipsFolioBorradorComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log(this.folioReferencias);
   }
-
+  onItemRemoved($event){
+    this.borrarFolioReferencia.emit($event);
+  }
 }

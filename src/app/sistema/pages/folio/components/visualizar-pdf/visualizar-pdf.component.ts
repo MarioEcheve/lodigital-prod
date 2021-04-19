@@ -13,6 +13,7 @@ import { Usuario } from '../../../../model/usuario';
 import { UsuarioService } from '../../../../services/usuario.service';
 import { RutUtil } from '../../../../util/rut-util';
 import { Empresa } from '../../../../model/empresa';
+import { GenerarCodigoVerificacionDTO } from '../../../../DTO/GenerarCodigoVerificacionDTO';
 import { DatePipe } from '@angular/common';
 import { ModalFirmaCredencialesComponent } from '../../components/modal-firma-credenciales/modal-firma-credenciales.component';
 import { ModalFirmaAvanzadaComponent } from '../../components/modal-firma-avanzada/modal-firma-avanzada.component';
@@ -28,6 +29,9 @@ export class VisualizarPdfComponent implements OnInit {
   @Input() public usuario : Usuario;
   @Input() public empresaMandante : Empresa;
   @Input() public empresaContratista : Empresa;
+  @Input() public soloVisualizar : Boolean;
+  @Input() private modal : any;
+
   url : any;
   resultadoPdf = new FormControl();
   interval;
@@ -52,7 +56,7 @@ export class VisualizarPdfComponent implements OnInit {
     this.validaPdfRespuesta();
   }
   cancelar(){
-    this.dialog.dismissAll();
+    this.modal.close();
     clearInterval(this.interval);
   }
   async validaPdfRespuesta(){

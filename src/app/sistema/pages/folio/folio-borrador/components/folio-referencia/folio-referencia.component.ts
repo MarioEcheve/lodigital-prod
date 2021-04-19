@@ -1,5 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { DatatableComponent } from '@swimlane/ngx-datatable';
+import { DataTableDirective } from 'angular-datatables';
+import { Subject } from 'rxjs';
+import { Folio } from '../../../../../model/folio';
+import { Usuario } from '../../../../../model/usuario';
+import { UsuarioLibro } from '../../../../../model/usuarioLibro';
+import { FolioService } from '../../../../../services/folio.service';
+import { UsuarioLibroService } from '../../../../../services/usuario-libro.service';
+import { VisualizarPdfComponent } from '../../../components/visualizar-pdf/visualizar-pdf.component';
 
 @Component({
   selector: 'app-folio-referencia',
@@ -8,42 +18,32 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
     './folio-referencia.component.scss',
   ]
 })
-export class FolioReferenciaComponent implements OnInit {
+export class FolioReferenciaComponent implements OnInit, AfterViewInit {
+  listaLibroUsuario : UsuarioLibro[] = [];
+  @Input() private usuario : Usuario;
+  @Input() private folio : Folio;
+  @Input() private modal : any;
 
-  public data = [
-    {folio: '1', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '2', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '3', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '2', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '3', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '2', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '3', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '2', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '3', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '2', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '3', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '2', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '3', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '2', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '3', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '2', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '3', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '2', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '3', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '2', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '3', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '2', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
-    {folio: '3', emisor: 'Fernando Vilches Soleman', Tipofolio:'therichpost.com'},
+  listaFolios : Folio[] = [];
+  controlLibroSeleccionado = new FormControl("",[]);
 
-  ];
+  // implementacion datatable //
+  @ViewChild(DataTableDirective)
+  dtElement: DataTableDirective;
+  dtOptions: DataTables.Settings = {};
+  @ViewChild(DatatableComponent) table: DatatableComponent;
+  dtTrigger: Subject<any> = new Subject<any>();
 
-  constructor(private dialog : NgbModal) { }
-
-  cancelar(){
-    this.dialog.dismissAll();
+  constructor(private dialog : NgbModal,
+              private usuarioLibroService : UsuarioLibroService,
+              private folioService : FolioService) { 
+    
   }
 
-  dtOptions: DataTables.Settings = {};
+  cancelar(){
+    this.modal.close();
+  }
+
   ngOnInit() {
     this.dtOptions = {
       pagingType: 'full_numbers',
@@ -68,4 +68,42 @@ export class FolioReferenciaComponent implements OnInit {
     };    
   }
 
+  async librosUsuario(idUsuario,idContrato){
+    let response = await this.usuarioLibroService.buscarUsuarioLibrosByUsuario(idUsuario,idContrato);
+    this.listaLibroUsuario = response;
+  }
+
+  async cambiarLibro(idLibro?){
+    if(idLibro !== undefined){
+      this.controlLibroSeleccionado.setValue(idLibro);
+    }
+    const response = await this.folioService.folioByLibro(this.controlLibroSeleccionado.value);
+    this.listaFolios = response;
+    this.rerender();
+  }
+
+  ngAfterViewInit(){
+    this.librosUsuario(this.usuario.idUsuario, this.folio.libro.contrato.id);
+    this.cambiarLibro(this.folio.libro.idLibro);
+  }
+
+  rerender(): void {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      dtInstance.destroy();
+      this.dtTrigger.next();
+    });
+  }
+
+  modalFolioReferencia(folio){
+    const dialog = this.dialog.open(VisualizarPdfComponent, { windowClass: 'modal-xl animate' });   
+    dialog.componentInstance.html = folio.pdfFirmado;
+    dialog.componentInstance.folio = this.folio;
+    dialog.componentInstance.soloVisualizar = true;
+    dialog.componentInstance.modal = dialog;
+  }
+  agregarFolioReferencia(folio : Folio){
+    this.folioService.AgregarFolioReferenciaAlista(folio);
+    /* this.modal.close(folio); */
+  }
+  
 }

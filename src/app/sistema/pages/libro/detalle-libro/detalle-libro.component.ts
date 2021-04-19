@@ -260,7 +260,7 @@ export class DetalleLibroComponent implements OnInit {
     dialog.componentInstance.mandante = value;
     dialog.componentInstance.usuarioLibro = usuario;
     dialog.componentInstance.usuariosEmpresa = usuariosEmpresa;
-
+    
     dialog.result.then((result) => {
     }, (reason) => {
       if (reason === 1) {

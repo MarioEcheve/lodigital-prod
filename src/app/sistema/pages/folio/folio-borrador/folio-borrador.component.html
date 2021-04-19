@@ -95,7 +95,7 @@
         <div class="flex-grow-1">
           <div class="form-group">
             <label class="form-label">Folio Referencia</label>
-            <app-chips-folio-borrador></app-chips-folio-borrador>
+            <app-chips-folio-borrador [folioReferencias]="folioReferencias" [folioReferenciasNombre]="folioReferenciasNombre" (borrarFolioReferencia)="borrarFolioReferencia($event)"></app-chips-folio-borrador>
           </div>
         </div>        
         <div class="ml-2" style="padding-top: 18px;">

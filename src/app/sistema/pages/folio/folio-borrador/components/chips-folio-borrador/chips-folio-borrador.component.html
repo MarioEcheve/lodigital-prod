@@ -1,1 +1,1 @@
-<tag-input class="ngx-chips-primary" [(ngModel)]="items" [editable]="!disabled" [disable]="disabled"></tag-input>
+<tag-input class="ngx-chips-primary" (onRemove)="onItemRemoved($event)" [(ngModel)]="folioReferenciasNombre" [editable]="!disabled" [disable]="disabled"></tag-input>

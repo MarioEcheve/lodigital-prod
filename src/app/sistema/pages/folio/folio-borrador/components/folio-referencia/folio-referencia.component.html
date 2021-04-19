@@ -2,14 +2,13 @@
   <div class="modal-header" style="padding-left: 15px; padding-right: 30px;">
     <h5 class="modal-title" style="width: 100%;">
       <strong>Folio Referencia</strong>      
-      <select class="mt-1 mb-2" style="font-size: 12px; width: 100%; border-radius: 3px; border-color: rgb(226, 226, 226); background: rgb(255, 255, 255); height: 30px;">
-        <option> Libro Maestro | Cod.:222</option>
-        <option> Libro Prevención de Riesgos | Cod.:246</option>
+      <select class="mt-1 mb-2"  [formControl]="controlLibroSeleccionado" (change)="cambiarLibro()" style="font-size: 12px; width: 100%; border-radius: 3px; border-color: rgb(226, 226, 226); background: rgb(255, 255, 255); height: 30px;">
+        <option *ngFor="let usuarioLibro of listaLibroUsuario" [value]="usuarioLibro.libro.idLibro" > {{usuarioLibro.libro.nombre}} | Cod.:{{usuarioLibro.libro.codigo}} | Clase: {{usuarioLibro.libro.tipoLibro.descripcion}} | Estado: {{usuarioLibro.libro.estadoLibro.descripcion}}</option>
       </select>       
     </h5>    
   </div>
   <div class="modal-body" style="overflow-y: scroll;user-select: none; padding: 15px 15px 15px 15px;">    
-    <table class="table table-hover" style="width:100%;font-size: 11px; padding-bottom: 10px;" datatable [dtOptions]="dtOptions">
+    <table class="table table-hover" style="width:100%;font-size: 11px; padding-bottom: 10px;" datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
       <thead>
         <tr>
           <th style="width: 20px;">Nº</th>
@@ -20,16 +19,26 @@
         </tr>
       </thead>
       <tbody>         
-          <tr *ngFor="let group of data" style="user-select: none;">            
-            <td style="border-left: 3px solid;border-left-color:#ff9900">{{group.folio}}</td>            
-            <td class="ellipsis" style="font-weight: bold;">{{group.emisor}}</td>
-            <td class="ellipsis"><strong>{{group.Tipofolio}}</strong> - fsdfsdfs fsdfsdfsdf</td>           
-            <td>12/12/2021</td>
-            <th style="text-align: center;">
-              <span type="button" class="ion-md-eye text-muted ml-2 mr-3" style="font-size: 14px;"></span> 
-              <span type="button" class="ion-ios-arrow-forward text-muted" style="font-size: 14px;"></span>                
-            </th>                    
-         </tr>
+        <tr *ngFor="let folio of listaFolios" style="user-select: none;">                
+          <td style="border-left: 3px solid;border-left-color:#ff9900" *ngIf="folio?.entidadCreacion">                
+            <span style="min-width: 45px; width: 45px;" *ngIf="folio.correlativo">{{folio?.correlativo}}</span>                  
+            <span style="min-width: 45px; width: 45px;" *ngIf="!folio.correlativo">S/N</span>
+          </td>             
+          <td style="border-left: 3px solid;border-left-color:#007bff" *ngIf="!folio?.entidadCreacion">                
+            <span style="min-width: 45px; width: 45px;" *ngIf="folio.correlativo">{{folio?.correlativo}}</span>                  
+            <span style="min-width: 45px; width: 45px;" *ngIf="!folio.correlativo">S/N</span>
+          </td>
+          <td class="ellipsis" style="font-weight: bold;">{{folio.usuarioCreador}}</td>                             
+          <td class="ellipsis"><strong>{{folio.configuracionTipoFolioTipoLibro.tipoFolio.nombre}}</strong> - {{folio.asunto}}</td>
+          <th style="align-items: center;">
+            <a class="badge badge-success" style="color: white;">{{folio.fechaFirma | date : 'dd-MM-yyyy'}}</a>
+          </th>
+          
+          <th style="text-align: center;">  
+            <span type="button" (click)="modalFolioReferencia(folio)" class="ion-md-eye text-muted ml-2 mr-3" style="font-size: 14px;"></span> 
+            <span type="button"  (click)="agregarFolioReferencia(folio)" class="ion-ios-arrow-forward text-muted" style="font-size: 14px;"></span>                
+          </th>
+        </tr>
       </tbody>
     </table>  
   </div>
